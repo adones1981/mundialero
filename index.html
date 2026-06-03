@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mundial Stats - El Estadio de la Historia</title>
+    <!-- Tailwind CSS para el diseño moderno -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome para los íconos de balones y estadios -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Animación de la pelota rodando como el mundo al ingresar */
@@ -23,34 +25,11 @@
                               linear-gradient(90deg, rgba(255,255,255,0.05) 50%, transparent 50%);
             background-size: 80px 80px;
         }
-        /* Clases específicas para contenedores responsivos de video */
-        .neon-card {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 0.75rem;
-            padding: 0.5rem;
-            width: 100%;
-        }
-        .video-responsive-container {
-            position: relative;
-            padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
-            height: 0;
-            overflow: hidden;
-            width: 100%;
-            border-radius: 0.5rem;
-        }
-        .video-responsive-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
     </style>
 </head>
 <body class="bg-slate-950 text-white font-sans overflow-x-hidden">
 
+    <!-- PANTALLA DE INICIO (Loader de la Pelota Mundo) -->
     <div id="loader" class="fixed inset-0 bg-black z-50 flex items-center justify-center transition-opacity duration-1000">
         <div class="text-center">
             <div class="relative w-64 h-64 mx-auto">
@@ -61,6 +40,7 @@
         </div>
     </div>
 
+    <!-- Elementos de audio para el ambiente del estadio -->
     <audio id="sonidoAmbiente" loop>
         <source src="https://assets.mixkit.co/active_storage/sfx/2034/2034-84.wav" type="audio/wav">
     </audio>
@@ -68,20 +48,24 @@
         <source src="https://assets.mixkit.co/active_storage/sfx/2019/2019-84.wav" type="audio/wav">
     </audio>
 
+    <!-- INTERFAZ PRINCIPAL -->
     <div class="min-h-screen flex flex-col">
         
+        <!-- Marcador Principal / Header con luces LED verdes -->
         <header class="bg-slate-900 border-b-4 border-emerald-500 p-4 shadow-2xl">
             <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-3">
                     <i class="fa-solid fa-stadium text-3xl text-emerald-400"></i>
                     <h1 class="text-xl md:text-3xl font-extrabold tracking-widest text-emerald-400 uppercase">Estadísticas de los Mundiales</h1>
                 </div>
+                <!-- Botón de Sonido -->
                 <button onclick="alternarAudio()" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-2 px-5 rounded-full flex items-center gap-2 transition shadow-lg shadow-emerald-500/20">
                     <i id="iconoAudio" class="fa-solid fa-volume-mute"></i> <span id="textoAudio">Activar Sonido Ambiente</span>
                 </button>
             </div>
         </header>
 
+        <!-- Cancha / Contenedor de la Tribuna -->
         <main class="cesped flex-grow p-4 md:p-8 relative">
             <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-11/12 h-8 border-b-2 border-x-2 border-white/10 pointer-events-none flex justify-center items-end">
                 <span class="text-[10px] text-white/20 tracking-widest mb-1"><i class="fa-solid fa-door-open"></i> PORTERÍA NORTE</span>
@@ -89,12 +73,15 @@
 
             <div class="container mx-auto max-w-7xl bg-slate-900/85 backdrop-blur-md rounded-3xl p-6 border-4 border-emerald-500/30 shadow-2xl mt-4">
                 
+                <!-- Selector de Edición -->
                 <div class="bg-emerald-950/40 p-4 rounded-xl border border-emerald-500/50 mb-6">
                     <label class="block text-sm font-bold uppercase mb-2 text-emerald-400"><i class="fa-solid fa-calendar-days mr-2"></i> Seleccionar Edición Histórica:</label>
                     <select id="selectAnio" onchange="buscarMundial()" class="w-full bg-slate-800 text-white border-2 border-emerald-500 p-3 rounded-lg font-bold text-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-400">
-                        </select>
+                        <!-- Opciones generadas en JS -->
+                    </select>
                 </div>
 
+                <!-- CONTENEDOR DE RESULTADOS DINÁMICOS -->
                 <div id="vistaContenido" class="min-h-[500px] transition-all duration-300"></div>
 
             </div>
@@ -105,1275 +92,1372 @@
         </footer>
     </div>
 
+    <!-- DATA HUB JAVASCRIPT -->
     <script>
         let pestanaActiva = 'grupos';
 
-        // Tu estructura de datos WORLDCUPS completa y sanitizada
+        // Tu estructura de datos WORLDCUPS integrada
         const WORLDCUPS = [
           {
             year: 1930, host: "Uruguay", logo: "🏆", ball: "T-Model",
-            song: "https://www.youtube.com/embed/vVkaGvP6H48",
-            songName: "Himno al Fútbol Uruguayo 1930",
             champion: "Uruguay", runner_up: "Argentina", third: "USA",
-            flagChampion: "🇺🇾",
             color: "#72c8f7",
             groups: [
               { name: "Grupo 1", teams: [
-                { name: "Argentina", flag: "🇦🇷", pts: 6, w: 3, d: 0, l: 0, gf: 10, ga: 4 },
-                { name: "Francia", flag: "🇫🇷", pts: 2, w: 1, d: 0, l: 2, gf: 4, ga: 3 },
-                { name: "Chile", flag: "🇨🇱", pts: 2, w: 1, d: 0, l: 2, gf: 3, ga: 5 },
-                { name: "México", flag: "🇲🇽", pts: 0, w: 0, d: 0, l: 3, gf: 4, ga: 13 }
+                { name: "Argentina", pts: 6, w: 3, d: 0, l: 0, gf: 10, ga: 4 },
+                { name: "Francia", pts: 2, w: 1, d: 0, l: 2, gf: 4, ga: 3 },
+                { name: "Chile", pts: 2, w: 1, d: 0, l: 2, gf: 3, ga: 5 },
+                { name: "México", pts: 0, w: 0, d: 0, l: 3, gf: 4, ga: 13 }
               ]},
               { name: "Grupo 2", teams: [
-                { name: "Yugoslavia", flag: "🇺🇦", pts: 4, w: 2, d: 0, l: 0, gf: 6, ga: 1 },
-                { name: "Brasil", flag: "🇧🇷", pts: 2, w: 1, d: 0, l: 1, gf: 5, ga: 2 },
-                { name: "Bolivia", flag: "🇧🇴", pts: 0, w: 0, d: 0, l: 2, gf: 0, ga: 8 }
+                { name: "Yugoslavia", pts: 4, w: 2, d: 0, l: 0, gf: 6, ga: 1 },
+                { name: "Brasil", pts: 2, w: 1, d: 0, l: 1, gf: 5, ga: 2 },
+                { name: "Bolivia", pts: 0, w: 0, d: 0, l: 2, gf: 0, ga: 8 }
               ]},
               { name: "Grupo 3", teams: [
-                { name: "Uruguay", flag: "🇺🇾", pts: 4, w: 2, d: 0, l: 0, gf: 5, ga: 0 },
-                { name: "Rumania", flag: "🇷🇴", pts: 2, w: 1, d: 0, l: 1, gf: 3, ga: 5 },
-                { name: "Perú", flag: "🇵🇪", pts: 0, w: 0, d: 0, l: 2, gf: 1, ga: 4 }
+                { name: "Uruguay", pts: 4, w: 2, d: 0, l: 0, gf: 5, ga: 0 },
+                { name: "Rumania", pts: 2, w: 1, d: 0, l: 1, gf: 3, ga: 5 },
+                { name: "Perú", pts: 0, w: 0, d: 0, l: 2, gf: 1, ga: 4 }
               ]},
               { name: "Grupo 4", teams: [
-                { name: "USA", flag: "🇺🇸", pts: 4, w: 2, d: 0, l: 0, gf: 6, ga: 0 },
-                { name: "Paraguay", flag: "🇵🇾", pts: 2, w: 1, d: 0, l: 1, gf: 1, ga: 3 },
-                { name: "Bélgica", flag: "🇧🇪", pts: 0, w: 0, d: 0, l: 2, gf: 0, ga: 4 }
+                { name: "USA", pts: 4, w: 2, d: 0, l: 0, gf: 6, ga: 0 },
+                { name: "Paraguay", pts: 2, w: 1, d: 0, l: 1, gf: 1, ga: 3 },
+                { name: "Bélgica", pts: 0, w: 0, d: 0, l: 2, gf: 0, ga: 4 }
               ]}
             ],
             knockout: [
               { round: "Semifinales", matches: [
-                { home: "Argentina", hflag: "🇦🇷", score: "6-1", away: "USA", aflag: "🇺🇸" },
-                { home: "Uruguay", hflag: "🇺🇾", score: "6-1", away: "Yugoslavia", aflag: "🇺🇦" }
+                { home: "Argentina", score: "6-1", away: "USA" },
+                { home: "Uruguay", score: "6-1", away: "Yugoslavia" }
               ]},
               { round: "Final", matches: [
-                { home: "Uruguay", hflag: "🇺🇾", score: "4-2", away: "Argentina", aflag: "🇦🇷" }
+                { home: "Uruguay", score: "4-2", away: "Argentina" }
               ]}
             ]
           },
           {
             year: 1934, host: "Italia", logo: "⚽", ball: "Federale 102",
-            song: "https://www.youtube.com/embed/XzXW8_VvRsc",
-            songName: "Inno Federale (Marcha Oficial)",
             champion: "Italia", runner_up: "Checoslovaquia", third: "Alemania",
-            flagChampion: "🇮🇹",
             color: "#008c45",
             groups: [
               { name: "Ronda Inicial", teams: [
-                { name: "Italia", flag: "🇮🇹", pts: 3, w: 1, d: 0, l: 0, gf: 7, ga: 1 },
-                { name: "Alemania", flag: "🇩🇪", pts: 3, w: 1, d: 0, l: 0, gf: 5, ga: 2 },
-                { name: "Austria", flag: "🇦🇹", pts: 3, w: 1, d: 0, l: 0, gf: 3, ga: 2 },
-                { name: "Checoslovaquia", flag: "🇨🇿", pts: 3, w: 1, d: 0, l: 0, gf: 2, ga: 1 }
+                { name: "Italia", pts: 3, w: 1, d: 0, l: 0, gf: 7, ga: 1 },
+                { name: "Alemania", pts: 3, w: 1, d: 0, l: 0, gf: 5, ga: 2 },
+                { name: "Austria", pts: 3, w: 1, d: 0, l: 0, gf: 3, ga: 2 },
+                { name: "Checoslovaquia", pts: 3, w: 1, d: 0, l: 0, gf: 2, ga: 1 }
               ]}
             ],
             knockout: [
               { round: "Cuartos de Final", matches: [
-                { home: "Italia", hflag: "🇮🇹", score: "1-0", away: "España", aflag: "🇪🇸" },
-                { home: "Alemania", hflag: "🇩🇪", score: "2-1", away: "Suecia", aflag: "🇸🇪" },
-                { home: "Austria", hflag: "🇦🇹", score: "2-1", away: "Francia", aflag: "🇫🇷" },
-                { home: "Checoslovaquia", hflag: "🇨🇿", score: "3-2", away: "Suiza", aflag: "🇨🇭" }
+                { home: "Italia", score: "1-0", away: "España" },
+                { home: "Alemania", score: "2-1", away: "Suecia" },
+                { home: "Austria", score: "2-1", away: "Francia" },
+                { home: "Checoslovaquia", score: "3-2", away: "Suiza" }
               ]},
               { round: "Semifinales", matches: [
-                { home: "Italia", hflag: "🇮🇹", score: "1-0", away: "Austria", aflag: "🇦🇹" },
-                { home: "Checoslovaquia", hflag: "🇨🇿", score: "3-1", away: "Alemania", aflag: "🇩🇪" }
+                { home: "Italia", score: "1-0", away: "Austria" },
+                { home: "Checoslovaquia", score: "3-1", away: "Alemania" }
               ]},
               { round: "Final", matches: [
-                { home: "Italia", hflag: "🇮🇹", score: "2-1", away: "Checoslovaquia", aflag: "🇨🇿" }
+                { home: "Italia", score: "2-1", away: "Checoslovaquia" }
               ]}
             ]
           },
           {
             year: 1938, host: "Francia", logo: "🏟️", ball: "Allen",
-            song: "https://www.youtube.com/embed/Fbyo6yHskx8",
-            songName: "La Marseillaise du Football",
             champion: "Italia", runner_up: "Hungría", third: "Brasil",
-            flagChampion: "🇮🇹",
             color: "#002395",
             groups: [
               { name: "Primera Ronda", teams: [
-                { name: "Italia", flag: "🇮🇹", pts: 3, w: 1, d: 0, l: 0, gf: 2, ga: 1 },
-                { name: "Hungría", flag: "🇭🇺", pts: 3, w: 1, d: 0, l: 0, gf: 6, ga: 0 },
-                { name: "Brasil", flag: "🇧🇷", pts: 3, w: 1, d: 0, l: 0, gf: 6, ga: 5 },
-                { name: "Cuba", flag: "🇨🇺", pts: 3, w: 1, d: 0, l: 0, gf: 3, ga: 2 }
+                { name: "Italia", pts: 3, w: 1, d: 0, l: 0, gf: 2, ga: 1 },
+                { name: "Hungría", pts: 3, w: 1, d: 0, l: 0, gf: 6, ga: 0 },
+                { name: "Brasil", pts: 3, w: 1, d: 0, l: 0, gf: 6, ga: 5 },
+                { name: "Cuba", pts: 3, w: 1, d: 0, l: 0, gf: 3, ga: 2 }
               ]}
             ],
             knockout: [
               { round: "Cuartos de Final", matches: [
-                { home: "Italia", hflag: "🇮🇹", score: "3-1", away: "Francia", aflag: "🇫🇷" },
-                { home: "Hungría", hflag: "🇭🇺", score: "2-0", away: "Suiza", aflag: "🇨🇭" },
-                { home: "Brasil", hflag: "🇧🇷", score: "1-1", away: "Checoslovaquia", aflag: "🇨🇿" },
-                { home: "Cuba", hflag: "🇨🇺", score: "2-1", away: "Rumania", aflag: "🇷🇴" }
+                { home: "Italia", score: "3-1", away: "Francia" },
+                { home: "Hungría", score: "2-0", away: "Suiza" },
+                { home: "Brasil", score: "1-1", away: "Checoslovaquia" },
+                { home: "Cuba", score: "2-1", away: "Rumania" }
               ]},
               { round: "Semifinales", matches: [
-                { home: "Italia", hflag: "🇮🇹", score: "2-1", away: "Brasil", aflag: "🇧🇷" },
-                { home: "Hungría", hflag: "🇭🇺", score: "5-1", away: "Suecia", aflag: "🇸🇪" }
+                { home: "Italia", score: "2-1", away: "Brasil" },
+                { home: "Hungría", score: "5-1", away: "Suecia" }
               ]},
               { round: "Final", matches: [
-                { home: "Italia", hflag: "🇮🇹", score: "4-2", away: "Hungría", aflag: "🇭🇺" }
+                { home: "Italia", score: "4-2", away: "Hungría" }
               ]}
             ]
           },
           {
             year: 1950, host: "Brasil", logo: "🇧🇷", ball: "Superball T",
-            song: "https://www.youtube.com/embed/8b5W9a1D5yU",
-            songName: "Marchas de Carnaval Río 1950",
             champion: "Uruguay", runner_up: "Brasil", third: "Suecia",
-            flagChampion: "🇺🇾",
             color: "#009c3b",
             groups: [
-              { name: "Grupo A", teams: [
-                { name: "Brasil", flag: "🇧🇷", pts: 6, w: 2, d: 0, l: 0, gf: 8, ga: 2 },
-                { name: "Yugoslavia", flag: "🇾🇺", pts: 3, w: 1, d: 0, l: 1, gf: 3, ga: 2 },
-                { name: "Suiza", flag: "🇨🇭", pts: 1, w: 0, d: 1, l: 1, gf: 4, ga: 6 },
-                { name: "México", flag: "🇲🇽", pts: 0, w: 0, d: 0, l: 2, gf: 2, ga: 10 }
+              { name: "Grupo 1", teams: [
+                { name: "Brasil", pts: 6, w: 2, d: 0, l: 0, gf: 8, ga: 2 },
+                { name: "Yugoslavia", pts: 3, w: 1, d: 0, l: 1, gf: 3, ga: 2 },
+                { name: "Suiza", pts: 1, w: 0, d: 1, l: 1, gf: 4, ga: 6 },
+                { name: "México", pts: 0, w: 0, d: 0, l: 2, gf: 2, ga: 10 }
               ]},
               { name: "Grupo 2", teams: [
-                { name: "España", flag: "🇪🇸", pts: 6, w: 2, d: 0, l: 0, gf: 4, ga: 1 },
-                { name: "Chile", flag: "🇨🇱", pts: 2, w: 1, d: 0, l: 1, gf: 5, ga: 6 },
-                { name: "USA", flag: "🇺🇸", pts: 2, w: 1, d: 0, l: 1, gf: 4, ga: 8 },
-                { name: "Inglaterra", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pts: 2, w: 1, d: 0, l: 1, gf: 2, ga: 2 }
+                { name: "España", pts: 6, w: 2, d: 0, l: 0, gf: 4, ga: 1 },
+                { name: "Chile", pts: 2, w: 1, d: 0, l: 1, gf: 5, ga: 6 },
+                { name: "USA", pts: 2, w: 1, d: 0, l: 1, gf: 4, ga: 8 },
+                { name: "Inglaterra", pts: 2, w: 1, d: 0, l: 1, gf: 2, ga: 2 }
               ]},
               { name: "Grupo 3", teams: [
-                { name: "Suecia", flag: "🇸🇪", pts: 3, w: 1, d: 0, l: 0, gf: 7, ga: 2 },
-                { name: "Italia", flag: "🇮🇹", pts: 1, w: 0, d: 1, l: 0, gf: 2, ga: 2 },
-                { name: "Paraguay", flag: "🇵🇾", pts: 1, w: 0, d: 1, l: 0, gf: 2, ga: 2 }
+                { name: "Suecia", pts: 3, w: 1, d: 0, l: 0, gf: 7, ga: 2 },
+                { name: "Italia", pts: 1, w: 0, d: 1, l: 0, gf: 2, ga: 2 },
+                { name: "Paraguay", pts: 1, w: 0, d: 1, l: 0, gf: 2, ga: 2 }
               ]},
               { name: "Grupo 4", teams: [
-                { name: "Uruguay", flag: "🇺🇾", pts: 3, w: 1, d: 0, l: 0, gf: 8, ga: 0 },
-                { name: "Bolivia", flag: "🇧🇴", pts: 0, w: 0, d: 0, l: 1, gf: 0, ga: 8 }
+                { name: "Uruguay", pts: 3, w: 1, d: 0, l: 0, gf: 8, ga: 0 },
+                { name: "Bolivia", pts: 0, w: 0, d: 0, l: 1, gf: 0, ga: 8 }
               ]},
               { name: "Fase Final (Round Robin)", teams: [
-                { name: "Uruguay", flag: "🇺🇾", pts: 5, w: 2, d: 1, l: 0, gf: 7, ga: 5 },
-                { name: "Brasil", flag: "🇧🇷", pts: 4, w: 2, d: 0, l: 1, gf: 14, ga: 4 },
-                { name: "Suecia", flag: "🇸🇪", pts: 2, w: 1, d: 0, l: 2, gf: 6, ga: 11 },
-                { name: "España", flag: "🇪🇸", pts: 0, w: 0, d: 0, l: 3, gf: 4, ga: 11 }
+                { name: "Uruguay", pts: 5, w: 2, d: 1, l: 0, gf: 7, ga: 5 },
+                { name: "Brasil", pts: 4, w: 2, d: 0, l: 1, gf: 14, ga: 4 },
+                { name: "Suecia", pts: 2, w: 1, d: 0, l: 2, gf: 6, ga: 11 },
+                { name: "España", pts: 0, w: 0, d: 0, l: 3, gf: 4, ga: 11 }
               ]}
             ],
             knockout: [
               { round: "Partido Decisivo", matches: [
-                { home: "Uruguay", hflag: "🇺🇾", score: "2-1", away: "Brasil", aflag: "🇧🇷" }
+                { home: "Uruguay", score: "2-1", away: "Brasil" }
               ]}
             ]
           },
           {
             year: 1954, host: "Suiza", logo: "🇨🇭", ball: "Top Star",
-            song: "https://www.youtube.com/embed/wNly8oaslG4",
-            songName: "Swiss Football March",
             champion: "Alemania Occ.", runner_up: "Hungría", third: "Austria",
-            flagChampion: "🇩🇪",
             color: "#d40000",
             groups: [
               { name: "Grupo 1", teams: [
-                { name: "Brasil", flag: "🇧🇷", pts: 3, w: 1, d: 1, l: 0, gf: 6, ga: 1 },
-                { name: "Yugoslavia", flag: "🇾🇺", pts: 3, w: 1, d: 1, l: 0, gf: 2, ga: 1 },
-                { name: "Francia", flag: "🇫🇷", pts: 2, w: 1, d: 0, l: 1, gf: 3, ga: 3 },
-                { name: "México", flag: "🇲🇽", pts: 0, w: 0, d: 0, l: 2, gf: 2, ga: 8 }
+                { name: "Brasil", pts: 3, w: 1, d: 1, l: 0, gf: 6, ga: 1 },
+                { name: "Yugoslavia", pts: 3, w: 1, d: 1, l: 0, gf: 2, ga: 1 },
+                { name: "Francia", pts: 2, w: 1, d: 0, l: 1, gf: 3, ga: 3 },
+                { name: "México", pts: 0, w: 0, d: 0, l: 2, gf: 2, ga: 8 }
               ]},
               { name: "Grupo 2", teams: [
-                { name: "Hungría", flag: "🇭🇺", pts: 4, w: 2, d: 0, l: 0, gf: 17, ga: 3 },
-                { name: "Alemania Occ.", flag: "🇩🇪", pts: 2, w: 1, d: 0, l: 1, gf: 7, ga: 9 },
-                { name: "Turquía", flag: "🇹🇷", pts: 2, w: 1, d: 0, l: 1, gf: 8, ga: 4 },
-                { name: "Corea del Sur", flag: "🇰🇷", pts: 0, w: 0, d: 0, l: 2, gf: 0, ga: 16 }
+                { name: "Hungría", pts: 4, w: 2, d: 0, l: 0, gf: 17, ga: 3 },
+                { name: "Alemania Occ.", pts: 2, w: 1, d: 0, l: 1, gf: 7, ga: 9 },
+                { name: "Turquía", pts: 2, w: 1, d: 0, l: 1, gf: 8, ga: 4 },
+                { name: "Corea del Sur", pts: 0, w: 0, d: 0, l: 2, gf: 0, ga: 16 }
               ]},
               { name: "Grupo 3", teams: [
-                { name: "Uruguay", flag: "🇺🇾", pts: 4, w: 2, d: 0, l: 0, gf: 9, ga: 0 },
-                { name: "Austria", flag: "🇦🇹", pts: 4, w: 2, d: 0, l: 0, gf: 6, ga: 0 },
-                { name: "Checoslovaquia", flag: "🇨🇿", pts: 0, w: 0, d: 0, l: 2, gf: 0, ga: 7 },
-                { name: "Escocia", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", pts: 0, w: 0, d: 0, l: 2, gf: 0, ga: 8 }
+                { name: "Uruguay", pts: 4, w: 2, d: 0, l: 0, gf: 9, ga: 0 },
+                { name: "Austria", pts: 4, w: 2, d: 0, l: 0, gf: 6, ga: 0 },
+                { name: "Checoslovaquia", pts: 0, w: 0, d: 0, l: 2, gf: 0, ga: 7 },
+                { name: "Escocia", pts: 0, w: 0, d: 0, l: 2, gf: 0, ga: 8 }
               ]},
               { name: "Grupo 4", teams: [
-                { name: "Inglaterra", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pts: 4, w: 2, d: 0, l: 0, gf: 6, ga: 0 },
-                { name: "Italia", flag: "🇮🇹", pts: 2, w: 1, d: 0, l: 1, gf: 5, ga: 3 },
-                { name: "Suiza", flag: "🇨🇭", pts: 2, w: 1, d: 0, l: 1, gf: 2, ga: 3 },
-                { name: "Bélgica", flag: "🇧🇪", pts: 0, w: 0, d: 0, l: 2, gf: 5, ga: 8 }
+                { name: "Inglaterra", pts: 4, w: 2, d: 0, l: 0, gf: 6, ga: 0 },
+                { name: "Italia", pts: 2, w: 1, d: 0, l: 1, gf: 5, ga: 3 },
+                { name: "Suiza", pts: 2, w: 1, d: 0, l: 1, gf: 2, ga: 3 },
+                { name: "Bélgica", pts: 0, w: 0, d: 0, l: 2, gf: 5, ga: 8 }
               ]}
             ],
             knockout: [
               { round: "Cuartos de Final", matches: [
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "2-0", away: "Yugoslavia", aflag: "🇾🇺" },
-                { home: "Hungría", hflag: "🇭🇺", score: "4-2", away: "Brasil", aflag: "🇧🇷" },
-                { home: "Austria", hflag: "🇦🇹", score: "7-5", away: "Suiza", aflag: "🇨🇭" },
-                { home: "Uruguay", hflag: "🇺🇾", score: "4-2", away: "Inglaterra", aflag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" }
+                { home: "Alemania Occ.", score: "2-0", away: "Yugoslavia" },
+                { home: "Hungría", score: "4-2", away: "Brasil" },
+                { home: "Austria", score: "7-5", away: "Suiza" },
+                { home: "Uruguay", score: "4-2", away: "Inglaterra" }
               ]},
               { round: "Semifinales", matches: [
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "6-1", away: "Austria", aflag: "🇦🇹" },
-                { home: "Hungría", hflag: "🇭🇺", score: "4-2", away: "Uruguay", aflag: "🇺🇾" }
+                { home: "Alemania Occ.", score: "6-1", away: "Austria" },
+                { home: "Hungría", score: "4-2", away: "Uruguay" }
               ]},
               { round: "Final", matches: [
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "3-2", away: "Hungría", aflag: "🇭🇺" }
+                { home: "Alemania Occ.", score: "3-2", away: "Hungría" }
               ]}
             ]
           },
           {
             year: 1958, host: "Suecia", logo: "🇸🇪", ball: "Top Star H",
-            song: "https://www.youtube.com/embed/FInNen68_W8",
-            songName: "Fotbollsången (Vals del Fútbol)",
             champion: "Brasil", runner_up: "Suecia", third: "Francia",
-            flagChampion: "🇧🇷",
             color: "#006aa7",
             groups: [
               { name: "Grupo 1", teams: [
-                { name: "Alemania Occ.", flag: "🇩🇪", pts: 5, w: 2, d: 1, l: 0, gf: 7, ga: 5 },
-                { name: "Checoslovaquia", flag: "🇨🇿", pts: 3, w: 1, d: 1, l: 1, gf: 8, ga: 4 },
-                { name: "Irlanda Norte", flag: "🇬🇧", pts: 3, w: 1, d: 1, l: 1, gf: 4, ga: 5 },
-                { name: "Argentina", flag: "🇦🇷", pts: 1, w: 0, d: 1, l: 2, gf: 5, ga: 10 }
+                { name: "Alemania Occ.", pts: 5, w: 2, d: 1, l: 0, gf: 7, ga: 5 },
+                { name: "Checoslovaquia", pts: 3, w: 1, d: 1, l: 1, gf: 8, ga: 4 },
+                { name: "Irlanda Norte", pts: 3, w: 1, d: 1, l: 1, gf: 4, ga: 5 },
+                { name: "Argentina", pts: 1, w: 0, d: 1, l: 2, gf: 5, ga: 10 }
               ]},
               { name: "Grupo 2", teams: [
-                { name: "Francia", flag: "🇫🇷", pts: 4, w: 2, d: 0, l: 1, gf: 11, ga: 7 },
-                { name: "Yugoslavia", flag: "🇾🇺", pts: 4, w: 2, d: 0, l: 1, gf: 7, ga: 6 },
-                { name: "Paraguay", flag: "🇵🇾", pts: 3, w: 1, d: 1, l: 1, gf: 9, ga: 12 },
-                { name: "Escocia", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", pts: 1, w: 0, d: 1, l: 2, gf: 4, ga: 6 }
+                { name: "Francia", pts: 4, w: 2, d: 0, l: 1, gf: 11, ga: 7 },
+                { name: "Yugoslavia", pts: 4, w: 2, d: 0, l: 1, gf: 7, ga: 6 },
+                { name: "Paraguay", pts: 3, w: 1, d: 1, l: 1, gf: 9, ga: 12 },
+                { name: "Escocia", pts: 1, w: 0, d: 1, l: 2, gf: 4, ga: 6 }
               ]},
               { name: "Grupo 3", teams: [
-                { name: "Suecia", flag: "🇸🇪", pts: 5, w: 2, d: 1, l: 0, gf: 5, ga: 4 },
-                { name: "Hungría", flag: "🇭🇺", pts: 3, w: 1, d: 1, l: 1, gf: 6, ga: 3 },
-                { name: "Gales", flag: "🏴󠁧󠁢󠁷󠁬󠁳󠁿", pts: 3, w: 1, d: 1, l: 1, gf: 2, ga: 2 },
-                { name: "México", flag: "🇲🇽", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 8 }
+                { name: "Suecia", pts: 5, w: 2, d: 1, l: 0, gf: 5, ga: 4 },
+                { name: "Hungría", pts: 3, w: 1, d: 1, l: 1, gf: 6, ga: 3 },
+                { name: "Gales", pts: 3, w: 1, d: 1, l: 1, gf: 2, ga: 2 },
+                { name: "México", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 8 }
               ]},
               { name: "Grupo 4", teams: [
-                { name: "Brasil", flag: "🇧🇷", pts: 6, w: 3, d: 0, l: 0, gf: 5, ga: 0 },
-                { name: "URSS", flag: "🇷🇺", pts: 4, w: 2, d: 0, l: 1, gf: 4, ga: 4 },
-                { name: "Inglaterra", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pts: 2, w: 0, d: 2, l: 1, gf: 4, ga: 5 },
-                { name: "Austria", flag: "🇦🇹", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 7 }
+                { name: "Brasil", pts: 6, w: 3, d: 0, l: 0, gf: 5, ga: 0 },
+                { name: "URSS", pts: 4, w: 2, d: 0, l: 1, gf: 4, ga: 4 },
+                { name: "Inglaterra", pts: 2, w: 0, d: 2, l: 1, gf: 4, ga: 5 },
+                { name: "Austria", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 7 }
               ]}
             ],
             knockout: [
               { round: "Cuartos de Final", matches: [
-                { home: "Brasil", hflag: "🇧🇷", score: "1-0", away: "Gales", aflag: "🏴󠁧󠁢󠁷󠁬󠁳󠁿" },
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "1-0", away: "Yugoslavia", aflag: "🇾🇺" },
-                { home: "Suecia", hflag: "🇸🇪", score: "2-0", away: "URSS", aflag: "🇷🇺" },
-                { home: "Francia", hflag: "🇫🇷", score: "4-0", away: "Irlanda Norte", aflag: "🇬🇧" }
+                { home: "Brasil", score: "1-0", away: "Gales" },
+                { home: "Alemania Occ.", score: "1-0", away: "Yugoslavia" },
+                { home: "Suecia", score: "2-0", away: "URSS" },
+                { home: "Francia", score: "4-0", away: "Irlanda Norte" }
               ]},
               { round: "Semifinales", matches: [
-                { home: "Brasil", hflag: "🇧🇷", score: "5-2", away: "Francia", aflag: "🇫🇷" },
-                { home: "Suecia", hflag: "🇸🇪", score: "3-1", away: "Alemania Occ.", aflag: "🇩🇪" }
+                { home: "Brasil", score: "5-2", away: "Francia" },
+                { home: "Suecia", score: "3-1", away: "Alemania Occ." }
               ]},
               { round: "Final", matches: [
-                { home: "Brasil", hflag: "🇧🇷", score: "5-2", away: "Suecia", aflag: "🇸🇪" }
+                { home: "Brasil", score: "5-2", away: "Suecia" }
               ]}
             ]
           },
           {
             year: 1962, host: "Chile", logo: "🇨🇱", ball: "Crack",
-            song: "https://www.youtube.com/embed/6m82eS_K1bY",
-            songName: "El Rock del Mundial — Los Ramblers",
             champion: "Brasil", runner_up: "Checoslovaquia", third: "Chile",
-            flagChampion: "🇧🇷",
             color: "#d52b1e",
             groups: [
               { name: "Grupo 1", teams: [
-                { name: "URSS", flag: "🇷🇺", pts: 5, w: 2, d: 1, l: 0, gf: 8, ga: 5 },
-                { name: "Yugoslavia", flag: "🇾🇺", pts: 4, w: 2, d: 0, l: 1, gf: 8, ga: 3 },
-                { name: "Uruguay", flag: "🇺🇾", pts: 2, w: 1, d: 0, l: 2, gf: 4, ga: 6 },
-                { name: "Colombia", flag: "🇨🇴", pts: 1, w: 0, d: 1, l: 2, gf: 5, ga: 11 }
+                { name: "URSS", pts: 5, w: 2, d: 1, l: 0, gf: 8, ga: 5 },
+                { name: "Yugoslavia", pts: 4, w: 2, d: 0, l: 1, gf: 8, ga: 3 },
+                { name: "Uruguay", pts: 2, w: 1, d: 0, l: 2, gf: 4, ga: 6 },
+                { name: "Colombia", pts: 1, w: 0, d: 1, l: 2, gf: 5, ga: 11 }
               ]},
               { name: "Grupo 2", teams: [
-                { name: "Alemania Occ.", flag: "🇩🇪", pts: 4, w: 2, d: 0, l: 1, gf: 4, ga: 2 },
-                { name: "Chile", flag: "🇨🇱", pts: 4, w: 2, d: 0, l: 1, gf: 5, ga: 3 },
-                { name: "Italia", flag: "🇮🇹", pts: 2, w: 1, d: 0, l: 2, gf: 3, ga: 2 },
-                { name: "Suiza", flag: "🇨🇭", pts: 2, w: 1, d: 0, l: 2, gf: 2, ga: 6 }
+                { name: "Alemania Occ.", pts: 4, w: 2, d: 0, l: 1, gf: 4, ga: 2 },
+                { name: "Chile", pts: 4, w: 2, d: 0, l: 1, gf: 5, ga: 3 },
+                { name: "Italia", pts: 2, w: 1, d: 0, l: 2, gf: 3, ga: 2 },
+                { name: "Suiza", pts: 2, w: 1, d: 0, l: 2, gf: 2, ga: 6 }
               ]},
               { name: "Grupo 3", teams: [
-                { name: "Brasil", flag: "🇧🇷", pts: 5, w: 2, d: 1, l: 0, gf: 4, ga: 1 },
-                { name: "Checoslovaquia", flag: "🇨🇿", pts: 4, w: 1, d: 2, l: 0, gf: 2, ga: 3 },
-                { name: "México", flag: "🇲🇽", pts: 2, w: 1, d: 0, l: 2, gf: 3, ga: 4 },
-                { name: "España", flag: "🇪🇸", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 3 }
+                { name: "Brasil", pts: 5, w: 2, d: 1, l: 0, gf: 4, ga: 1 },
+                { name: "Checoslovaquia", pts: 4, w: 1, d: 2, l: 0, gf: 2, ga: 3 },
+                { name: "México", pts: 2, w: 1, d: 0, l: 2, gf: 3, ga: 4 },
+                { name: "España", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 3 }
               ]},
               { name: "Grupo 4", teams: [
-                { name: "Hungría", flag: "🇭🇺", pts: 4, w: 2, d: 0, l: 1, gf: 8, ga: 2 },
-                { name: "Inglaterra", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 4, w: 2, d: 0, l: 1, gf: 4, ga: 4 },
-                { name: "Argentina", flag: "🇦🇷", pts: 2, w: 1, d: 0, l: 2, gf: 2, ga: 3 },
-                { name: "Bulgaria", flag: "🇧🇬", pts: 2, w: 1, d: 0, l: 2, gf: 1, ga: 7 }
+                { name: "Hungría", pts: 4, w: 2, d: 0, l: 1, gf: 8, ga: 2 },
+                { name: "Inglaterra", pts: 4, w: 2, d: 0, l: 1, gf: 4, ga: 4 },
+                { name: "Argentina", pts: 2, w: 1, d: 0, l: 2, gf: 2, ga: 3 },
+                { name: "Bulgaria", pts: 2, w: 1, d: 0, l: 2, gf: 1, ga: 7 }
               ]}
             ],
             knockout: [
               { round: "Cuartos de Final", matches: [
-                { home: "Brasil", hflag: "🇧🇷", score: "3-1", away: "Inglaterra", aflag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d" },
-                { home: "Chile", hflag: "🇨🇱", score: "2-1", away: "URSS", aflag: "🇷🇺" },
-                { home: "Yugoslavia", hflag: "🇾🇺", score: "1-0", away: "Alemania Occ.", aflag: "🇩🇪" },
-                { home: "Checoslovaquia", hflag: "🇨🇿", score: "1-0", away: "Hungría", aflag: "🇭🇺" }
+                { home: "Brasil", score: "3-1", away: "Inglaterra" },
+                { home: "Chile", score: "2-1", away: "URSS" },
+                { home: "Yugoslavia", score: "1-0", away: "Alemania Occ." },
+                { home: "Checoslovaquia", score: "1-0", away: "Hungría" }
               ]},
               { round: "Semifinales", matches: [
-                { home: "Brasil", hflag: "🇧🇷", score: "4-2", away: "Chile", aflag: "🇨🇱" },
-                { home: "Checoslovaquia", hflag: "🇨🇿", score: "3-1", away: "Yugoslavia", aflag: "🇾🇺" }
+                { home: "Brasil", score: "4-2", away: "Chile" },
+                { home: "Checoslovaquia", score: "3-1", away: "Yugoslavia" }
               ]},
               { round: "Final", matches: [
-                { home: "Brasil", hflag: "🇧🇷", score: "3-1", away: "Checoslovaquia", aflag: "🇨🇿" }
+                { home: "Brasil", score: "3-1", away: "Checoslovaquia" }
               ]}
             ]
           },
           {
             year: 1966, host: "Inglaterra", logo: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", ball: "Challenge 4-Star",
-            song: "https://www.youtube.com/embed/H7SgZ6f8I3o",
-            songName: "World Cup Willie (Canción Oficial)",
             champion: "Inglaterra", runner_up: "Alemania Occ.", third: "Portugal",
-            flagChampion: "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
             color: "#cf091d",
             groups: [
               { name: "Grupo 1", teams: [
-                { name: "Inglaterra", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pts: 5, w: 2, d: 1, l: 0, gf: 4, ga: 0 },
-                { name: "Uruguay", flag: "🇺🇾", pts: 4, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
-                { name: "México", flag: "🇲🇽", pts: 2, w: 0, d: 2, l: 1, gf: 1, ga: 3 },
-                { name: "Francia", flag: "🇫🇷", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 5 }
+                { name: "Inglaterra", pts: 5, w: 2, d: 1, l: 0, gf: 4, ga: 0 },
+                { name: "Uruguay", pts: 4, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
+                { name: "México", pts: 2, w: 0, d: 2, l: 1, gf: 1, ga: 3 },
+                { name: "Francia", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 5 }
               ]},
               { name: "Grupo 2", teams: [
-                { name: "Alemania Occ.", flag: "🇩🇪", pts: 5, w: 2, d: 1, l: 0, gf: 7, ga: 1 },
-                { name: "Argentina", flag: "🇦🇷", pts: 4, w: 2, d: 0, l: 1, gf: 4, ga: 2 },
-                { name: "España", flag: "🇪🇸", pts: 2, w: 1, d: 0, l: 2, gf: 4, ga: 5 },
-                { name: "Suiza", flag: "🇨🇭", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 9 }
+                { name: "Alemania Occ.", pts: 5, w: 2, d: 1, l: 0, gf: 7, ga: 1 },
+                { name: "Argentina", pts: 4, w: 2, d: 0, l: 1, gf: 4, ga: 2 },
+                { name: "España", pts: 2, w: 1, d: 0, l: 2, gf: 4, ga: 5 },
+                { name: "Suiza", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 9 }
               ]},
               { name: "Grupo 3", teams: [
-                { name: "Portugal", flag: "🇵🇹", pts: 6, w: 3, d: 0, l: 0, gf: 9, ga: 2 },
-                { name: "Hungría", flag: "🇭🇺", pts: 4, w: 2, d: 0, l: 1, gf: 7, ga: 5 },
-                { name: "Brasil", flag: "🇧🇷", pts: 2, w: 1, d: 0, l: 2, gf: 4, ga: 6 },
-                { name: "Bulgaria", flag: "🇧🇬", pts: 0, w: 0, d: 0, l: 3, gf: 1, ga: 8 }
+                { name: "Portugal", pts: 6, w: 3, d: 0, l: 0, gf: 9, ga: 2 },
+                { name: "Hungría", pts: 4, w: 2, d: 0, l: 1, gf: 7, ga: 5 },
+                { name: "Brasil", pts: 2, w: 1, d: 0, l: 2, gf: 4, ga: 6 },
+                { name: "Bulgaria", pts: 0, w: 0, d: 0, l: 3, gf: 1, ga: 8 }
               ]},
               { name: "Grupo 4", teams: [
-                { name: "URSS", flag: "🇷🇺", pts: 6, w: 3, d: 0, l: 0, gf: 6, ga: 1 },
-                { name: "Corea Norte", flag: "🇰🇵", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 4 },
-                { name: "Italia", flag: "🇮🇹", pts: 2, w: 1, d: 0, l: 2, gf: 2, ga: 2 },
-                { name: "Chile", flag: "🇨🇱", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 5 }
+                { name: "URSS", pts: 6, w: 3, d: 0, l: 0, gf: 6, ga: 1 },
+                { name: "Corea Norte", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 4 },
+                { name: "Italia", pts: 2, w: 1, d: 0, l: 2, gf: 2, ga: 2 },
+                { name: "Chile", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 5 }
               ]}
             ],
             knockout: [
               { round: "Cuartos de Final", matches: [
-                { home: "Inglaterra", hflag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", score: "1-0", away: "Argentina", aflag: "🇦🇷" },
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "4-0", away: "Uruguay", aflag: "🇺🇾" },
-                { home: "Portugal", hflag: "🇵🇹", score: "5-3", away: "Corea Norte", aflag: "🇰🇵" },
-                { home: "URSS", hflag: "🇷🇺", score: "2-1", away: "Hungría", aflag: "🇭🇺" }
+                { home: "Inglaterra", score: "1-0", away: "Argentina" },
+                { home: "Alemania Occ.", score: "4-0", away: "Uruguay" },
+                { home: "Portugal", score: "5-3", away: "Corea Norte" },
+                { home: "URSS", score: "2-1", away: "Hungría" }
               ]},
               { round: "Semifinales", matches: [
-                { home: "Inglaterra", hflag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", score: "2-1", away: "Portugal", aflag: "🇵🇹" },
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "2-1", away: "URSS", aflag: "🇷🇺" }
+                { home: "Inglaterra", score: "2-1", away: "Portugal" },
+                { home: "Alemania Occ.", score: "2-1", away: "URSS" }
               ]},
               { round: "Final", matches: [
-                { home: "Inglaterra", hflag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", score: "4-2", away: "Alemania Occ.", aflag: "🇩🇪" }
+                { home: "Inglaterra", score: "4-2", away: "Alemania Occ." }
               ]}
             ]
           },
           {
             year: 1970, host: "México", logo: "🇲🇽", ball: "Telstar",
-            song: "https://www.youtube.com/embed/Fmsh_O3F64c",
-            songName: "Fútbol México 70",
             champion: "Brasil", runner_up: "Italia", third: "Alemania Occ.",
-            flagChampion: "🇧🇷",
             color: "#006847",
             groups: [
               { name: "Grupo 1", teams: [
-                { name: "URSS", flag: "🇷🇺", pts: 6, w: 2, d: 2, l: 0, gf: 6, ga: 1 },
-                { name: "México", flag: "🇲🇽", pts: 5, w: 2, d: 1, l: 1, gf: 5, ga: 0 },
-                { name: "Bélgica", flag: "🇧🇪", pts: 2, w: 1, d: 0, l: 3, gf: 4, ga: 5 },
-                { name: "El Salvador", flag: "🇸🇻", pts: 0, w: 0, d: 0, l: 4, gf: 0, ga: 9 }
+                { name: "URSS", pts: 6, w: 2, d: 2, l: 0, gf: 6, ga: 1 },
+                { name: "México", pts: 5, w: 2, d: 1, l: 1, gf: 5, ga: 0 },
+                { name: "Bélgica", pts: 2, w: 1, d: 0, l: 3, gf: 4, ga: 5 },
+                { name: "El Salvador", pts: 0, w: 0, d: 0, l: 4, gf: 0, ga: 9 }
               ]},
               { name: "Grupo 2", teams: [
-                { name: "Italia", flag: "🇮🇹", pts: 4, w: 1, d: 2, l: 1, gf: 1, ga: 0 },
-                { name: "Uruguay", flag: "🇺🇾", pts: 4, w: 1, d: 2, l: 1, gf: 2, ga: 1 },
-                { name: "Suecia", flag: "🇸🇪", pts: 3, w: 1, d: 1, l: 2, gf: 2, ga: 2 },
-                { name: "Israel", flag: "🇮🇱", pts: 3, w: 0, d: 3, l: 1, gf: 1, ga: 3 }
+                { name: "Italia", pts: 4, w: 1, d: 2, l: 1, gf: 1, ga: 0 },
+                { name: "Uruguay", pts: 4, w: 1, d: 2, l: 1, gf: 2, ga: 1 },
+                { name: "Suecia", pts: 3, w: 1, d: 1, l: 2, gf: 2, ga: 2 },
+                { name: "Israel", pts: 3, w: 0, d: 3, l: 1, gf: 1, ga: 3 }
               ]},
               { name: "Grupo 3", teams: [
-                { name: "Brasil", flag: "🇧🇷", pts: 6, w: 3, d: 0, l: 0, gf: 8, ga: 3 },
-                { name: "Inglaterra", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 4, w: 2, d: 0, l: 1, gf: 2, ga: 1 },
-                { name: "Rumania", flag: "🇷🇴", pts: 2, w: 1, d: 0, l: 2, gf: 4, ga: 5 },
-                { name: "Checoslovaquia", flag: "🇨🇿", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 7 }
+                { name: "Brasil", pts: 6, w: 3, d: 0, l: 0, gf: 8, ga: 3 },
+                { name: "Inglaterra", pts: 4, w: 2, d: 0, l: 1, gf: 2, ga: 1 },
+                { name: "Rumania", pts: 2, w: 1, d: 0, l: 2, gf: 4, ga: 5 },
+                { name: "Checoslovaquia", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 7 }
               ]},
               { name: "Grupo 4", teams: [
-                { name: "Alemania Occ.", flag: "🇩🇪", pts: 6, w: 3, d: 0, l: 0, gf: 10, ga: 4 },
-                { name: "Perú", flag: "🇵🇪", pts: 4, w: 2, d: 0, l: 1, gf: 7, ga: 5 },
-                { name: "Bulgaria", flag: "🇧🇬", pts: 1, w: 0, d: 1, l: 2, gf: 5, ga: 9 },
-                { name: "Marruecos", flag: "🇲🇦", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 6 }
+                { name: "Alemania Occ.", pts: 6, w: 3, d: 0, l: 0, gf: 10, ga: 4 },
+                { name: "Perú", pts: 4, w: 2, d: 0, l: 1, gf: 7, ga: 5 },
+                { name: "Bulgaria", pts: 1, w: 0, d: 1, l: 2, gf: 5, ga: 9 },
+                { name: "Marruecos", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 6 }
               ]}
             ],
             knockout: [
               { round: "Cuartos de Final", matches: [
-                { home: "Brasil", hflag: "🇧🇷", score: "4-2", away: "Perú", aflag: "🇵🇪" },
-                { home: "Uruguay", hflag: "🇺🇾", score: "1-0", away: "URSS", aflag: "🇷🇺" },
-                { home: "Italia", hflag: "🇮🇹", score: "4-1", away: "México", aflag: "🇲🇽" },
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "3-2", away: "Inglaterra", aflag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d" }
+                { home: "Brasil", score: "4-2", away: "Perú" },
+                { home: "Uruguay", score: "1-0", away: "URSS" },
+                { home: "Italia", score: "4-1", away: "México" },
+                { home: "Alemania Occ.", score: "3-2", away: "Inglaterra" }
               ]},
               { round: "Semifinales", matches: [
-                { home: "Brasil", hflag: "🇧🇷", score: "3-1", away: "Uruguay", aflag: "🇺🇾" },
-                { home: "Italia", hflag: "🇮🇹", score: "4-3", away: "Alemania Occ.", aflag: "🇩🇪" }
+                { home: "Brasil", score: "3-1", away: "Uruguay" },
+                { home: "Italia", score: "4-3", away: "Alemania Occ." }
               ]},
               { round: "Final", matches: [
-                { home: "Brasil", hflag: "🇧🇷", score: "4-1", away: "Italia", aflag: "🇮🇹" }
+                { home: "Brasil", score: "4-1", away: "Italia" }
               ]}
             ]
           },
           {
             year: 1974, host: "Alemania Occ.", logo: "🇩🇪", ball: "Telstar Durlast",
-            song: "https://www.youtube.com/embed/0kF9A_FzM_k",
-            songName: "Futbol (Canción Oficial) — Maryla Rodowicz",
             champion: "Alemania Occ.", runner_up: "Holanda", third: "Polonia",
-            flagChampion: "🇩🇪",
             color: "#000000",
             groups: [
               { name: "Grupo 1", teams: [
-                { name: "Alemania Occ.", flag: "🇩🇪", pts: 4, w: 1, d: 2, l: 0, gf: 4, ga: 1 },
-                { name: "Alemania Dem.", flag: "🇩🇪", pts: 3, w: 1, d: 1, l: 1, gf: 4, ga: 4 },
-                { name: "Chile", flag: "🇨🇱", pts: 2, w: 0, d: 2, l: 1, gf: 1, ga: 2 },
-                { name: "Australia", flag: "🇦🇺", pts: 1, w: 0, d: 1, l: 2, gf: 0, ga: 5 }
+                { name: "Alemania Occ.", pts: 4, w: 1, d: 2, l: 0, gf: 4, ga: 1 },
+                { name: "Alemania Dem.", pts: 3, w: 1, d: 1, l: 1, gf: 4, ga: 4 },
+                { name: "Chile", pts: 2, w: 0, d: 2, l: 1, gf: 1, ga: 2 },
+                { name: "Australia", pts: 1, w: 0, d: 1, l: 2, gf: 0, ga: 5 }
               ]},
               { name: "Grupo 2", teams: [
-                { name: "Yugoslavia", flag: "🇾🇺", pts: 5, w: 1, d: 3, l: 0, gf: 10, ga: 1 },
-                { name: "Brasil", flag: "🇧🇷", pts: 5, w: 1, d: 3, l: 0, gf: 3, ga: 0 },
-                { name: "Escocia", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 4, w: 1, d: 2, l: 0, gf: 3, ga: 1 },
-                { name: "Zaire", flag: "🇨🇩", pts: 0, w: 0, d: 0, l: 3, gf: 0, ga: 14 }
+                { name: "Yugoslavia", pts: 5, w: 1, d: 3, l: 0, gf: 10, ga: 1 },
+                { name: "Brasil", pts: 5, w: 1, d: 3, l: 0, gf: 3, ga: 0 },
+                { name: "Escocia", pts: 4, w: 1, d: 2, l: 0, gf: 3, ga: 1 },
+                { name: "Zaire", pts: 0, w: 0, d: 0, l: 3, gf: 0, ga: 14 }
               ]},
               { name: "Grupo 3", teams: [
-                { name: "Holanda", flag: "🇳🇱", pts: 6, w: 2, d: 1, l: 0, gf: 6, ga: 1 },
-                { name: "Suecia", flag: "🇸🇪", pts: 4, w: 1, d: 2, l: 0, gf: 3, ga: 0 },
-                { name: "Bulgaria", flag: "🇧🇬", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 5 },
-                { name: "Uruguay", flag: "🇺🇾", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 6 }
+                { name: "Holanda", pts: 6, w: 2, d: 1, l: 0, gf: 6, ga: 1 },
+                { name: "Suecia", pts: 4, w: 1, d: 2, l: 0, gf: 3, ga: 0 },
+                { name: "Bulgaria", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 5 },
+                { name: "Uruguay", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 6 }
               ]},
               { name: "Grupo 4", teams: [
-                { name: "Polonia", flag: "🇵🇱", pts: 6, w: 3, d: 0, l: 0, gf: 12, ga: 3 },
-                { name: "Argentina", flag: "🇦🇷", pts: 4, w: 1, d: 2, l: 1, gf: 7, ga: 5 },
-                { name: "Italia", flag: "🇮🇹", pts: 3, w: 1, d: 1, l: 1, gf: 5, ga: 4 },
-                { name: "Haití", flag: "🇭🇹", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 14 }
+                { name: "Polonia", pts: 6, w: 3, d: 0, l: 0, gf: 12, ga: 3 },
+                { name: "Argentina", pts: 4, w: 1, d: 2, l: 1, gf: 7, ga: 5 },
+                { name: "Italia", pts: 3, w: 1, d: 1, l: 1, gf: 5, ga: 4 },
+                { name: "Haití", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 14 }
               ]}
             ],
             knockout: [
               { round: "2da Ronda Grupo A", matches: [
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "2-0", away: "Yugoslavia", aflag: "🇾🇺" },
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "4-2", away: "Suecia", aflag: "🇸🇪" },
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "1-0", away: "Polonia", aflag: "🇵🇱" }
+                { home: "Alemania Occ.", score: "2-0", away: "Yugoslavia" },
+                { home: "Alemania Occ.", score: "4-2", away: "Suecia" },
+                { home: "Alemania Occ.", score: "1-0", away: "Polonia" }
               ]},
               { round: "2da Ronda Grupo B", matches: [
-                { home: "Holanda", hflag: "🇳🇱", score: "4-0", away: "Argentina", aflag: "🇦🇷" },
-                { home: "Holanda", hflag: "🇳🇱", score: "2-0", away: "Alemania Dem.", aflag: "🇩🇪" },
-                { home: "Holanda", hflag: "🇳🇱", score: "2-0", away: "Brasil", aflag: "🇧🇷" }
+                { home: "Holanda", score: "4-0", away: "Argentina" },
+                { home: "Holanda", score: "2-0", away: "Alemania Dem." },
+                { home: "Holanda", score: "2-0", away: "Brasil" }
               ]},
               { round: "Final", matches: [
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "2-1", away: "Holanda", aflag: "🇳🇱" }
+                { home: "Alemania Occ.", score: "2-1", away: "Holanda" }
               ]}
             ]
           },
           {
             year: 1978, host: "Argentina", logo: "🇦🇷", ball: "Tango",
-            song: "https://www.youtube.com/embed/840V49EAnp0",
-            songName: "El Mundial — Marcha Oficial de Ennio Morricone",
             champion: "Argentina", runner_up: "Holanda", third: "Brasil",
-            flagChampion: "🇦🇷",
             color: "#74acdf",
             groups: [
-              { name: "Grupo A", teams: [
-                { name: "Italia", flag: "🇮🇹", pts: 5, w: 2, d: 1, l: 0, gf: 6, ga: 2 },
-                { name: "Argentina", flag: "🇦🇷", pts: 4, w: 2, d: 0, l: 1, gf: 4, ga: 3 },
-                { name: "Francia", flag: "🇫🇷", pts: 3, w: 1, d: 1, l: 1, gf: 5, ga: 5 },
-                { name: "Hungría", flag: "🇭🇺", pts: 0, w: 0, d: 0, l: 3, gf: 3, ga: 8 }
+              { name: "Grupo 1", teams: [
+                { name: "Italia", pts: 5, w: 2, d: 1, l: 0, gf: 6, ga: 2 },
+                { name: "Argentina", pts: 4, w: 2, d: 0, l: 1, gf: 4, ga: 3 },
+                { name: "Francia", pts: 3, w: 1, d: 1, l: 1, gf: 5, ga: 5 },
+                { name: "Hungría", pts: 0, w: 0, d: 0, l: 3, gf: 3, ga: 8 }
               ]},
               { name: "Grupo 2", teams: [
-                { name: "Polonia", flag: "🇵🇱", pts: 5, w: 2, d: 1, l: 0, gf: 4, ga: 1 },
-                { name: "Alemania Occ.", flag: "🇩🇪", pts: 5, w: 1, d: 3, l: 0, gf: 6, ga: 0 },
-                { name: "Túnez", flag: "🇹🇳", pts: 3, w: 1, d: 1, l: 1, gf: 3, ga: 2 },
-                { name: "México", flag: "🇲🇽", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 12 }
+                { name: "Polonia", pts: 5, w: 2, d: 1, l: 0, gf: 4, ga: 1 },
+                { name: "Alemania Occ.", pts: 5, w: 1, d: 3, l: 0, gf: 6, ga: 0 },
+                { name: "Túnez", pts: 3, w: 1, d: 1, l: 1, gf: 3, ga: 2 },
+                { name: "México", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 12 }
               ]},
               { name: "Grupo 3", teams: [
-                { name: "Austria", flag: "🇦🇹", pts: 4, w: 2, d: 0, l: 1, gf: 4, ga: 3 },
-                { name: "Brasil", flag: "🇧🇷", pts: 4, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
-                { name: "España", flag: "🇪🇸", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 2 },
-                { name: "Suecia", flag: "🇸🇪", pts: 2, w: 1, d: 0, l: 2, gf: 1, ga: 3 }
+                { name: "Austria", pts: 4, w: 2, d: 0, l: 1, gf: 4, ga: 3 },
+                { name: "Brasil", pts: 4, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
+                { name: "España", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 2 },
+                { name: "Suecia", pts: 2, w: 1, d: 0, l: 2, gf: 1, ga: 3 }
               ]},
               { name: "Grupo 4", teams: [
-                { name: "Perú", flag: "🇵🇪", pts: 4, w: 2, d: 0, l: 1, gf: 7, ga: 5 },
-                { name: "Holanda", flag: "🇳🇱", pts: 3, w: 1, d: 1, l: 1, gf: 5, ga: 3 },
-                { name: "Escocia", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 3, w: 1, d: 1, l: 1, gf: 5, ga: 6 },
-                { name: "Irán", flag: "🇮🇷", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 8 }
+                { name: "Perú", pts: 4, w: 2, d: 0, l: 1, gf: 7, ga: 5 },
+                { name: "Holanda", pts: 3, w: 1, d: 1, l: 1, gf: 5, ga: 3 },
+                { name: "Escocia", pts: 3, w: 1, d: 1, l: 1, gf: 5, ga: 6 },
+                { name: "Irán", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 8 }
               ]}
             ],
             knockout: [
               { round: "2da Ronda Grupo A", matches: [
-                { home: "Argentina", hflag: "🇦🇷", score: "6-0", away: "Perú", aflag: "🇵🇪" },
-                { home: "Argentina", hflag: "🇦🇷", score: "2-0", away: "Polonia", aflag: "🇵🇱" }
+                { home: "Argentina", score: "6-0", away: "Perú" },
+                { home: "Argentina", score: "2-0", away: "Polonia" }
               ]},
               { round: "2da Ronda Grupo B", matches: [
-                { home: "Holanda", hflag: "🇳🇱", score: "5-1", away: "Austria", aflag: "🇦🇹" },
-                { home: "Holanda", hflag: "🇳🇱", score: "2-2", away: "Alemania Occ.", aflag: "🇩🇪" }
+                { home: "Holanda", score: "5-1", away: "Austria" },
+                { home: "Holanda", score: "2-2", away: "Alemania Occ." }
               ]},
               { round: "Final", matches: [
-                { home: "Argentina", hflag: "🇦🇷", score: "3-1", away: "Holanda", aflag: "🇳🇱" }
+                { home: "Argentina", score: "3-1", away: "Holanda" }
               ]}
             ]
           },
           {
             year: 1982, host: "España", logo: "🇪🇸", ball: "Tango España",
-            song: "https://www.youtube.com/embed/F_fD6zJv0k8",
-            songName: "El Mundial — Plácido Domingo",
             champion: "Italia", runner_up: "Alemania Occ.", third: "Polonia",
-            flagChampion: "🇮🇹",
             color: "#aa151b",
             groups: [
               { name: "Grupo 1", teams: [
-                { name: "Polonia", flag: "🇵🇱", pts: 5, w: 1, d: 3, l: 0, gf: 5, ga: 1 },
-                { name: "Italia", flag: "🇮🇹", pts: 5, w: 0, d: 3, l: 0, gf: 2, ga: 2 },
-                { name: "Camerún", flag: "🇨🇲", pts: 4, w: 0, d: 3, l: 0, gf: 1, ga: 1 },
-                { name: "Perú", flag: "🇵🇪", pts: 1, w: 0, d: 0, l: 3, gf: 2, ga: 6 }
+                { name: "Polonia", pts: 5, w: 1, d: 3, l: 0, gf: 5, ga: 1 },
+                { name: "Italia", pts: 5, w: 0, d: 3, l: 0, gf: 2, ga: 2 },
+                { name: "Camerún", pts: 4, w: 0, d: 3, l: 0, gf: 1, ga: 1 },
+                { name: "Perú", pts: 1, w: 0, d: 0, l: 3, gf: 2, ga: 6 }
               ]},
               { name: "Grupo 2", teams: [
-                { name: "Alemania Occ.", flag: "🇩🇪", pts: 5, w: 2, d: 1, l: 0, gf: 6, ga: 3 },
-                { name: "Austria", flag: "🇦🇹", pts: 3, w: 2, d: 0, l: 2, gf: 3, ga: 6 },
-                { name: "Algeria", flag: "🇩🇿", pts: 4, w: 2, d: 0, l: 2, gf: 5, ga: 5 },
-                { name: "Chile", flag: "🇨🇱", pts: 2, w: 0, d: 0, l: 3, gf: 3, ga: 8 }
+                { name: "Alemania Occ.", pts: 5, w: 2, d: 1, l: 0, gf: 6, ga: 3 },
+                { name: "Austria", pts: 3, w: 2, d: 0, l: 2, gf: 3, ga: 6 },
+                { name: "Algeria", pts: 4, w: 2, d: 0, l: 2, gf: 5, ga: 5 },
+                { name: "Chile", pts: 2, w: 0, d: 0, l: 3, gf: 3, ga: 8 }
               ]},
               { name: "Grupo 3", teams: [
-                { name: "Argentina", flag: "🇦🇷", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 2 },
-                { name: "Bélgica", flag: "🇧🇪", pts: 4, w: 2, d: 0, l: 2, gf: 3, ga: 3 },
-                { name: "Hungría", flag: "🇭🇺", pts: 3, w: 1, d: 0, l: 2, gf: 12, ga: 6 },
-                { name: "El Salvador", flag: "🇸🇻", pts: 0, w: 0, d: 0, l: 3, gf: 1, ga: 13 }
+                { name: "Argentina", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 2 },
+                { name: "Bélgica", pts: 4, w: 2, d: 0, l: 2, gf: 3, ga: 3 },
+                { name: "Hungría", pts: 3, w: 1, d: 0, l: 2, gf: 12, ga: 6 },
+                { name: "El Salvador", pts: 0, w: 0, d: 0, l: 3, gf: 1, ga: 13 }
               ]},
               { name: "Grupo 4", teams: [
-                { name: "Inglaterra", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 6, w: 3, d: 0, l: 0, gf: 6, ga: 1 },
-                { name: "Francia", flag: "🇫🇷", pts: 6, w: 3, d: 0, l: 0, gf: 6, ga: 5 },
-                { name: "Checoslovaquia", flag: "🇨🇿", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 4 },
-                { name: "Kuwait", flag: "🇰🇼", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 6 }
+                { name: "Inglaterra", pts: 6, w: 3, d: 0, l: 0, gf: 6, ga: 1 },
+                { name: "Francia", pts: 6, w: 3, d: 0, l: 0, gf: 6, ga: 5 },
+                { name: "Checoslovaquia", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 4 },
+                { name: "Kuwait", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 6 }
               ]},
               { name: "Grupo 5", teams: [
-                { name: "Irlanda Norte", flag: "🇬🇧", pts: 4, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
-                { name: "España", flag: "🇪🇸", pts: 3, w: 1, d: 1, l: 1, gf: 3, ga: 3 },
-                { name: "Yugoslavia", flag: "🇾🇺", pts: 3, w: 1, d: 1, l: 1, gf: 2, ga: 2 },
-                { name: "Honduras", flag: "🇭🇳", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 3 }
+                { name: "Irlanda Norte", pts: 4, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
+                { name: "España", pts: 3, w: 1, d: 1, l: 1, gf: 3, ga: 3 },
+                { name: "Yugoslavia", pts: 3, w: 1, d: 1, l: 1, gf: 2, ga: 2 },
+                { name: "Honduras", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 3 }
               ]},
               { name: "Grupo 6", teams: [
-                { name: "Brasil", flag: "🇧🇷", pts: 6, w: 3, d: 0, l: 0, gf: 10, ga: 2 },
-                { name: "URSS", flag: "🇷🇺", pts: 5, w: 1, d: 3, l: 0, gf: 6, ga: 4 },
-                { name: "Escocia", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 3, w: 1, d: 1, l: 1, gf: 8, ga: 8 },
-                { name: "Nueva Zelanda", flag: "🇳🇿", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 12 }
+                { name: "Brasil", pts: 6, w: 3, d: 0, l: 0, gf: 10, ga: 2 },
+                { name: "URSS", pts: 5, w: 1, d: 3, l: 0, gf: 6, ga: 4 },
+                { name: "Escocia", pts: 3, w: 1, d: 1, l: 1, gf: 8, ga: 8 },
+                { name: "Nueva Zelanda", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 12 }
               ]}
             ],
             knockout: [
               { round: "2da Ronda Grupo A", matches: [
-                { home: "Polonia", hflag: "🇵🇱", score: "3-0", away: "Bélgica", aflag: "🇧🇪" },
-                { home: "URSS", hflag: "🇷🇺", score: "1-0", away: "Bélgica", aflag: "🇧🇪" }
+                { home: "Polonia", score: "3-0", away: "Bélgica" },
+                { home: "URSS", score: "1-0", away: "Bélgica" }
               ]},
               { round: "2da Ronda Grupo B", matches: [
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "0-0", away: "Inglaterra", aflag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d" },
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "2-1", away: "España", aflag: "🇪🇸" }
+                { home: "Alemania Occ.", score: "0-0", away: "Inglaterra" },
+                { home: "Alemania Occ.", score: "2-1", away: "España" }
               ]},
               { round: "2da Ronda Grupo C", matches: [
-                { home: "Italia", hflag: "🇮🇹", score: "2-1", away: "Argentina", aflag: "🇦🇷" },
-                { home: "Brasil", hflag: "🇧🇷", score: "3-2", away: "Argentina", aflag: "🇦🇷" }
+                { home: "Italia", score: "2-1", away: "Argentina" },
+                { home: "Brasil", score: "3-2", away: "Argentina" }
               ]},
               { round: "2da Ronda Grupo D", matches: [
-                { home: "Francia", hflag: "🇫🇷", score: "1-0", away: "Austria", aflag: "🇦🇹" },
-                { home: "Irlanda Norte", hflag: "🇬🇧", score: "2-2", away: "Austria", aflag: "🇦🇹" }
+                { home: "Francia", score: "1-0", away: "Austria" },
+                { home: "Irlanda Norte", score: "2-2", away: "Austria" }
               ]},
               { round: "Semifinales", matches: [
-                { home: "Italia", hflag: "🇮🇹", score: "2-0", away: "Polonia", aflag: "🇵🇱" },
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "3-3", away: "Francia", aflag: "🇫🇷" }
+                { home: "Italia", score: "2-0", away: "Polonia" },
+                { home: "Alemania Occ.", score: "3-3", away: "Francia" }
               ]},
               { round: "Final", matches: [
-                { home: "Italia", hflag: "🇮🇹", score: "3-1", away: "Alemania Occ.", aflag: "🇩🇪" }
+                { home: "Italia", score: "3-1", away: "Alemania Occ." }
               ]}
             ]
           },
           {
             year: 1986, host: "México", logo: "🇲🇽", ball: "Azteca",
-            song: "https://www.youtube.com/embed/un9I9S8f1G0",
-            songName: "El mundo unido por un balón — Canción Oficial 1986",
             champion: "Argentina", runner_up: "Alemania Occ.", third: "Francia",
-            flagChampion: "🇦🇷",
             color: "#006847",
             groups: [
               { name: "Grupo A", teams: [
-                { name: "Bulgaria", flag: "🇧🇬", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 4 },
-                { name: "Italia", flag: "🇮🇹", pts: 5, w: 1, d: 2, l: 0, gf: 5, ga: 4 },
-                { name: "Argentina", flag: "🇦🇷", pts: 6, w: 2, d: 1, l: 0, gf: 6, ga: 2 },
-                { name: "Corea del Sur", flag: "🇰🇷", pts: 1, w: 0, d: 1, l: 2, gf: 4, ga: 7 }
+                { name: "Bulgaria", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 4 },
+                { name: "Italia", pts: 5, w: 1, d: 2, l: 0, gf: 5, ga: 4 },
+                { name: "Argentina", pts: 6, w: 2, d: 1, l: 0, gf: 6, ga: 2 },
+                { name: "Corea del Sur", pts: 1, w: 0, d: 1, l: 2, gf: 4, ga: 7 }
               ]},
               { name: "Grupo B", teams: [
-                { name: "México", flag: "🇲🇽", pts: 6, w: 2, d: 1, l: 0, gf: 4, ga: 2 },
-                { name: "Paraguay", flag: "🇵🇾", pts: 5, w: 1, d: 2, l: 0, gf: 4, ga: 3 },
-                { name: "Bélgica", flag: "🇧🇪", pts: 3, w: 1, d: 0, l: 2, gf: 5, ga: 5 },
-                { name: "Irak", flag: "🇮🇶", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 4 }
+                { name: "México", pts: 6, w: 2, d: 1, l: 0, gf: 4, ga: 2 },
+                { name: "Paraguay", pts: 5, w: 1, d: 2, l: 0, gf: 4, ga: 3 },
+                { name: "Bélgica", pts: 3, w: 1, d: 0, l: 2, gf: 5, ga: 5 },
+                { name: "Irak", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 4 }
               ]},
               { name: "Grupo C", teams: [
-                { name: "URSS", flag: "🇷🇺", pts: 6, w: 2, d: 1, l: 0, gf: 9, ga: 2 },
-                { name: "Francia", flag: "🇫🇷", pts: 6, w: 2, d: 1, l: 0, gf: 5, ga: 1 },
-                { name: "Hungría", flag: "🇭🇺", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 9 },
-                { name: "Canadá", flag: "🇨🇦", pts: 0, w: 0, d: 0, l: 3, gf: 0, ga: 5 }
+                { name: "URSS", pts: 6, w: 2, d: 1, l: 0, gf: 9, ga: 2 },
+                { name: "Francia", pts: 6, w: 2, d: 1, l: 0, gf: 5, ga: 1 },
+                { name: "Hungría", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 9 },
+                { name: "Canadá", pts: 0, w: 0, d: 0, l: 3, gf: 0, ga: 5 }
               ]},
               { name: "Grupo D", teams: [
-                { name: "Brasil", flag: "🇧🇷", pts: 6, w: 3, d: 0, l: 0, gf: 5, ga: 0 },
-                { name: "España", flag: "🇪🇸", pts: 4, w: 1, d: 2, l: 0, gf: 5, ga: 2 },
-                { name: "Irlanda Norte", flag: "🇬🇧", pts: 2, w: 1, d: 0, l: 2, gf: 2, ga: 6 },
-                { name: "Algeria", flag: "🇩🇿", pts: 2, w: 0, d: 2, l: 1, gf: 1, ga: 5 }
+                { name: "Brasil", pts: 6, w: 3, d: 0, l: 0, gf: 5, ga: 0 },
+                { name: "España", pts: 4, w: 1, d: 2, l: 0, gf: 5, ga: 2 },
+                { name: "Irlanda Norte", pts: 2, w: 1, d: 0, l: 2, gf: 2, ga: 6 },
+                { name: "Algeria", pts: 2, w: 0, d: 2, l: 1, gf: 1, ga: 5 }
               ]},
               { name: "Grupo E", teams: [
-                { name: "Dinamarca", flag: "🇩🇰", pts: 6, w: 3, d: 0, l: 0, gf: 9, ga: 1 },
-                { name: "Alemania Occ.", flag: "🇩🇪", pts: 5, w: 1, d: 2, l: 0, gf: 3, ga: 4 },
-                { name: "Uruguay", flag: "🇺🇾", pts: 3, w: 1, d: 1, l: 1, gf: 2, ga: 7 },
-                { name: "Escocia", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 2, w: 0, d: 2, l: 1, gf: 1, ga: 3 }
+                { name: "Dinamarca", pts: 6, w: 3, d: 0, l: 0, gf: 9, ga: 1 },
+                { name: "Alemania Occ.", pts: 5, w: 1, d: 2, l: 0, gf: 3, ga: 4 },
+                { name: "Uruguay", pts: 3, w: 1, d: 1, l: 1, gf: 2, ga: 7 },
+                { name: "Escocia", pts: 2, w: 0, d: 2, l: 1, gf: 1, ga: 3 }
               ]},
               { name: "Grupo F", teams: [
-                { name: "Marruecos", flag: "🇲🇦", pts: 6, w: 2, d: 1, l: 0, gf: 3, ga: 1 },
-                { name: "Inglaterra", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 5, w: 2, d: 0, l: 1, gf: 3, ga: 1 },
-                { name: "Polonia", flag: "🇵🇱", pts: 3, w: 1, d: 0, l: 2, gf: 1, ga: 3 },
-                { name: "Portugal", flag: "🇵🇹", pts: 2, w: 1, d: 0, l: 2, gf: 2, ga: 4 }
+                { name: "Marruecos", pts: 6, w: 2, d: 1, l: 0, gf: 3, ga: 1 },
+                { name: "Inglaterra", pts: 5, w: 2, d: 0, l: 1, gf: 3, ga: 1 },
+                { name: "Polonia", pts: 3, w: 1, d: 0, l: 2, gf: 1, ga: 3 },
+                { name: "Portugal", pts: 2, w: 1, d: 0, l: 2, gf: 2, ga: 4 }
               ]}
             ],
             knockout: [
               { round: "Octavos de Final", matches: [
-                { home: "México", hflag: "🇲🇽", score: "2-0", away: "Bulgaria", aflag: "🇧🇬" },
-                { home: "Bélgica", hflag: "🇧🇪", score: "4-3", away: "URSS", aflag: "🇷🇺" },
-                { home: "Brasil", hflag: "🇧🇷", score: "4-0", away: "Polonia", aflag: "🇵🇱" },
-                { home: "Argentina", hflag: "🇦🇷", score: "1-0", away: "Uruguay", aflag: "🇺🇾" },
-                { home: "Francia", hflag: "🇫🇷", score: "2-0", away: "Italia", aflag: "🇮🇹" },
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "1-0", away: "Marruecos", aflag: "🇲🇦" },
-                { home: "España", hflag: "🇪🇸", score: "5-1", away: "Dinamarca", aflag: "🇩🇰" },
-                { home: "Inglaterra", hflag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", score: "3-0", away: "Paraguay", aflag: "🇵🇾" }
+                { home: "México", score: "2-0", away: "Bulgaria" },
+                { home: "Bélgica", score: "4-3", away: "URSS" },
+                { home: "Brasil", score: "4-0", away: "Polonia" },
+                { home: "Argentina", score: "1-0", away: "Uruguay" },
+                { home: "Francia", score: "2-0", away: "Italia" },
+                { home: "Alemania Occ.", score: "1-0", away: "Marruecos" },
+                { home: "España", score: "5-1", away: "Dinamarca" },
+                { home: "Inglaterra", score: "3-0", away: "Paraguay" }
               ]},
               { round: "Cuartos de Final", matches: [
-                { home: "Francia", hflag: "🇫🇷", score: "1-1", away: "Brasil", aflag: "🇧🇷" },
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "0-0", away: "México", aflag: "🇲🇽" },
-                { home: "Argentina", hflag: "🇦🇷", score: "2-1", away: "Inglaterra", aflag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d" },
-                { home: "Bélgica", hflag: "🇧🇪", score: "1-1", away: "España", aflag: "🇪🇸" }
+                { home: "Francia", score: "1-1", away: "Brasil" },
+                { home: "Alemania Occ.", score: "0-0", away: "México" },
+                { home: "Argentina", score: "2-1", away: "Inglaterra" },
+                { home: "Bélgica", score: "1-1", away: "España" }
               ]},
               { round: "Semifinales", matches: [
-                { home: "Argentina", hflag: "🇦🇷", score: "2-0", away: "Bélgica", aflag: "🇧🇪" },
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "2-0", away: "Francia", aflag: "🇫🇷" }
+                { home: "Argentina", score: "2-0", away: "Bélgica" },
+                { home: "Alemania Occ.", score: "2-0", away: "Francia" }
               ]},
               { round: "Final", matches: [
-                { home: "Argentina", hflag: "🇦🇷", score: "3-2", away: "Alemania Occ.", aflag: "🇩🇪" }
+                { home: "Argentina", score: "3-2", away: "Alemania Occ." }
               ]}
             ]
           },
           {
             year: 1990, host: "Italia", logo: "🇮🇹", ball: "Etrusco Unico",
-            song: "https://www.youtube.com/embed/dTbMwJMqilI",
-            songName: "Un'Estate Italiana — Gianna Nannini & Edoardo Bennato",
             champion: "Alemania Occ.", runner_up: "Argentina", third: "Italia",
-            flagChampion: "🇩🇪",
             color: "#008c45",
             groups: [
               { name: "Grupo A", teams: [
-                { name: "Italia", flag: "🇮🇹", pts: 6, w: 3, d: 0, l: 0, gf: 4, ga: 0 },
-                { name: "Checoslovaquia", flag: "🇨🇿", pts: 4, w: 2, d: 0, l: 1, gf: 6, ga: 3 },
-                { name: "Austria", flag: "🇦🇹", pts: 2, w: 1, d: 0, l: 2, gf: 2, ga: 3 },
-                { name: "USA", flag: "🇺🇸", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 8 }
+                { name: "Italia", pts: 6, w: 3, d: 0, l: 0, gf: 4, ga: 0 },
+                { name: "Checoslovaquia", pts: 4, w: 2, d: 0, l: 1, gf: 6, ga: 3 },
+                { name: "Austria", pts: 2, w: 1, d: 0, l: 2, gf: 2, ga: 3 },
+                { name: "USA", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 8 }
               ]},
               { name: "Grupo B", teams: [
-                { name: "Camerún", flag: "🇨🇲", pts: 4, w: 2, d: 0, l: 1, gf: 3, ga: 5 },
-                { name: "Rumania", flag: "🇷🇴", pts: 3, w: 1, d: 1, l: 1, gf: 4, ga: 3 },
-                { name: "Argentina", flag: "🇦🇷", pts: 3, w: 1, d: 1, l: 1, gf: 3, ga: 2 },
-                { name: "URSS", flag: "🇷🇺", pts: 2, w: 1, d: 0, l: 2, gf: 4, ga: 4 }
+                { name: "Camerún", pts: 4, w: 2, d: 0, l: 1, gf: 3, ga: 5 },
+                { name: "Rumania", pts: 3, w: 1, d: 1, l: 1, gf: 4, ga: 3 },
+                { name: "Argentina", pts: 3, w: 1, d: 1, l: 1, gf: 3, ga: 2 },
+                { name: "URSS", pts: 2, w: 1, d: 0, l: 2, gf: 4, ga: 4 }
               ]},
               { name: "Grupo C", teams: [
-                { name: "Brasil", flag: "🇧🇷", pts: 6, w: 3, d: 0, l: 0, gf: 4, ga: 1 },
-                { name: "Costa Rica", flag: "🇨🇷", pts: 4, w: 2, d: 0, l: 1, gf: 3, ga: 2 },
-                { name: "Escocia", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 2, w: 1, d: 0, l: 2, gf: 2, ga: 3 },
-                { name: "Suecia", flag: "🇸🇪", pts: 0, w: 0, d: 0, l: 3, gf: 3, ga: 6 }
+                { name: "Brasil", pts: 6, w: 3, d: 0, l: 0, gf: 4, ga: 1 },
+                { name: "Costa Rica", pts: 4, w: 2, d: 0, l: 1, gf: 3, ga: 2 },
+                { name: "Escocia", pts: 2, w: 1, d: 0, l: 2, gf: 2, ga: 3 },
+                { name: "Suecia", pts: 0, w: 0, d: 0, l: 3, gf: 3, ga: 6 }
               ]},
               { name: "Grupo D", teams: [
-                { name: "Alemania Occ.", flag: "🇩🇪", pts: 6, w: 2, d: 1, l: 0, gf: 10, ga: 3 },
-                { name: "Yugoslavia", flag: "🇾🇺", pts: 5, w: 2, d: 1, l: 0, gf: 6, ga: 2 },
-                { name: "Colombia", flag: "🇨🇴", pts: 3, w: 1, d: 1, l: 1, gf: 3, ga: 2 },
-                { name: "Emiratos", flag: "🇦🇪", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 11 }
+                { name: "Alemania Occ.", pts: 6, w: 2, d: 1, l: 0, gf: 10, ga: 3 },
+                { name: "Yugoslavia", pts: 5, w: 2, d: 1, l: 0, gf: 6, ga: 2 },
+                { name: "Colombia", pts: 3, w: 1, d: 1, l: 1, gf: 3, ga: 2 },
+                { name: "Emiratos", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 11 }
               ]},
               { name: "Grupo E", teams: [
-                { name: "España", flag: "🇪🇸", pts: 6, w: 2, d: 1, l: 0, gf: 5, ga: 2 },
-                { name: "Bélgica", flag: "🇧🇪", pts: 5, w: 2, d: 1, l: 0, gf: 6, ga: 3 },
-                { name: "Uruguay", flag: "🇺🇾", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 3 },
-                { name: "Corea del Sur", flag: "🇰🇷", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 6 }
+                { name: "España", pts: 6, w: 2, d: 1, l: 0, gf: 5, ga: 2 },
+                { name: "Bélgica", pts: 5, w: 2, d: 1, l: 0, gf: 6, ga: 3 },
+                { name: "Uruguay", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 3 },
+                { name: "Corea del Sur", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 6 }
               ]},
               { name: "Grupo F", teams: [
-                { name: "Inglaterra", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 4, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
-                { name: "Irlanda", flag: "🇮🇪", pts: 4, w: 0, d: 4, l: 0, gf: 2, ga: 2 },
-                { name: "Holanda", flag: "🇳🇱", pts: 4, w: 0, d: 4, l: 0, gf: 2, ga: 2 },
-                { name: "Egipto", flag: "🇪🇬", pts: 4, w: 0, d: 4, l: 0, gf: 1, ga: 1 }
+                { name: "Inglaterra", pts: 4, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
+                { name: "Irlanda", pts: 4, w: 0, d: 4, l: 0, gf: 2, ga: 2 },
+                { name: "Holanda", pts: 4, w: 0, d: 4, l: 0, gf: 2, ga: 2 },
+                { name: "Egipto", pts: 4, w: 0, d: 4, l: 0, gf: 1, ga: 1 }
               ]}
             ],
             knockout: [
               { round: "Octavos de Final", matches: [
-                { home: "Camerún", hflag: "🇨🇲", score: "2-1", away: "Colombia", aflag: "🇨🇴" },
-                { home: "Checoslovaquia", hflag: "🇨🇿", score: "4-1", away: "Costa Rica", aflag: "🇨🇷" },
-                { home: "Argentina", hflag: "🇦🇷", score: "1-0", away: "Brasil", aflag: "🇧🇷" },
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "2-1", away: "Holanda", aflag: "🇳🇱" },
-                { home: "Irlanda", hflag: "🇮🇪", score: "0-0", away: "Rumania", aflag: "🇷🇴" },
-                { home: "Italia", hflag: "🇮🇹", score: "2-0", away: "Uruguay", aflag: "🇺🇾" },
-                { home: "Yugoslavia", hflag: "🇾🇺", score: "2-1", away: "España", aflag: "🇪🇸" },
-                { home: "Inglaterra", hflag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", score: "1-0", away: "Bélgica", aflag: "🇧🇪" }
+                { home: "Camerún", score: "2-1", away: "Colombia" },
+                { home: "Checoslovaquia", score: "4-1", away: "Costa Rica" },
+                { home: "Argentina", score: "1-0", away: "Brasil" },
+                { home: "Alemania Occ.", score: "2-1", away: "Holanda" },
+                { home: "Irlanda", score: "0-0 (pen)", away: "Rumania" },
+                { home: "Italia", score: "2-0", away: "Uruguay" },
+                { home: "Yugoslavia", score: "2-1", away: "España" },
+                { home: "Inglaterra", score: "1-0", away: "Bélgica" }
               ]},
               { round: "Cuartos de Final", matches: [
-                { home: "Argentina", hflag: "🇦🇷", score: "0-0", away: "Yugoslavia", aflag: "🇺🇦" },
-                { home: "Italia", hflag: "🇮🇹", score: "1-0", away: "Irlanda", aflag: "🇮🇪" },
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "1-0", away: "Checoslovaquia", aflag: "🇨🇿" },
-                { home: "Inglaterra", hflag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", score: "3-2", away: "Camerún", aflag: "🇨🇲" }
+                { home: "Argentina", score: "0-0 (pen)", away: "Yugoslavia" },
+                { home: "Italia", score: "1-0", away: "Irlanda" },
+                { home: "Alemania Occ.", score: "1-0", away: "Checoslovaquia" },
+                { home: "Inglaterra", score: "3-2", away: "Camerún" }
               ]},
               { round: "Semifinales", matches: [
-                { home: "Argentina", hflag: "🇦🇷", score: "1-1", away: "Italia", aflag: "🇮🇹" },
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "1-1", away: "Inglaterra", aflag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d" }
+                { home: "Argentina", score: "1-1 (4-3 pen)", away: "Italia" },
+                { home: "Alemania Occ.", score: "1-1 (4-3 pen)", away: "Inglaterra" }
               ]},
               { round: "Final", matches: [
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "1-0", away: "Argentina", aflag: "🇦🇷" }
+                { home: "Alemania Occ.", score: "1-0", away: "Argentina" }
               ]}
             ]
           },
           {
             year: 1994, host: "USA", logo: "🇺🇸", ball: "Questra",
-            song: "https://www.youtube.com/embed/YoHD9XEInc0",
-            songName: "Gloryland — Daryl Hall & Sounds of Blackness",
             champion: "Brasil", runner_up: "Italia", third: "Suecia",
-            flagChampion: "🇧🇷",
             color: "#bf0a30",
             groups: [
               { name: "Grupo A", teams: [
-                { name: "Rumania", flag: "🇷🇴", pts: 6, w: 2, d: 1, l: 0, gf: 5, ga: 5 },
-                { name: "Suiza", flag: "🇨🇭", pts: 5, w: 1, d: 2, l: 0, gf: 5, ga: 4 },
-                { name: "USA", flag: "🇺🇸", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 3 },
-                { name: "Colombia", flag: "🇨🇴", pts: 1, w: 0, d: 1, l: 2, gf: 4, ga: 5 }
+                { name: "Rumania", pts: 6, w: 2, d: 1, l: 0, gf: 5, ga: 5 },
+                { name: "Suiza", pts: 5, w: 1, d: 2, l: 0, gf: 5, ga: 4 },
+                { name: "USA", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 3 },
+                { name: "Colombia", pts: 1, w: 0, d: 1, l: 2, gf: 4, ga: 5 }
               ]},
               { name: "Grupo B", teams: [
-                { name: "Brasil", flag: "🇧🇷", pts: 7, w: 2, d: 1, l: 0, gf: 6, ga: 1 },
-                { name: "Suecia", flag: "🇸🇪", pts: 7, w: 2, d: 1, l: 0, gf: 6, ga: 4 },
-                { name: "Rusia", flag: "🇷🇺", pts: 3, w: 1, d: 0, l: 2, gf: 7, ga: 6 },
-                { name: "Camerún", flag: "🇨🇲", pts: 1, w: 0, d: 1, l: 2, gf: 3, ga: 11 }
+                { name: "Brasil", pts: 7, w: 2, d: 1, l: 0, gf: 6, ga: 1 },
+                { name: "Suecia", pts: 7, w: 2, d: 1, l: 0, gf: 6, ga: 4 },
+                { name: "Rusia", pts: 3, w: 1, d: 0, l: 2, gf: 7, ga: 6 },
+                { name: "Camerún", pts: 1, w: 0, d: 1, l: 2, gf: 3, ga: 11 }
               ]},
               { name: "Grupo C", teams: [
-                { name: "Alemania", flag: "🇩🇪", pts: 7, w: 2, d: 1, l: 0, gf: 5, ga: 3 },
-                { name: "España", flag: "🇪🇸", pts: 7, w: 2, d: 1, l: 0, gf: 6, ga: 4 },
-                { name: "Corea del Sur", flag: "🇰🇷", pts: 2, w: 0, d: 2, l: 1, gf: 4, ga: 5 },
-                { name: "Bolivia", flag: "🇧🇴", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 4 }
+                { name: "Alemania", pts: 7, w: 2, d: 1, l: 0, gf: 5, ga: 3 },
+                { name: "España", pts: 7, w: 2, d: 1, l: 0, gf: 6, ga: 4 },
+                { name: "Corea del Sur", pts: 2, w: 0, d: 2, l: 1, gf: 4, ga: 5 },
+                { name: "Bolivia", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 4 }
               ]},
               { name: "Grupo D", teams: [
-                { name: "Nigeria", flag: "🇳🇬", pts: 7, w: 2, d: 1, l: 0, gf: 6, ga: 2 },
-                { name: "Bulgaria", flag: "🇧🇬", pts: 4, w: 2, d: 0, l: 1, gf: 6, ga: 3 },
-                { name: "Argentina", flag: "🇦🇷", pts: 4, w: 2, d: 0, l: 1, gf: 6, ga: 3 },
-                { name: "Grecia", flag: "🇬🇷", pts: 0, w: 0, d: 0, l: 3, gf: 0, ga: 10 }
+                { name: "Nigeria", pts: 7, w: 2, d: 1, l: 0, gf: 6, ga: 2 },
+                { name: "Bulgaria", pts: 4, w: 2, d: 0, l: 1, gf: 6, ga: 3 },
+                { name: "Argentina", pts: 4, w: 2, d: 0, l: 1, gf: 6, ga: 3 },
+                { name: "Grecia", pts: 0, w: 0, d: 0, l: 3, gf: 0, ga: 10 }
               ]},
               { name: "Grupo E", teams: [
-                { name: "Italia", flag: "🇮🇹", pts: 7, w: 2, d: 1, l: 0, gf: 7, ga: 1 },
-                { name: "México", flag: "🇲🇽", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 3 },
-                { name: "Irlanda", flag: "🇮🇪", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 2 },
-                { name: "Noruega", flag: "🇳🇴", pts: 4, w: 1, d: 1, l: 1, gf: 1, ga: 1 }
+                { name: "Italia", pts: 7, w: 2, d: 1, l: 0, gf: 7, ga: 1 },
+                { name: "México", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 3 },
+                { name: "Irlanda", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 2 },
+                { name: "Noruega", pts: 4, w: 1, d: 1, l: 1, gf: 1, ga: 1 }
               ]},
               { name: "Grupo F", teams: [
-                { name: "Holanda", flag: "🇳🇱", pts: 9, w: 3, d: 0, l: 0, gf: 4, ga: 3 },
-                { name: "Arabia Saudí", flag: "🇸🇦", pts: 4, w: 2, d: 0, l: 1, gf: 4, ga: 3 },
-                { name: "Bélgica", flag: "🇧🇪", pts: 4, w: 2, d: 0, l: 1, gf: 1, ga: 3 },
-                { name: "Marruecos", flag: "🇲🇦", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 2 }
+                { name: "Holanda", pts: 9, w: 3, d: 0, l: 0, gf: 4, ga: 3 },
+                { name: "Arabia Saudí", pts: 4, w: 2, d: 0, l: 1, gf: 4, ga: 3 },
+                { name: "Bélgica", pts: 4, w: 2, d: 0, l: 1, gf: 1, ga: 3 },
+                { name: "Marruecos", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 2 }
               ]}
             ],
             knockout: [
               { round: "Octavos de Final", matches: [
-                { home: "Alemania", hflag: "🇩🇪", score: "3-2", away: "Bélgica", aflag: "🇧🇪" },
-                { home: "España", hflag: "🇪🇸", score: "3-0", away: "Suiza", aflag: "🇨🇭" },
-                { home: "Arabia Saudí", hflag: "🇸🇦", score: "1-0", away: "Marruecos", aflag: "🇲🇦" },
-                { home: "Rumania", hflag: "🇷🇴", score: "3-2", away: "Argentina", aflag: "🇦🇷" },
-                { home: "Holanda", hflag: "🇳🇱", score: "2-0", away: "Irlanda", aflag: "🇮🇪" },
-                { home: "Brasil", hflag: "🇧🇷", score: "1-0", away: "USA", aflag: "🇺🇸" },
-                { home: "Nigeria", hflag: "🇳🇬", score: "2-1", away: "Italia", aflag: "🇮🇹" },
-                { home: "Bulgaria", hflag: "🇧🇬", score: "1-0", away: "México", aflag: "🇲🇽" }
+                { home: "Alemania", score: "3-2", away: "Bélgica" },
+                { home: "España", score: "3-0", away: "Suiza" },
+                { home: "Arabia Saudí", score: "1-0", away: "Marruecos" },
+                { home: "Rumania", score: "3-2", away: "Argentina" },
+                { home: "Holanda", score: "2-0", away: "Irlanda" },
+                { home: "Brasil", score: "1-0", away: "USA" },
+                { home: "Nigeria", score: "2-1", away: "Italia" },
+                { home: "Bulgaria", score: "1-0 (pen)", away: "México" }
               ]},
               { round: "Cuartos de Final", matches: [
-                { home: "Italia", hflag: "🇮🇹", score: "2-1", away: "España", aflag: "🇪🇸" },
-                { home: "Holanda", hflag: "🇳🇱", score: "2-0", away: "Brasil", aflag: "🇧🇷" },
-                { home: "Alemania", hflag: "🇩🇪", score: "1-1", away: "Bulgaria", aflag: "🇧🇬" },
-                { home: "Suecia", hflag: "🇸🇪", score: "2-2", away: "Rumania", aflag: "🇷🇴" }
+                { home: "Italia", score: "2-1", away: "España" },
+                { home: "Holanda", score: "2-3", away: "Brasil" },
+                { home: "Alemania", score: "1-2", away: "Bulgaria" },
+                { home: "Suecia", score: "2-2 (pen)", away: "Rumania" }
               ]},
               { round: "Semifinales", matches: [
-                { home: "Brasil", hflag: "🇧🇷", score: "1-0", away: "Suecia", aflag: "🇸🇪" },
-                { home: "Italia", hflag: "🇮🇹", score: "2-1", away: "Bulgaria", aflag: "🇧🇬" }
+                { home: "Brasil", score: "1-0", away: "Suecia" },
+                { home: "Italia", score: "2-1", away: "Bulgaria" }
               ]},
               { round: "Final", matches: [
-                { home: "Brasil", hflag: "🇧🇷", score: "0-0 (3-2 pen)", away: "Italia", aflag: "🇮🇹" }
+                { home: "Brasil", score: "0-0 (3-2 pen)", away: "Italia" }
               ]}
             ]
           },
           {
             year: 1998, host: "Francia", logo: "🇫🇷", ball: "Tricolore",
-            song: "https://www.youtube.com/embed/8BkYKwz_uN4",
-            songName: "La Copa de la Vida — Ricky Martin",
             champion: "Francia", runner_up: "Brasil", third: "Croacia",
-            flagChampion: "🇫🇷",
             color: "#002395",
             groups: [
               { name: "Grupo A", teams: [
-                { name: "Brasil", flag: "🇧🇷", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 3 },
-                { name: "Noruega", flag: "🇳🇴", pts: 5, w: 1, d: 2, l: 0, gf: 5, ga: 4 },
-                { name: "Marruecos", flag: "🇲🇦", pts: 4, w: 1, d: 1, l: 1, gf: 5, ga: 5 },
-                { name: "Escocia", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 6 }
+                { name: "Brasil", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 3 },
+                { name: "Noruega", pts: 5, w: 1, d: 2, l: 0, gf: 5, ga: 4 },
+                { name: "Marruecos", pts: 4, w: 1, d: 1, l: 1, gf: 5, ga: 5 },
+                { name: "Escocia", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 6 }
               ]},
               { name: "Grupo B", teams: [
-                { name: "Italia", flag: "🇮🇹", pts: 7, w: 2, d: 1, l: 0, gf: 7, ga: 3 },
-                { name: "Chile", flag: "🇨🇱", pts: 4, w: 0, d: 4, l: 0, gf: 4, ga: 4 },
-                { name: "Austria", flag: "🇦🇹", pts: 2, w: 0, d: 2, l: 1, gf: 3, ga: 4 },
-                { name: "Camerún", flag: "🇨🇲", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 5 }
+                { name: "Italia", pts: 7, w: 2, d: 1, l: 0, gf: 7, ga: 3 },
+                { name: "Chile", pts: 4, w: 0, d: 4, l: 0, gf: 4, ga: 4 },
+                { name: "Austria", pts: 2, w: 0, d: 2, l: 1, gf: 3, ga: 4 },
+                { name: "Camerún", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 5 }
               ]},
               { name: "Grupo C", teams: [
-                { name: "Francia", flag: "🇫🇷", pts: 9, w: 3, d: 0, l: 0, gf: 9, ga: 1 },
-                { name: "Dinamarca", flag: "🇩🇰", pts: 5, w: 1, d: 2, l: 0, gf: 3, ga: 3 },
-                { name: "Sudáfrica", flag: "🇿🇦", pts: 2, w: 0, d: 2, l: 1, gf: 3, ga: 6 },
-                { name: "Arabia Saudí", flag: "🇸🇦", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 7 }
+                { name: "Francia", pts: 9, w: 3, d: 0, l: 0, gf: 9, ga: 1 },
+                { name: "Dinamarca", pts: 5, w: 1, d: 2, l: 0, gf: 3, ga: 3 },
+                { name: "Sudáfrica", pts: 2, w: 0, d: 2, l: 1, gf: 3, ga: 6 },
+                { name: "Arabia Saudí", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 7 }
               ]},
               { name: "Grupo D", teams: [
-                { name: "Nigeria", flag: "🇳🇬", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 5 },
-                { name: "Paraguay", flag: "🇵🇾", pts: 5, w: 1, d: 2, l: 0, gf: 3, ga: 1 },
-                { name: "España", flag: "🇪🇸", pts: 4, w: 1, d: 1, l: 1, gf: 8, ga: 4 },
-                { name: "Bulgaria", flag: "🇧🇬", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 7 }
+                { name: "Nigeria", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 5 },
+                { name: "Paraguay", pts: 5, w: 1, d: 2, l: 0, gf: 3, ga: 1 },
+                { name: "España", pts: 4, w: 1, d: 1, l: 1, gf: 8, ga: 4 },
+                { name: "Bulgaria", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 7 }
               ]},
               { name: "Grupo E", teams: [
-                { name: "Holanda", flag: "🇳🇱", pts: 9, w: 3, d: 0, l: 0, gf: 7, ga: 2 },
-                { name: "México", flag: "🇲🇽", pts: 6, w: 2, d: 0, l: 1, gf: 7, ga: 5 },
-                { name: "Bélgica", flag: "🇧🇪", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 3 },
-                { name: "Corea del Sur", flag: "🇰🇷", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 9 }
+                { name: "Holanda", pts: 9, w: 3, d: 0, l: 0, gf: 7, ga: 2 },
+                { name: "México", pts: 6, w: 2, d: 0, l: 1, gf: 7, ga: 5 },
+                { name: "Bélgica", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 3 },
+                { name: "Corea del Sur", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 9 }
               ]},
               { name: "Grupo F", teams: [
-                { name: "Alemania", flag: "🇩🇪", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 2 },
-                { name: "Yugoslavia", flag: "🇾🇺", pts: 6, w: 2, d: 0, l: 1, gf: 4, ga: 2 },
-                { name: "Irán", flag: "🇮🇷", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 4 },
-                { name: "USA", flag: "🇺🇸", pts: 3, w: 1, d: 0, l: 2, gf: 1, ga: 5 }
+                { name: "Alemania", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 2 },
+                { name: "Yugoslavia", pts: 6, w: 2, d: 0, l: 1, gf: 4, ga: 2 },
+                { name: "Irán", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 4 },
+                { name: "USA", pts: 3, w: 1, d: 0, l: 2, gf: 1, ga: 5 }
               ]},
               { name: "Grupo G", teams: [
-                { name: "Rumania", flag: "🇷🇴", pts: 7, w: 2, d: 1, l: 0, gf: 4, ga: 2 },
-                { name: "Inglaterra", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 2 },
-                { name: "Colombia", flag: "🇨🇴", pts: 3, w: 1, d: 0, l: 2, gf: 1, ga: 3 },
-                { name: "Túnez", flag: "🇹🇳", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 4 }
+                { name: "Rumania", pts: 7, w: 2, d: 1, l: 0, gf: 4, ga: 2 },
+                { name: "Inglaterra", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 2 },
+                { name: "Colombia", pts: 3, w: 1, d: 0, l: 2, gf: 1, ga: 3 },
+                { name: "Túnez", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 4 }
               ]},
               { name: "Grupo H", teams: [
-                { name: "Argentina", flag: "🇦🇷", pts: 9, w: 3, d: 0, l: 0, gf: 10, ga: 1 },
-                { name: "Croacia", flag: "🇭🇷", pts: 7, w: 2, d: 1, l: 0, gf: 4, ga: 2 },
-                { name: "Jamaica", flag: "🇯🇲", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 9 },
-                { name: "Japón", flag: "🇯🇵", pts: 0, w: 0, d: 0, l: 3, gf: 1, ga: 5 }
+                { name: "Argentina", pts: 9, w: 3, d: 0, l: 0, gf: 10, ga: 1 },
+                { name: "Croacia", pts: 7, w: 2, d: 1, l: 0, gf: 4, ga: 2 },
+                { name: "Jamaica", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 9 },
+                { name: "Japón", pts: 0, w: 0, d: 0, l: 3, gf: 1, ga: 5 }
               ]}
             ],
             knockout: [
               { round: "Octavos de Final", matches: [
-                { home: "Brasil", hflag: "🇧🇷", score: "4-1", away: "Chile", aflag: "🇨🇱" },
-                { home: "Italia", hflag: "🇮🇹", score: "1-0", away: "Noruega", aflag: "🇳🇴" },
-                { home: "Francia", hflag: "🇫🇷", score: "1-0", away: "Paraguay", aflag: "🇵🇾" },
-                { home: "Alemania", hflag: "🇩🇪", score: "2-1", away: "México", aflag: "🇲🇽" },
-                { home: "Holanda", hflag: "🇳🇱", score: "2-1", away: "Yugoslavia", aflag: "🇺🇦" },
-                { home: "Argentina", hflag: "🇦🇷", score: "2-2", away: "Inglaterra", aflag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d" },
-                { home: "Croacia", hflag: "🇭🇷", score: "1-0", away: "Rumania", aflag: "🇷🇴" },
-                { home: "Dinamarca", hflag: "🇩🇰", score: "4-1", away: "Nigeria", aflag: "🇳🇬" }
+                { home: "Brasil", score: "4-1", away: "Chile" },
+                { home: "Italia", score: "1-0", away: "Noruega" },
+                { home: "Francia", score: "1-0", away: "Paraguay" },
+                { home: "Alemania", score: "2-1", away: "México" },
+                { home: "Holanda", score: "2-1", away: "Yugoslavia" },
+                { home: "Argentina", score: "2-2 (pen)", away: "Inglaterra" },
+                { home: "Croacia", score: "1-0", away: "Rumania" },
+                { home: "Dinamarca", score: "4-1", away: "Nigeria" }
               ]},
               { round: "Cuartos de Final", matches: [
-                { home: "Francia", hflag: "🇫🇷", score: "0-0", away: "Italia", aflag: "🇮🇹" },
-                { home: "Brasil", hflag: "🇧🇷", score: "3-2", away: "Dinamarca", aflag: "🇩🇰" },
-                { home: "Holanda", hflag: "🇳🇱", score: "2-1", away: "Argentina", aflag: "🇦🇷" },
-                { home: "Croacia", hflag: "🇭🇷", score: "3-0", away: "Alemania", aflag: "🇩🇪" }
+                { home: "Francia", score: "0-0 (pen)", away: "Italia" },
+                { home: "Brasil", score: "3-2", away: "Dinamarca" },
+                { home: "Holanda", score: "2-1", away: "Argentina" },
+                { home: "Croacia", score: "3-0", away: "Alemania" }
               ]},
               { round: "Semifinales", matches: [
-                { home: "Brasil", hflag: "🇧🇷", score: "1-1", away: "Holanda", aflag: "🇳🇱" },
-                { home: "Francia", hflag: "🇫🇷", score: "2-1", away: "Croacia", aflag: "🇭🇷" }
+                { home: "Brasil", score: "1-1 (pen)", away: "Holanda" },
+                { home: "Francia", score: "2-1", away: "Croacia" }
               ]},
               { round: "Final", matches: [
-                { home: "Francia", hflag: "🇫🇷", score: "3-0", away: "Brasil", aflag: "🇧🇷" }
+                { home: "Francia", score: "3-0", away: "Brasil" }
+              ]}
+            ]
+          },
+          {
+            year: 2002, host: "Corea/Japón", logo: "🇰🇷🇯🇵", ball: "Fevernova",
+            champion: "Brasil", runner_up: "Alemania", third: "Turquía",
+            color: "#ce1126",
+            groups: [
+              { name: "Grupo A", teams: [
+                { name: "Dinamarca", pts: 7, w: 2, d: 1, l: 0, gf: 5, ga: 2 },
+                { name: "Senegal", pts: 7, w: 2, d: 1, l: 0, gf: 5, ga: 4 },
+                { name: "Uruguay", pts: 4, w: 0, d: 4, l: 0, gf: 4, ga: 5 },
+                { name: "Francia", pts: 1, w: 0, d: 1, l: 2, gf: 0, ga: 3 }
+              ]},
+              { name: "Grupo B", teams: [
+                { name: "España", pts: 9, w: 3, d: 0, l: 0, gf: 9, ga: 4 },
+                { name: "Paraguay", pts: 4, w: 1, d: 1, l: 1, gf: 6, ga: 6 },
+                { name: "Sudáfrica", pts: 4, w: 1, d: 1, l: 1, gf: 5, ga: 5 },
+                { name: "Eslovenia", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 7 }
+              ]},
+              { name: "Grupo C", teams: [
+                { name: "Brasil", pts: 9, w: 3, d: 0, l: 0, gf: 11, ga: 3 },
+                { name: "Turquía", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 3 },
+                { name: "Costa Rica", pts: 4, w: 1, d: 1, l: 1, gf: 5, ga: 6 },
+                { name: "China", pts: 0, w: 0, d: 0, l: 3, gf: 0, ga: 9 }
+              ]},
+              { name: "Grupo D", teams: [
+                { name: "Corea del Sur", pts: 7, w: 2, d: 1, l: 0, gf: 4, ga: 1 },
+                { name: "USA", pts: 7, w: 2, d: 1, l: 0, gf: 5, ga: 6 },
+                { name: "Portugal", pts: 3, w: 1, d: 0, l: 2, gf: 6, ga: 4 },
+                { name: "Polonia", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 7 }
+              ]},
+              { name: "Grupo E", teams: [
+                { name: "Alemania", pts: 7, w: 2, d: 1, l: 0, gf: 11, ga: 1 },
+                { name: "Irlanda", pts: 5, w: 1, d: 2, l: 0, gf: 5, ga: 2 },
+                { name: "Camerún", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 3 },
+                { name: "Arabia Saudí", pts: 0, w: 0, d: 0, l: 3, gf: 0, ga: 12 }
+              ]},
+              { name: "Grupo F", teams: [
+                { name: "Suecia", pts: 7, w: 2, d: 1, l: 0, gf: 6, ga: 1 },
+                { name: "Inglaterra", pts: 7, w: 2, d: 1, l: 0, gf: 5, ga: 1 },
+                { name: "Argentina", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 2 },
+                { name: "Nigeria", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 9 }
+              ]},
+              { name: "Grupo G", teams: [
+                { name: "México", pts: 7, w: 2, d: 1, l: 0, gf: 4, ga: 2 },
+                { name: "Italia", pts: 7, w: 2, d: 1, l: 0, gf: 4, ga: 3 },
+                { name: "Croacia", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 3 },
+                { name: "Ecuador", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 4 }
+              ]},
+              { name: "Grupo H", teams: [
+                { name: "Japón", pts: 7, w: 2, d: 1, l: 0, gf: 5, ga: 2 },
+                { name: "Bélgica", pts: 5, w: 1, d: 2, l: 0, gf: 6, ga: 5 },
+                { name: "Rusia", pts: 3, w: 1, d: 0, l: 2, gf: 4, ga: 4 },
+                { name: "Túnez", pts: 3, w: 1, d: 0, l: 2, gf: 1, ga: 5 }
+              ]}
+            ],
+            knockout: [
+              { round: "Octavos de Final", matches: [
+                { home: "Alemania", score: "1-0", away: "Paraguay" },
+                { home: "España", score: "1-1 (pen)", away: "Irlanda" },
+                { home: "Suecia", score: "1-2", away: "Senegal" },
+                { home: "Dinamarca", score: "0-3", away: "Inglaterra" },
+                { home: "México", score: "0-2", away: "USA" },
+                { home: "Brasil", score: "2-0", away: "Bélgica" },
+                { home: "Japón", score: "0-1", away: "Turquía" },
+                { home: "Corea del Sur", score: "2-1", away: "Italia" }
+              ]},
+              { round: "Cuartos de Final", matches: [
+                { home: "Alemania", score: "1-0", away: "USA" },
+                { home: "Corea del Sur", score: "0-0 (pen)", away: "España" },
+                { home: "Inglaterra", score: "1-2", away: "Brasil" },
+                { home: "Senegal", score: "0-1", away: "Turquía" }
+              ]},
+              { round: "Semifinales", matches: [
+                { home: "Alemania", score: "1-0", away: "Corea del Sur" },
+                { home: "Brasil", score: "1-0", away: "Turquía" }
+              ]},
+              { round: "Final", matches: [
+                { home: "Brasil", score: "2-0", away: "Alemania" }
+              ]}
+            ]
+          },
+          {
+            year: 2006, host: "Alemania", logo: "🇩🇪", ball: "Teamgeist",
+            champion: "Italia", runner_up: "Francia", third: "Alemania",
+            color: "#000000",
+            groups: [
+              { name: "Grupo A", teams: [
+                { name: "Alemania", pts: 9, w: 3, d: 0, l: 0, gf: 8, ga: 2 },
+                { name: "Ecuador", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 3 },
+                { name: "Polonia", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 4 },
+                { name: "Costa Rica", pts: 0, w: 0, d: 0, l: 3, gf: 3, ga: 9 }
+              ]},
+              { name: "Grupo B", teams: [
+                { name: "Inglaterra", pts: 7, w: 2, d: 1, l: 0, gf: 5, ga: 2 },
+                { name: "Suecia", pts: 5, w: 1, d: 2, l: 0, gf: 3, ga: 2 },
+                { name: "Paraguay", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 2 },
+                { name: "Trinidad", pts: 2, w: 0, d: 2, l: 1, gf: 0, ga: 4 }
+              ]},
+              { name: "Grupo C", teams: [
+                { name: "Argentina", pts: 9, w: 3, d: 0, l: 0, gf: 8, ga: 1 },
+                { name: "Holanda", pts: 7, w: 2, d: 1, l: 0, gf: 3, ga: 1 },
+                { name: "Costa Marfil", pts: 3, w: 1, d: 0, l: 2, gf: 5, ga: 6 },
+                { name: "Serbia-Mont.", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 10 }
+              ]},
+              { name: "Grupo D", teams: [
+                { name: "Portugal", pts: 9, w: 3, d: 0, l: 0, gf: 6, ga: 1 },
+                { name: "México", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 3 },
+                { name: "Angola", pts: 4, w: 1, d: 1, l: 1, gf: 1, ga: 2 },
+                { name: "Irán", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 6 }
+              ]},
+              { name: "Grupo E", teams: [
+                { name: "Italia", pts: 7, w: 2, d: 1, l: 0, gf: 5, ga: 1 },
+                { name: "Ghana", pts: 6, w: 2, d: 0, l: 1, gf: 4, ga: 3 },
+                { name: "Czech Rep.", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 4 },
+                { name: "USA", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 6 }
+              ]},
+              { name: "Grupo F", teams: [
+                { name: "Brasil", pts: 9, w: 3, d: 0, l: 0, gf: 7, ga: 1 },
+                { name: "Australia", pts: 4, w: 1, d: 1, l: 1, gf: 5, ga: 5 },
+                { name: "Croacia", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 3 },
+                { name: "Japón", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 7 }
+              ]},
+              { name: "Grupo G", teams: [
+                { name: "Suiza", pts: 7, w: 2, d: 1, l: 0, gf: 4, ga: 0 },
+                { name: "Francia", pts: 5, w: 1, d: 2, l: 0, gf: 3, ga: 1 },
+                { name: "Corea del Sur", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 4 },
+                { name: "Togo", pts: 0, w: 0, d: 0, l: 3, gf: 1, ga: 6 }
+              ]},
+              { name: "Grupo H", teams: [
+                { name: "España", pts: 9, w: 3, d: 0, l: 0, gf: 8, ga: 1 },
+                { name: "Ucrania", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 4 },
+                { name: "Túnez", pts: 1, w: 0, d: 1, l: 2, gf: 3, ga: 6 },
+                { name: "Arabia Saudí", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 7 }
+              ]}
+            ],
+            knockout: [
+              { round: "Octavos de Final", matches: [
+                { home: "Alemania", score: "2-0", away: "Suecia" },
+                { home: "Argentina", score: "2-1", away: "México" },
+                { home: "Inglaterra", score: "1-0", away: "Ecuador" },
+                { home: "Portugal", score: "1-0", away: "Holanda" },
+                { home: "Italia", score: "1-0", away: "Australia" },
+                { home: "Suiza", score: "0-0 (pen)", away: "Ucrania" },
+                { home: "Brasil", score: "3-0", away: "Ghana" },
+                { home: "Francia", score: "3-1", away: "España" }
+              ]},
+              { round: "Cuartos de Final", matches: [
+                { home: "Alemania", score: "1-1 (pen)", away: "Argentina" },
+                { home: "Italia", score: "3-0", away: "Ucrania" },
+                { home: "Inglaterra", score: "0-0 (pen)", away: "Portugal" },
+                { home: "Brasil", score: "0-1", away: "Francia" }
+              ]},
+              { round: "Semifinales", matches: [
+                { home: "Alemania", score: "0-2", away: "Italia" },
+                { home: "Portugal", score: "0-1", away: "Francia" }
+              ]},
+              { round: "Final", matches: [
+                { home: "Italia", score: "1-1 (5-3 pen)", away: "Francia" }
               ]}
             ]
           },
           {
             year: 2010, host: "Sudáfrica", logo: "🇿🇦", ball: "Jabulani",
-            song: "https://www.youtube.com/embed/pRpeEdMmmQ0",
-            songName: "Waka Waka (This Time for Africa) — Shakira",
             champion: "España", runner_up: "Holanda", third: "Alemania",
-            flagChampion: "🇪🇸",
             color: "#007a4d",
             groups: [
               { name: "Grupo A", teams: [
-                { name: "Uruguay", flag: "🇺🇾", pts: 7, w: 2, d: 1, l: 0, gf: 4, ga: 0 },
-                { name: "México", flag: "🇲🇽", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 2 },
-                { name: "Sudáfrica", flag: "🇿🇦", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 5 },
-                { name: "Francia", flag: "🇫🇷", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 4 }
+                { name: "Uruguay", pts: 7, w: 2, d: 1, l: 0, gf: 4, ga: 0 },
+                { name: "México", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 2 },
+                { name: "Sudáfrica", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 5 },
+                { name: "Francia", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 4 }
               ]},
               { name: "Grupo B", teams: [
-                { name: "Argentina", flag: "🇦🇷", pts: 9, w: 3, d: 0, l: 0, gf: 7, ga: 1 },
-                { name: "Corea del Sur", flag: "🇰🇷", pts: 4, w: 1, d: 1, l: 1, gf: 5, ga: 6 },
-                { name: "Grecia", flag: "🇬🇷", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 5 },
-                { name: "Nigeria", flag: "🇳🇬", pts: 2, w: 0, d: 2, l: 1, gf: 3, ga: 5 }
+                { name: "Argentina", pts: 9, w: 3, d: 0, l: 0, gf: 7, ga: 1 },
+                { name: "Corea del Sur", pts: 4, w: 1, d: 1, l: 1, gf: 5, ga: 6 },
+                { name: "Grecia", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 5 },
+                { name: "Nigeria", pts: 2, w: 0, d: 2, l: 1, gf: 3, ga: 5 }
               ]},
               { name: "Grupo C", teams: [
-                { name: "Inglaterra", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 5, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
-                { name: "USA", flag: "🇺🇸", pts: 5, w: 1, d: 2, l: 0, gf: 4, ga: 3 },
-                { name: "Eslovenia", flag: "🇸🇮", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 3 },
-                { name: "Algeria", flag: "🇩🇿", pts: 2, w: 0, d: 2, l: 1, gf: 0, ga: 2 }
+                { name: "Inglaterra", pts: 5, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
+                { name: "USA", pts: 5, w: 1, d: 2, l: 0, gf: 4, ga: 3 },
+                { name: "Eslovenia", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 3 },
+                { name: "Algeria", pts: 2, w: 0, d: 2, l: 1, gf: 0, ga: 2 }
               ]},
               { name: "Grupo D", teams: [
-                { name: "Alemania", flag: "🇩🇪", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 1 },
-                { name: "Ghana", flag: "🇬🇭", pts: 6, w: 2, d: 0, l: 1, gf: 2, ga: 2 },
-                { name: "Australia", flag: "🇦🇺", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 6 },
-                { name: "Serbia", flag: "🇷🇸", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 3 }
+                { name: "Alemania", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 1 },
+                { name: "Ghana", pts: 6, w: 2, d: 0, l: 1, gf: 2, ga: 2 },
+                { name: "Australia", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 6 },
+                { name: "Serbia", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 3 }
               ]},
               { name: "Grupo E", teams: [
-                { name: "Holanda", flag: "🇳🇱", pts: 9, w: 3, d: 0, l: 0, gf: 5, ga: 1 },
-                { name: "Japón", flag: "🇯🇵", pts: 6, w: 2, d: 0, l: 1, gf: 4, ga: 2 },
-                { name: "Dinamarca", flag: "🇩🇰", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 6 },
-                { name: "Camerún", flag: "🇨🇲", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 5 }
+                { name: "Holanda", pts: 9, w: 3, d: 0, l: 0, gf: 5, ga: 1 },
+                { name: "Japón", pts: 6, w: 2, d: 0, l: 1, gf: 4, ga: 2 },
+                { name: "Dinamarca", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 6 },
+                { name: "Camerún", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 5 }
               ]},
               { name: "Grupo F", teams: [
-                { name: "Paraguay", flag: "🇵🇾", pts: 5, w: 1, d: 2, l: 0, gf: 3, ga: 1 },
-                { name: "Eslovaquia", flag: "🇸🇰", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 5 },
-                { name: "Italia", flag: "🇮🇹", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 5 },
-                { name: "Nueva Zelanda", flag: "🇳🇿", pts: 3, w: 0, d: 3, l: 0, gf: 2, ga: 2 }
+                { name: "Paraguay", pts: 5, w: 1, d: 2, l: 0, gf: 3, ga: 1 },
+                { name: "Eslovaquia", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 5 },
+                { name: "Italia", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 5 },
+                { name: "Nueva Zelanda", pts: 3, w: 0, d: 3, l: 0, gf: 2, ga: 2 }
               ]},
               { name: "Grupo G", teams: [
-                { name: "Brasil", flag: "🇧🇷", pts: 7, w: 2, d: 1, l: 0, gf: 5, ga: 2 },
-                { name: "Portugal", flag: "🇵🇹", pts: 7, w: 2, d: 1, l: 0, gf: 7, ga: 0 },
-                { name: "Costa Marfil", flag: "🇨🇮", pts: 3, w: 1, d: 0, l: 2, gf: 4, ga: 6 },
-                { name: "Corea Norte", flag: "🇰🇵", pts: 0, w: 0, d: 0, l: 3, gf: 0, ga: 12 }
+                { name: "Brasil", pts: 7, w: 2, d: 1, l: 0, gf: 5, ga: 2 },
+                { name: "Portugal", pts: 7, w: 2, d: 1, l: 0, gf: 7, ga: 0 },
+                { name: "Costa Marfil", pts: 3, w: 1, d: 0, l: 2, gf: 4, ga: 6 },
+                { name: "Corea Norte", pts: 0, w: 0, d: 0, l: 3, gf: 0, ga: 12 }
               ]},
               { name: "Grupo H", teams: [
-                { name: "España", flag: "🇪🇸", pts: 6, w: 2, d: 0, l: 1, gf: 4, ga: 2 },
-                { name: "Chile", flag: "🇨🇱", pts: 6, w: 2, d: 0, l: 1, gf: 3, ga: 2 },
-                { name: "Suiza", flag: "🇨🇭", pts: 4, w: 1, d: 1, l: 1, gf: 1, ga: 1 },
-                { name: "Honduras", flag: "🇭🇳", pts: 1, w: 0, d: 1, l: 2, gf: 0, ga: 3 }
+                { name: "España", pts: 6, w: 2, d: 0, l: 1, gf: 4, ga: 2 },
+                { name: "Chile", pts: 6, w: 2, d: 0, l: 1, gf: 3, ga: 2 },
+                { name: "Suiza", pts: 4, w: 1, d: 1, l: 1, gf: 1, ga: 1 },
+                { name: "Honduras", pts: 1, w: 0, d: 1, l: 2, gf: 0, ga: 3 }
               ]}
             ],
             knockout: [
               { round: "Octavos de Final", matches: [
-                { home: "Uruguay", hflag: "🇺🇾", score: "2-1", away: "Corea del Sur", aflag: "🇰🇷" },
-                { home: "USA", hflag: "🇺🇸", score: "1-2", away: "Ghana", aflag: "🇬🇭" },
-                { home: "Alemania", hflag: "🇩🇪", score: "4-1", away: "Inglaterra", aflag: "A" },
-                { home: "Argentina", hflag: "🇦🇷", score: "3-1", away: "México", aflag: "🇲🇽" },
-                { home: "Holanda", hflag: "🇳🇱", score: "2-1", away: "Eslovaquia", aflag: "🇸🇰" },
-                { home: "Brasil", hflag: "🇧🇷", score: "3-0", away: "Chile", aflag: "🇨🇱" },
-                { home: "Paraguay", hflag: "🇵🇾", score: "0-0", away: "Japón", aflag: "🇯🇵" },
-                { home: "España", hflag: "🇪🇸", score: "1-0", away: "Portugal", aflag: "🇵🇹" }
+                { home: "Uruguay", score: "2-1", away: "Corea del Sur" },
+                { home: "USA", score: "1-2", away: "Ghana" },
+                { home: "Alemania", score: "4-1", away: "Inglaterra" },
+                { home: "Argentina", score: "3-1", away: "México" },
+                { home: "Holanda", score: "2-1", away: "Eslovaquia" },
+                { home: "Brasil", score: "3-0", away: "Chile" },
+                { home: "Paraguay", score: "0-0 (pen)", away: "Japón" },
+                { home: "España", score: "1-0", away: "Portugal" }
               ]},
               { round: "Cuartos de Final", matches: [
-                { home: "Holanda", hflag: "🇳🇱", score: "2-1", away: "Brasil", aflag: "🇧🇷" },
-                { home: "Uruguay", hflag: "🇺🇾", score: "1-1", away: "Ghana", aflag: "🇬🇭" },
-                { home: "Alemania", hflag: "🇩🇪", score: "4-0", away: "Argentina", aflag: "🇦🇷" },
-                { home: "España", hflag: "🇪🇸", score: "1-0", away: "Paraguay", aflag: "🇵🇾" }
+                { home: "Holanda", score: "2-1", away: "Brasil" },
+                { home: "Uruguay", score: "1-1 (pen)", away: "Ghana" },
+                { home: "Alemania", score: "4-0", away: "Argentina" },
+                { home: "España", score: "1-0", away: "Paraguay" }
               ]},
               { round: "Semifinales", matches: [
-                { home: "Uruguay", hflag: "🇺🇾", score: "2-3", away: "Holanda", aflag: "🇳🇱" },
-                { home: "Alemania", hflag: "🇩🇪", score: "0-1", away: "España", aflag: "🇪🇸" }
+                { home: "Uruguay", score: "2-3", away: "Holanda" },
+                { home: "Alemania", score: "0-1", away: "España" }
               ]},
               { round: "Final", matches: [
-                { home: "España", hflag: "🇪🇸", score: "1-0", away: "Holanda", aflag: "🇳🇱" }
+                { home: "España", score: "1-0", away: "Holanda" }
               ]}
             ]
           },
           {
             year: 2014, host: "Brasil", logo: "🇧🇷", ball: "Brazuca",
-            song: "https://www.youtube.com/embed/TGtWWb9emYI",
-            songName: "We Are One (Ole Ola) — Pitbull, Jennifer Lopez & Claudia Leitte",
             champion: "Alemania", runner_up: "Argentina", third: "Holanda",
-            flagChampion: "🇩🇪",
             color: "#009c3b",
             groups: [
               { name: "Grupo A", teams: [
-                { name: "Brasil", flag: "🇧🇷", pts: 7, w: 2, d: 1, l: 0, gf: 8, ga: 2 },
-                { name: "México", flag: "🇲🇽", pts: 7, w: 2, d: 1, l: 0, gf: 4, ga: 1 },
-                { name: "Croacia", flag: "🇭🇷", pts: 3, w: 1, d: 0, l: 2, gf: 6, ga: 6 },
-                { name: "Camerún", flag: "🇨🇲", pts: 0, w: 0, d: 0, l: 3, gf: 1, ga: 9 }
+                { name: "Brasil", pts: 7, w: 2, d: 1, l: 0, gf: 8, ga: 2 },
+                { name: "México", pts: 7, w: 2, d: 1, l: 0, gf: 4, ga: 1 },
+                { name: "Croacia", pts: 3, w: 1, d: 0, l: 2, gf: 6, ga: 6 },
+                { name: "Camerún", pts: 0, w: 0, d: 0, l: 3, gf: 1, ga: 9 }
               ]},
               { name: "Grupo B", teams: [
-                { name: "Holanda", flag: "🇳🇱", pts: 9, w: 3, d: 0, l: 0, gf: 10, ga: 3 },
-                { name: "Chile", flag: "🇨🇱", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 3 },
-                { name: "España", flag: "🇪🇸", pts: 3, w: 1, d: 0, l: 2, gf: 4, ga: 7 },
-                { name: "Australia", flag: "🇦🇺", pts: 0, w: 0, d: 0, l: 3, gf: 3, ga: 9 }
+                { name: "Holanda", pts: 9, w: 3, d: 0, l: 0, gf: 10, ga: 3 },
+                { name: "Chile", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 3 },
+                { name: "España", pts: 3, w: 1, d: 0, l: 2, gf: 4, ga: 7 },
+                { name: "Australia", pts: 0, w: 0, d: 0, l: 3, gf: 3, ga: 9 }
               ]},
               { name: "Grupo C", teams: [
-                { name: "Colombia", flag: "🇨🇴", pts: 9, w: 3, d: 0, l: 0, gf: 9, ga: 2 },
-                { name: "Grecia", flag: "🇬🇷", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 4 },
-                { name: "Costa Rica", flag: "🇨🇷", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 4 },
-                { name: "Japón", flag: "🇯🇵", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 7 }
+                { name: "Colombia", pts: 9, w: 3, d: 0, l: 0, gf: 9, ga: 2 },
+                { name: "Grecia", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 4 },
+                { name: "Costa Rica", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 4 },
+                { name: "Japón", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 7 }
               ]},
               { name: "Grupo D", teams: [
-                { name: "Costa Rica", flag: "🇨🇷", pts: 7, w: 2, d: 1, l: 0, gf: 4, ga: 1 },
-                { name: "Uruguay", flag: "🇺🇾", pts: 6, w: 2, d: 0, l: 1, gf: 4, ga: 4 },
-                { name: "Italia", flag: "🇮🇹", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 3 },
-                { name: "Inglaterra", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 4 }
+                { name: "Costa Rica", pts: 7, w: 2, d: 1, l: 0, gf: 4, ga: 1 },
+                { name: "Uruguay", pts: 6, w: 2, d: 0, l: 1, gf: 4, ga: 4 },
+                { name: "Italia", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 3 },
+                { name: "Inglaterra", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 4 }
               ]},
               { name: "Grupo E", teams: [
-                { name: "Francia", flag: "🇫🇷", pts: 7, w: 2, d: 1, l: 0, gf: 8, ga: 2 },
-                { name: "Suiza", flag: "🇨🇭", pts: 4, w: 1, d: 1, l: 1, gf: 7, ga: 6 },
-                { name: "Ecuador", flag: "🇪🇨", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 3 },
-                { name: "Honduras", flag: "🇭🇳", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 8 }
+                { name: "Francia", pts: 7, w: 2, d: 1, l: 0, gf: 8, ga: 2 },
+                { name: "Suiza", pts: 4, w: 1, d: 1, l: 1, gf: 7, ga: 6 },
+                { name: "Ecuador", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 3 },
+                { name: "Honduras", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 8 }
               ]},
               { name: "Grupo F", teams: [
-                { name: "Argentina", flag: "🇦🇷", pts: 9, w: 3, d: 0, l: 0, gf: 6, ga: 3 },
-                { name: "Nigeria", flag: "🇳🇬", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 3 },
-                { name: "Bosnia-Herz.", flag: "🇧🇦", pts: 3, w: 1, d: 0, l: 2, gf: 4, ga: 4 },
-                { name: "Irán", flag: "🇮🇷", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 4 }
+                { name: "Argentina", pts: 9, w: 3, d: 0, l: 0, gf: 6, ga: 3 },
+                { name: "Nigeria", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 3 },
+                { name: "Bosnia-Herz.", pts: 3, w: 1, d: 0, l: 2, gf: 4, ga: 4 },
+                { name: "Irán", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 4 }
               ]},
               { name: "Grupo G", teams: [
-                { name: "Alemania", flag: "🇩🇪", pts: 7, w: 2, d: 1, l: 0, gf: 7, ga: 2 },
-                { name: "USA", flag: "🇺🇸", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 4 },
-                { name: "Portugal", flag: "🇵🇹", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 7 },
-                { name: "Ghana", flag: "🇬🇭", pts: 1, w: 0, d: 1, l: 2, gf: 4, ga: 6 }
+                { name: "Alemania", pts: 7, w: 2, d: 1, l: 0, gf: 7, ga: 2 },
+                { name: "USA", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 4 },
+                { name: "Portugal", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 7 },
+                { name: "Ghana", pts: 1, w: 0, d: 1, l: 2, gf: 4, ga: 6 }
               ]},
               { name: "Grupo H", teams: [
-                { name: "Bélgica", flag: "🇧🇪", pts: 9, w: 3, d: 0, l: 0, gf: 4, ga: 1 },
-                { name: "Algeria", flag: "🇩🇿", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 5 },
-                { name: "Rusia", flag: "🇷🇺", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 3 },
-                { name: "Corea del Sur", flag: "🇰🇷", pts: 2, w: 0, d: 2, l: 1, gf: 3, ga: 6 }
+                { name: "Bélgica", pts: 9, w: 3, d: 0, l: 0, gf: 4, ga: 1 },
+                { name: "Algeria", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 5 },
+                { name: "Rusia", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 3 },
+                { name: "Corea del Sur", pts: 2, w: 0, d: 2, l: 1, gf: 3, ga: 6 }
               ]}
             ],
             knockout: [
               { round: "Octavos de Final", matches: [
-                { home: "Brasil", hflag: "🇧🇷", score: "1-1", away: "Chile", aflag: "🇨🇱" },
-                { home: "Colombia", hflag: "🇨🇴", score: "2-0", away: "Uruguay", aflag: "🇺🇾" },
-                { home: "Francia", hflag: "🇫🇷", score: "2-0", away: "Nigeria", aflag: "🇳🇬" },
-                { home: "Alemania", hflag: "🇩🇪", score: "2-1", away: "Algeria", aflag: "🇩🇿" },
-                { home: "Holanda", hflag: "🇳🇱", score: "2-1", away: "México", aflag: "🇲🇽" },
-                { home: "Costa Rica", hflag: "🇨🇷", score: "1-1", away: "Grecia", aflag: "🇬🇷" },
-                { home: "Argentina", hflag: "🇦🇷", score: "1-0", away: "Suiza", aflag: "🇨🇭" },
-                { home: "Bélgica", hflag: "🇧🇪", score: "2-1", away: "USA", aflag: "🇺🇸" }
+                { home: "Brasil", score: "1-1 (pen)", away: "Chile" },
+                { home: "Colombia", score: "2-0", away: "Uruguay" },
+                { home: "Francia", score: "2-0", away: "Nigeria" },
+                { home: "Alemania", score: "2-1", away: "Algeria" },
+                { home: "Holanda", score: "2-1", away: "México" },
+                { home: "Costa Rica", score: "1-1 (pen)", away: "Grecia" },
+                { home: "Argentina", score: "1-0", away: "Suiza" },
+                { home: "Bélgica", score: "2-1", away: "USA" }
               ]},
               { round: "Cuartos de Final", matches: [
-                { home: "Francia", hflag: "🇫🇷", score: "0-1", away: "Alemania", aflag: "🇩🇪" },
-                { home: "Brasil", hflag: "🇧🇷", score: "2-1", away: "Colombia", aflag: "🇨🇴" },
-                { home: "Argentina", hflag: "🇦🇷", score: "1-0", away: "Bélgica", aflag: "🇧🇪" },
-                { home: "Holanda", hflag: "🇳🇱", score: "0-0", away: "Costa Rica", aflag: "🇨🇷" }
+                { home: "Francia", score: "0-1", away: "Alemania" },
+                { home: "Brasil", score: "2-1", away: "Colombia" },
+                { home: "Argentina", score: "1-0", away: "Bélgica" },
+                { home: "Holanda", score: "0-0 (pen)", away: "Costa Rica" }
               ]},
               { round: "Semifinales", matches: [
-                { home: "Brasil", hflag: "🇧🇷", score: "1-7", away: "Alemania", aflag: "🇩🇪" },
-                { home: "Argentina", hflag: "🇦🇷", score: "0-0", away: "Holanda", aflag: "🇳🇱" }
+                { home: "Brasil", score: "1-7", away: "Alemania" },
+                { home: "Argentina", score: "0-0 (4-2 pen)", away: "Holanda" }
               ]},
               { round: "Final", matches: [
-                { home: "Alemania", hflag: "🇩🇪", score: "1-0", away: "Argentina", aflag: "🇦🇷" }
+                { home: "Alemania", score: "1-0", away: "Argentina" }
               ]}
             ]
           },
           {
             year: 2018, host: "Rusia", logo: "🇷🇺", ball: "Telstar 18",
-            song: "https://www.youtube.com/embed/V15BYn7I6ZM",
-            songName: "Live It Up — Nicky Jam feat. Will Smith & Era Istrefi",
             champion: "Francia", runner_up: "Croacia", third: "Bélgica",
-            flagChampion: "🇫🇷",
             color: "#002395",
             groups: [
               { name: "Grupo A", teams: [
-                { name: "Uruguay", flag: "🇺🇾", pts: 9, w: 3, d: 0, l: 0, gf: 7, ga: 0 },
-                { name: "Rusia", flag: "🇷🇺", pts: 6, w: 2, d: 0, l: 1, gf: 8, ga: 4 },
-                { name: "Arabia Saudí", flag: "🇸🇦", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 7 },
-                { name: "Egipto", flag: "🇪🇬", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 6 }
+                { name: "Uruguay", pts: 9, w: 3, d: 0, l: 0, gf: 7, ga: 0 },
+                { name: "Rusia", pts: 6, w: 2, d: 0, l: 1, gf: 8, ga: 4 },
+                { name: "Arabia Saudí", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 7 },
+                { name: "Egipto", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 6 }
               ]},
               { name: "Grupo B", teams: [
-                { name: "España", flag: "🇪🇸", pts: 5, w: 1, d: 2, l: 0, gf: 6, ga: 5 },
-                { name: "Portugal", flag: "🇵🇹", pts: 5, w: 1, d: 2, l: 0, gf: 4, ga: 5 },
-                { name: "Irán", flag: "🇮🇷", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 2 },
-                { name: "Marruecos", flag: "🇲🇦", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 6 }
+                { name: "España", pts: 5, w: 1, d: 2, l: 0, gf: 6, ga: 5 },
+                { name: "Portugal", pts: 5, w: 1, d: 2, l: 0, gf: 4, ga: 5 },
+                { name: "Irán", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 2 },
+                { name: "Marruecos", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 6 }
               ]},
               { name: "Grupo C", teams: [
-                { name: "Francia", flag: "🇫🇷", pts: 7, w: 2, d: 1, l: 0, gf: 3, ga: 1 },
-                { name: "Dinamarca", flag: "🇩🇰", pts: 5, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
-                { name: "Perú", flag: "🇵🇪", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 2 },
-                { name: "Australia", flag: "🇦🇺", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 5 }
+                { name: "Francia", pts: 7, w: 2, d: 1, l: 0, gf: 3, ga: 1 },
+                { name: "Dinamarca", pts: 5, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
+                { name: "Perú", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 2 },
+                { name: "Australia", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 5 }
               ]},
               { name: "Grupo D", teams: [
-                { name: "Croacia", flag: "🇭🇷", pts: 9, w: 3, d: 0, l: 0, gf: 7, ga: 1 },
-                { name: "Argentina", flag: "🇦🇷", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 5 },
-                { name: "Nigeria", flag: "🇳🇬", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 4 },
-                { name: "Islandia", flag: "🇮🇸", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 11 }
+                { name: "Croacia", pts: 9, w: 3, d: 0, l: 0, gf: 7, ga: 1 },
+                { name: "Argentina", pts: 4, w: 1, d: 1, l: 1, gf: 3, ga: 5 },
+                { name: "Nigeria", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 4 },
+                { name: "Islandia", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 11 }
               ]},
               { name: "Grupo E", teams: [
-                { name: "Brasil", flag: "🇧🇷", pts: 7, w: 2, d: 1, l: 0, gf: 8, ga: 3 },
-                { name: "Suiza", flag: "🇨🇭", pts: 5, w: 1, d: 2, l: 0, gf: 5, ga: 4 },
-                { name: "Serbia", flag: "🇷🇸", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 4 },
-                { name: "Costa Rica", flag: "🇨🇷", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 6 }
+                { name: "Brasil", pts: 7, w: 2, d: 1, l: 0, gf: 8, ga: 3 },
+                { name: "Suiza", pts: 5, w: 1, d: 2, l: 0, gf: 5, ga: 4 },
+                { name: "Serbia", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 4 },
+                { name: "Costa Rica", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 6 }
               ]},
               { name: "Grupo F", teams: [
-                { name: "Suecia", flag: "🇸🇪", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 2 },
-                { name: "México", flag: "🇲🇽", pts: 6, w: 2, d: 0, l: 1, gf: 3, ga: 4 },
-                { name: "Corea del Sur", flag: "🇰🇷", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 3 },
-                { name: "Alemania", flag: "🇩🇪", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 4 }
+                { name: "Suecia", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 2 },
+                { name: "México", pts: 6, w: 2, d: 0, l: 1, gf: 3, ga: 4 },
+                { name: "Corea del Sur", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 3 },
+                { name: "Alemania", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 4 }
               ]},
               { name: "Grupo G", teams: [
-                { name: "Bélgica", flag: "🇧🇪", pts: 9, w: 3, d: 0, l: 0, gf: 9, ga: 2 },
-                { name: "Inglaterra", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 6, w: 2, d: 0, l: 1, gf: 8, ga: 3 },
-                { name: "Túnez", flag: "🇹🇳", pts: 3, w: 1, d: 0, l: 2, gf: 5, ga: 8 },
-                { name: "Panamá", flag: "🇵🇦", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 11 }
+                { name: "Bélgica", pts: 9, w: 3, d: 0, l: 0, gf: 9, ga: 2 },
+                { name: "Inglaterra", pts: 6, w: 2, d: 0, l: 1, gf: 8, ga: 3 },
+                { name: "Túnez", pts: 3, w: 1, d: 0, l: 2, gf: 5, ga: 8 },
+                { name: "Panamá", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 11 }
               ]},
               { name: "Grupo H", teams: [
-                { name: "Japón", flag: "🇯🇵", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 6 },
-                { name: "Senegal", flag: "🇸🇳", pts: 6, w: 2, d: 0, l: 1, gf: 4, ga: 4 },
-                { name: "Colombia", flag: "🇨🇴", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 5 },
-                { name: "Polonia", flag: "🇵🇱", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 5 }
+                { name: "Japón", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 6 },
+                { name: "Senegal", pts: 6, w: 2, d: 0, l: 1, gf: 4, ga: 4 },
+                { name: "Colombia", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 5 },
+                { name: "Polonia", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 5 }
               ]}
             ],
             knockout: [
               { round: "Octavos de Final", matches: [
-                { home: "Francia", hflag: "🇫🇷", score: "4-3", away: "Argentina", aflag: "🇦🇷" },
-                { home: "Uruguay", hflag: "🇺🇾", score: "2-1", away: "Portugal", aflag: "🇵🇹" },
-                { home: "Rusia", hflag: "🇷🇺", score: "1-1", away: "España", aflag: "🇪🇸" },
-                { home: "Croacia", hflag: "🇭🇷", score: "1-1", away: "Dinamarca", aflag: "🇩🇰" },
-                { home: "Brasil", hflag: "🇧🇷", score: "2-0", away: "México", aflag: "🇲🇽" },
-                { home: "Bélgica", hflag: "🇧🇪", score: "3-2", away: "Japón", aflag: "🇯🇵" },
-                { home: "Suecia", hflag: "🇸🇪", score: "1-0", away: "Suiza", aflag: "🇨🇭" },
-                { home: "Colombia", hflag: "🇨🇴", score: "1-1", away: "Inglaterra", aflag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d" }
+                { home: "Francia", score: "4-3", away: "Argentina" },
+                { home: "Uruguay", score: "2-1", away: "Portugal" },
+                { home: "Rusia", score: "1-1 (pen)", away: "España" },
+                { home: "Croacia", score: "1-1 (pen)", away: "Dinamarca" },
+                { home: "Brasil", score: "2-0", away: "México" },
+                { home: "Bélgica", score: "3-2", away: "Japón" },
+                { home: "Suecia", score: "1-0", away: "Suiza" },
+                { home: "Colombia", score: "1-1 (pen)", away: "Inglaterra" }
               ]},
               { round: "Cuartos de Final", matches: [
-                { home: "Uruguay", hflag: "🇺🇾", score: "0-2", away: "Francia", aflag: "🇫🇷" },
-                { home: "Rusia", hflag: "🇷🇺", score: "2-3", away: "Croacia", aflag: "🇭🇷" },
-                { home: "Brasil", hflag: "🇧🇷", score: "1-2", away: "Bélgica", aflag: "🇧🇪" },
-                { home: "Suecia", hflag: "🇸🇪", score: "0-2", away: "Inglaterra", aflag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d" }
+                { home: "Uruguay", score: "0-2", away: "Francia" },
+                { home: "Rusia", score: "2-2 (pen)", away: "Croacia" },
+                { home: "Brasil", score: "1-2", away: "Bélgica" },
+                { home: "Suecia", score: "0-2", away: "Inglaterra" }
               ]},
               { round: "Semifinales", matches: [
-                { home: "Francia", hflag: "🇫🇷", score: "1-0", away: "Bélgica", aflag: "🇧🇪" },
-                { home: "Croacia", hflag: "🇭🇷", score: "2-1", away: "Inglaterra", aflag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d" }
+                { home: "Francia", score: "1-0", away: "Bélgica" },
+                { home: "Croacia", score: "2-1", away: "Inglaterra" }
               ]},
               { round: "Final", matches: [
-                { home: "Francia", hflag: "🇫🇷", score: "4-2", away: "Croacia", aflag: "🇭🇷" }
+                { home: "Francia", score: "4-2", away: "Croacia" }
               ]}
             ]
           },
           {
             year: 2022, host: "Qatar", logo: "🇶🇦", ball: "Al Rihla",
-            song: "https://www.youtube.com/embed/vyDxPvXvHk8",
-            songName: "Hayya Hayya (Better Together) — Himno Oficial de Catar 2022",
             champion: "Argentina", runner_up: "Francia", third: "Croacia",
-            flagChampion: "🇦🇷",
             color: "#8d1b3d",
             groups: [
               { name: "Grupo A", teams: [
-                { name: "Holanda", flag: "🇳🇱", pts: 7, w: 2, d: 1, l: 0, gf: 5, ga: 1 },
-                { name: "Senegal", flag: "🇸🇳", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 4 },
-                { name: "Ecuador", flag: "🇪🇨", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 3 },
-                { name: "Qatar", flag: "🇶🇦", pts: 0, w: 0, d: 0, l: 3, gf: 1, ga: 7 }
+                { name: "Holanda", pts: 7, w: 2, d: 1, l: 0, gf: 5, ga: 1 },
+                { name: "Senegal", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 4 },
+                { name: "Ecuador", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 3 },
+                { name: "Qatar", pts: 0, w: 0, d: 0, l: 3, gf: 1, ga: 7 }
               ]},
               { name: "Grupo B", teams: [
-                { name: "Inglaterra", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 7, w: 2, d: 1, l: 0, gf: 9, ga: 2 },
-                { name: "USA", flag: "🇺🇸", pts: 5, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
-                { name: "Irán", flag: "🇮🇷", pts: 3, w: 1, d: 0, l: 2, gf: 4, ga: 7 },
-                { name: "Gales", flag: "🏴󠁧󠁢󠁷󠁬󠁳󠁿", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 6 }
+                { name: "Inglaterra", pts: 7, w: 2, d: 1, l: 0, gf: 9, ga: 2 },
+                { name: "USA", pts: 5, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
+                { name: "Irán", pts: 3, w: 1, d: 0, l: 2, gf: 4, ga: 7 },
+                { name: "Gales", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 6 }
               ]},
               { name: "Grupo C", teams: [
-                { name: "Argentina", flag: "🇦🇷", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 2 },
-                { name: "Polonia", flag: "🇵🇱", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 2 },
-                { name: "México", flag: "🇲🇽", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 3 },
-                { name: "Arabia Saudí", flag: "🇸🇦", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 5 }
+                { name: "Argentina", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 2 },
+                { name: "Polonia", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 2 },
+                { name: "México", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 3 },
+                { name: "Arabia Saudí", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 5 }
               ]},
               { name: "Grupo D", teams: [
-                { name: "Francia", flag: "🇫🇷", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 3 },
-                { name: "Australia", flag: "🇦🇺", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 4 },
-                { name: "Túnez", flag: "🇹🇳", pts: 4, w: 1, d: 1, l: 1, gf: 1, ga: 1 },
-                { name: "Dinamarca", flag: "🇩🇰", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 4 }
+                { name: "Francia", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 3 },
+                { name: "Australia", pts: 6, w: 2, d: 0, l: 1, gf: 5, ga: 4 },
+                { name: "Túnez", pts: 4, w: 1, d: 1, l: 1, gf: 1, ga: 1 },
+                { name: "Dinamarca", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 4 }
               ]},
               { name: "Grupo E", teams: [
-                { name: "Japón", flag: "🇯🇵", pts: 6, w: 2, d: 0, l: 1, gf: 4, ga: 3 },
-                { name: "España", flag: "🇪🇸", pts: 6, w: 2, d: 0, l: 1, gf: 9, ga: 3 },
-                { name: "Alemania", flag: "🇩🇪", pts: 4, w: 1, d: 1, l: 1, gf: 6, ga: 5 },
-                { name: "Costa Rica", flag: "🇨🇷", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 11 }
+                { name: "Japón", pts: 6, w: 2, d: 0, l: 1, gf: 4, ga: 3 },
+                { name: "España", pts: 6, w: 2, d: 0, l: 1, gf: 9, ga: 3 },
+                { name: "Alemania", pts: 4, w: 1, d: 1, l: 1, gf: 6, ga: 5 },
+                { name: "Costa Rica", pts: 3, w: 1, d: 0, l: 2, gf: 3, ga: 11 }
               ]},
               { name: "Grupo F", teams: [
-                { name: "Marruecos", flag: "🇲🇦", pts: 7, w: 2, d: 1, l: 0, gf: 4, ga: 1 },
-                { name: "Croacia", flag: "🇭🇷", pts: 5, w: 1, d: 2, l: 0, gf: 4, ga: 1 },
-                { name: "Bélgica", flag: "🇧🇪", pts: 4, w: 1, d: 1, l: 1, gf: 1, ga: 2 },
-                { name: "Canadá", flag: "🇨🇦", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 6 }
+                { name: "Marruecos", pts: 7, w: 2, d: 1, l: 0, gf: 4, ga: 1 },
+                { name: "Croacia", pts: 5, w: 1, d: 2, l: 0, gf: 4, ga: 1 },
+                { name: "Bélgica", pts: 4, w: 1, d: 1, l: 1, gf: 1, ga: 2 },
+                { name: "Canadá", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 6 }
               ]},
               { name: "Grupo G", teams: [
-                { name: "Brasil", flag: "🇧🇷", pts: 6, w: 2, d: 0, l: 1, gf: 3, ga: 3 },
-                { name: "Suiza", flag: "🇨🇭", pts: 6, w: 2, d: 0, l: 1, gf: 4, ga: 3 },
-                { name: "Camerún", flag: "🇨🇲", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 4 },
-                { name: "Serbia", flag: "🇷🇸", pts: 1, w: 0, d: 1, l: 2, gf: 5, ga: 8 }
+                { name: "Brasil", pts: 6, w: 2, d: 0, l: 1, gf: 3, ga: 3 },
+                { name: "Suiza", pts: 6, w: 2, d: 0, l: 1, gf: 4, ga: 3 },
+                { name: "Camerún", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 4 },
+                { name: "Serbia", pts: 1, w: 0, d: 1, l: 2, gf: 5, ga: 8 }
               ]},
               { name: "Grupo H", teams: [
-                { name: "Portugal", flag: "🇵🇹", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 4 },
-                { name: "Corea del Sur", flag: "🇰🇷", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 4 },
-                { name: "Uruguay", flag: "🇺🇾", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 3 },
-                { name: "Ghana", flag: "🇬🇭", pts: 3, w: 1, d: 0, l: 2, gf: 5, ga: 11 }
+                { name: "Portugal", pts: 6, w: 2, d: 0, l: 1, gf: 6, ga: 4 },
+                { name: "Corea del Sur", pts: 4, w: 1, d: 1, l: 1, gf: 4, ga: 4 },
+                { name: "Uruguay", pts: 4, w: 1, d: 1, l: 1, gf: 2, ga: 3 },
+                { name: "Ghana", pts: 3, w: 1, d: 0, l: 2, gf: 5, ga: 11 }
               ]}
             ],
             knockout: [
               { round: "Octavos de Final", matches: [
-                { home: "Holanda", hflag: "🇳🇱", score: "3-1", away: "USA", aflag: "🇺🇸" },
-                { home: "Argentina", hflag: "🇦🇷", score: "2-1", away: "Australia", aflag: "🇦🇺" },
-                { home: "Francia", hflag: "🇫🇷", score: "3-1", away: "Polonia", aflag: "🇵🇱" },
-                { home: "Inglaterra", hflag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", score: "3-0", away: "Senegal", aflag: "🇸🇳" },
-                { home: "Japón", hflag: "🇯🇵", score: "1-1", away: "Croacia", aflag: "🇭🇷" },
-                { home: "Brasil", hflag: "🇧🇷", score: "4-1", away: "Corea del Sur", aflag: "🇰🇷" },
-                { home: "Marruecos", hflag: "🇲🇦", score: "0-0", away: "España", aflag: "🇪🇸" },
-                { home: "Portugal", hflag: "🇵🇹", score: "6-1", away: "Suiza", aflag: "🇨🇭" }
+                { home: "Holanda", score: "3-1", away: "USA" },
+                { home: "Argentina", score: "2-1", away: "Australia" },
+                { home: "Francia", score: "3-1", away: "Polonia" },
+                { home: "Inglaterra", score: "3-0", away: "Senegal" },
+                { home: "Japón", score: "1-1 (pen)", away: "Croacia" },
+                { home: "Brasil", score: "4-1", away: "Corea del Sur" },
+                { home: "Marruecos", score: "0-0 (pen)", away: "España" },
+                { home: "Portugal", score: "6-1", away: "Suiza" }
               ]},
               { round: "Cuartos de Final", matches: [
-                { home: "Croacia", hflag: "🇭🇷", score: "1-1", away: "Brasil", aflag: "🇧🇷" },
-                { home: "Argentina", hflag: "🇦🇷", score: "2-2", away: "Holanda", aflag: "🇳🇱" },
-                { home: "Marruecos", hflag: "🇲🇦", score: "1-0", away: "Portugal", aflag: "🇵🇹" },
-                { home: "Francia", hflag: "🇫🇷", score: "2-1", away: "Inglaterra", aflag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d" }
+                { home: "Croacia", score: "1-1 (pen)", away: "Brasil" },
+                { home: "Argentina", score: "2-2 (pen)", away: "Holanda" },
+                { home: "Marruecos", score: "1-0", away: "Portugal" },
+                { home: "Francia", score: "2-1", away: "Inglaterra" }
               ]},
               { round: "Semifinales", matches: [
-                { home: "Argentina", hflag: "🇦🇷", score: "3-0", away: "Croacia", aflag: "🇭🇷" },
-                { home: "Francia", hflag: "🇫🇷", score: "2-0", away: "Marruecos", aflag: "🇲🇦" }
+                { home: "Argentina", score: "3-0", away: "Croacia" },
+                { home: "Francia", score: "2-0", away: "Marruecos" }
               ]},
               { round: "Final", matches: [
-                { home: "Argentina", hflag: "🇦🇷", score: "3-3 (4-2 pen)", away: "Francia", aflag: "🇫🇷" }
+                { home: "Argentina", score: "3-3 (4-2 pen)", away: "Francia" }
               ]}
             ]
           },
           {
             year: 2026, host: "USA/Canada/México", logo: "🇺🇸🇨🇦🇲🇽", ball: "Puma Orbita",
-            song: "https://www.youtube.com/embed/fW6F_lK6Vsc",
-            songName: "Fifa World Cup Official Theme 2026",
             champion: "?", runner_up: "?", third: "?",
-            flagChampion: "🏆",
-            color: "#bf0a30",
             isLive: true,
             groups: [
               { name: "Grupo A", teams: [
-                { name: "USA", flag: "🇺🇸", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Gales", flag: "🏴\u200d󠁷󠁬󠁳󠁣\u200d", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Ghana", flag: "🇬🇭", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Irán", flag: "🇮🇷", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
+                { name: "USA", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Gales", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Ghana", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Irán", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
               ]},
               { name: "Grupo B", teams: [
-                { name: "Inglaterra", flag: "🏴\u200d󠁡󠁸󠁢󠁣\u200d", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Holanda", flag: "🇳🇱", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Irlanda", flag: "🇮🇪", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Eslovaquia", flag: "🇸🇰", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
+                { name: "Inglaterra", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Holanda", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Irlanda", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Eslovaquia", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
               ]},
               { name: "Grupo C", teams: [
-                { name: "Argentina", flag: "🇦🇷", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Ecuador", flag: "🇪🇨", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Chile", flag: "🇨🇱", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Cuba", flag: "🇨🇺", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
+                { name: "Argentina", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Ecuador", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Chile", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Cuba", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
               ]},
               { name: "Grupo D", teams: [
-                { name: "Francia", flag: "🇫🇷", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Nigeria", flag: "🇳🇬", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Bélgica", flag: "🇧🇪", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "México", flag: "🇲🇽", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
+                { name: "Francia", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Nigeria", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Bélgica", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "México", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
               ]},
               { name: "Grupo E", teams: [
-                { name: "España", flag: "🇪🇸", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Japón", flag: "🇯🇵", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Portugal", flag: "🇵🇹", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Marruecos", flag: "🇲🇦", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
+                { name: "España", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Japón", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Portugal", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Marruecos", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
               ]},
               { name: "Grupo F", teams: [
-                { name: "Alemania", flag: "🇩🇪", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Australia", flag: "🇦🇺", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Corea del Sur", flag: "🇰🇷", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Costa Rica", flag: "🇨🇷", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
+                { name: "Alemania", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Australia", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Corea del Sur", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Costa Rica", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
               ]},
               { name: "Grupo G", teams: [
-                { name: "Brasil", flag: "🇧🇷", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Paraguay", flag: "🇵🇾", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Venezuela", flag: "🇻🇪", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Suiza", flag: "🇨🇭", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
+                { name: "Brasil", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Paraguay", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Venezuela", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Suiza", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
               ]},
               { name: "Grupo H", teams: [
-                { name: "Italia", flag: "🇮🇹", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Canadá", flag: "🇨🇦", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Perú", flag: "🇵🇪", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Nueva Zelanda", flag: "🇳🇿", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
+                { name: "Italia", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Canadá", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Perú", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Nueva Zelanda", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
               ]},
               { name: "Grupo I", teams: [
-                { name: "Serbia", flag: "🇷🇸", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Dinamarca", flag: "🇩🇰", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Bolivia", flag: "🇧🇴", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Guatemala", flag: "🇬🇹", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
+                { name: "Serbia", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Dinamarca", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Bolivia", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Guatemala", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
               ]},
               { name: "Grupo J", teams: [
-                { name: "Uruguay", flag: "🇺🇾", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Colombia", flag: "🇨🇴", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Turquía", flag: "🇹🇷", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Georgia", flag: "🇬🇪", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
+                { name: "Uruguay", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Colombia", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Turquía", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Georgia", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
               ]},
               { name: "Grupo K", teams: [
-                { name: "Polonia", flag: "🇵🇱", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Arabia Saudí", flag: "🇸🇦", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Croacia", flag: "🇭🇷", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Eslovenia", flag: "🇸🇮", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
+                { name: "Polonia", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Arabia Saudí", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Croacia", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Eslovenia", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
               ]},
               { name: "Grupo L", teams: [
-                { name: "Portugal", flag: "🇵🇹", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "África Sub.", flag: "🌍", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Rep. Checa", flag: "🇨🇿", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
-                { name: "Concacaf TBD", flag: "🌎", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
+                { name: "Portugal", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "África Sub.", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Rep. Checa", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 },
+                { name: "Concacaf TBD", pts: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }
               ]}
             ],
             knockout: []
@@ -1434,7 +1518,7 @@
             const data = WORLDCUPS.find(m => m.year === anioSeleccionado);
             if (!data) return;
 
-            // Renderizar Fase de Grupos
+            // Renderizar Fase de Grupos sin banderas ni abreviaturas
             let htmlGrupos = '';
             data.groups.forEach(g => {
                 htmlGrupos += `
@@ -1455,11 +1539,10 @@
                             </thead>
                             <tbody>
                                 ${g.teams.map((t, index) => {
-                                    let nombreLimpio = t.name.replace(/[\u200d\u1f1e6-\u1f1ff]/g, "").trim();
                                     return `
                                         <tr class="border-b border-slate-900/60 hover:bg-slate-700/30">
                                             <td class="font-bold py-2 text-white flex items-center gap-1">
-                                                <span class="text-slate-500 font-mono w-4">${index + 1}.</span> ${t.flag} ${nombreLimpio}
+                                                <span class="text-slate-500 font-mono w-4">${index + 1}.</span> ${t.name}
                                             </td>
                                             <td class="text-emerald-400 font-black text-center text-sm">${t.pts}</td>
                                             <td class="text-center text-slate-300">${t.pj || (t.w + t.d + t.l)}</td>
@@ -1475,7 +1558,7 @@
                 `;
             });
 
-            // Orden de Copa de Fútbol Vertical
+            // Cuadro de Torneo de Fútbol Puro Vertical (De arriba hacia abajo)
             let htmlKnockout = '';
             if (data.knockout && data.knockout.length > 0) {
                 htmlKnockout = `<div class="bg-slate-950 p-6 rounded-2xl border-2 border-emerald-500/40 space-y-6 flex flex-col items-center">`;
@@ -1487,20 +1570,16 @@
                             </h5>
                             <div class="flex flex-col gap-3">
                                 ${fase.matches.map(m => {
-                                    let homeLimpio = m.home.replace(/[\u200d\u1f1e6-\u1f1ff]/g, "").trim();
-                                    let awayLimpio = m.away.replace(/[\u200d\u1f1e6-\u1f1ff]/g, "").trim();
                                     return `
                                         <div class="bg-slate-900 p-3 rounded-xl border border-slate-800/80 flex justify-between items-center text-xs font-semibold shadow-inner">
                                             <div class="flex items-center gap-2 w-5/12">
-                                                <span class="text-lg">${m.hname}</span>
-                                                <span class="text-slate-100 truncate">${homeLimpio}</span>
+                                                <span class="text-slate-100 truncate">${m.home}</span>
                                             </div>
                                             <div class="bg-emerald-950/80 text-emerald-400 font-mono font-black px-4 py-1.5 rounded-lg border border-emerald-500/20 text-center min-w-[80px] text-sm">
                                                 ${m.score}
                                             </div>
                                             <div class="flex items-center gap-2 w-5/12 justify-end text-right">
-                                                <span class="text-slate-100 truncate">${awayLimpio}</span>
-                                                <span class="text-lg">${m.aflag}</span>
+                                                <span class="text-slate-100 truncate">${m.away}</span>
                                             </div>
                                         </div>
                                     `;
@@ -1511,12 +1590,11 @@
                 });
                 
                 // Módulo de Campeón Destacado al final del Árbol
-                let campeonLimpio = data.champion.replace(/[\u200d\u1f1e6-\u1f1ff]/g, "").trim();
                 htmlKnockout += `
                     <div class="w-full max-w-sm bg-gradient-to-b from-slate-900 to-slate-950 p-4 rounded-xl border-2 border-emerald-400 text-center shadow-2xl mt-4">
                         <span class="text-[10px] text-slate-400 block font-bold tracking-wider uppercase"><i class="fa-solid fa-crown text-emerald-400"></i> Campeón del Mundo</span>
                         <div class="text-lg font-black text-emerald-400 uppercase mt-1 drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]">
-                            ${data.flagChampion} ${campeonLimpio} 👑
+                            ${data.champion} 👑
                         </div>
                     </div>
                 `;
@@ -1531,6 +1609,7 @@
             contenedor.innerHTML = `
                 <div class="space-y-6">
                     
+                    <!-- Marcador LED / Copa fija en el logo izquierdo -->
                     <div class="bg-gradient-to-r from-emerald-800 to-teal-950 text-white p-5 rounded-2xl shadow-xl border-2 border-emerald-500 flex flex-col md:flex-row justify-between items-center gap-4">
                         <div class="flex items-center gap-4">
                             <div class="text-4xl bg-slate-900/80 p-3 rounded-2xl border border-emerald-400/30 shadow-inner">🏆</div>
@@ -1540,32 +1619,24 @@
                             </div>
                         </div>
                         <div class="bg-slate-950 text-emerald-400 px-5 py-3 rounded-xl border border-emerald-500/50 font-mono text-xs shadow-inner min-w-[250px]">
-                            <p class="flex justify-between"><span>🥇 CAMPEÓN:</span> <span class="text-white font-bold">${data.flagChampion} ${data.champion.replace(/[\u200d]/g, "")}</span></p>
-                            <p class="flex justify-between mt-1"><span>🥈 SUB-CAMPEÓN:</span> <span class="text-slate-300">${data.runner_up.replace(/[\u200d]/g, "")}</span></p>
+                            <p class="flex justify-between"><span>🥇 CAMPEÓN:</span> <span class="text-white font-bold">${data.champion}</span></p>
+                            <p class="flex justify-between mt-1"><span>🥈 SUB-CAMPEÓN:</span> <span class="text-slate-300">${data.runner_up}</span></p>
                             <p class="flex justify-between mt-1"><span>🥉 TERCERO:</span> <span class="text-slate-400">${data.third || 'TBD'}</span></p>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center justify-start gap-4 shadow h-full">
-                            <div class="bg-emerald-500/10 p-3 rounded-full text-emerald-400 text-2xl flex-shrink-0">
-                                <i class="fa-solid fa-soccer-ball"></i>
-                            </div>
-                            <div>
-                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Balón de la Edición</p>
-                                <p class="text-base font-black text-white">${data.ball}</p>
-                            </div>
+                    <!-- Ficha Balón Oficial -->
+                    <div class="w-full bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center justify-start gap-4 shadow">
+                        <div class="bg-emerald-500/10 p-3 rounded-full text-emerald-400 text-2xl flex-shrink-0">
+                            <i class="fa-solid fa-soccer-ball"></i>
                         </div>
-                        
-                        <div class="lg:col-span-2">
-                            <div class="neon-card">
-                                <div class="video-responsive-container">
-                                    <iframe src="${data.song}" title="${data.songName}" allowfullscreen></iframe>
-                                </div>
-                            </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Balón de la Edición</p>
+                            <p class="text-base font-black text-white">${data.ball}</p>
                         </div>
                     </div>
 
+                    <!-- Pestañas del Estadio -->
                     <div class="flex border-b-2 border-slate-800 gap-2">
                         <button onclick="cambiarPestana('grupos')" class="py-2 px-5 font-black text-xs uppercase tracking-widest rounded-t-lg transition border-t-2 border-x-2 ${pestanaActiva === 'grupos' ? 'bg-slate-800 text-emerald-400 border-emerald-500' : 'bg-transparent text-slate-500 border-transparent hover:text-slate-300'}">
                             <i class="fa-solid fa-table-cells mr-1"></i> Tablas de Grupos
@@ -1575,6 +1646,7 @@
                         </button>
                     </div>
 
+                    <!-- Contenido de Pestañas Dinámicas -->
                     <div>
                         ${pestanaActiva === 'grupos' ? `
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">${htmlGrupos}</div>
