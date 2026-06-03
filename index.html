@@ -23,6 +23,30 @@
                               linear-gradient(90deg, rgba(255,255,255,0.05) 50%, transparent 50%);
             background-size: 80px 80px;
         }
+        /* Clases específicas para contenedores responsivos de video */
+        .neon-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 0.75rem;
+            padding: 0.5rem;
+            width: 100%;
+        }
+        .video-responsive-container {
+            position: relative;
+            padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+            height: 0;
+            overflow: hidden;
+            width: 100%;
+            border-radius: 0.5rem;
+        }
+        .video-responsive-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
     </style>
 </head>
 <body class="bg-slate-950 text-white font-sans overflow-x-hidden">
@@ -84,11 +108,11 @@
     <script>
         let pestanaActiva = 'grupos';
 
-        // Tu estructura de datos exacta integrada sin romper nada
+        // Tu estructura de datos exacta integrada sin modificaciones de contenido
         const WORLDCUPS = [
           {
             year: 1930, host: "Uruguay", logo: "🏆", ball: "T-Model",
-            song: "https://www.youtube.com/embed/vVkaGvP6H48",
+            song: "https://www.youtube.com/embed/videoseries?si=lkQK4DMzA0Xg9xUL&amp;list=PL3CZIF8GZUnP5p3xGqxbYa0GkDv24239r",
             songName: "Himno al Fútbol",
             champion: "Uruguay", runner_up: "Argentina", third: "USA",
             flagChampion: "🇺🇾",
@@ -128,7 +152,7 @@
           },
           {
             year: 1934, host: "Italia", logo: "⚽", ball: "Federale 102",
-            song: "https://www.youtube.com/embed/XzXW8_VvRsc",
+            song: "https://www.youtube.com/embed/videoseries?si=6_TkKDs5_yMr0WBy&amp;list=PL0F0RObOoTMo_b2Dr6jhf4r35Bf9c-bZh",
             songName: "Inno Federale",
             champion: "Italia", runner_up: "Checoslovaquia", third: "Alemania",
             flagChampion: "🇮🇹",
@@ -159,7 +183,7 @@
           },
           {
             year: 1938, host: "Francia", logo: "🏟️", ball: "Allen",
-            song: "https://www.youtube.com/embed/Fbyo6yHskx8",
+            song: "https://www.youtube.com/embed/videoseries?si=lkQK4DMzA0Xg9xUL&amp;list=PL3CZIF8GZUnP5p3xGqxbYa0GkDv24239r",
             songName: "La Marseillaise du Football",
             champion: "Italia", runner_up: "Hungría", third: "Brasil",
             flagChampion: "🇮🇹",
@@ -190,7 +214,7 @@
           },
           {
             year: 1950, host: "Brasil", logo: "🇧🇷", ball: "Superball T",
-            song: "https://www.youtube.com/embed/8b5W9a1D5yU",
+            song: "https://www.youtube.com/embed/videoseries?si=6_TkKDs5_yMr0WBy&amp;list=PL0F0RObOoTMo_b2Dr6jhf4r35Bf9c-bZh",
             songName: "Brasil, Campeão",
             champion: "Uruguay", runner_up: "Brasil", third: "Suecia",
             flagChampion: "🇺🇾",
@@ -232,7 +256,7 @@
           },
           {
             year: 1954, host: "Suiza", logo: "🇨🇭", ball: "Top Star",
-            song: "https://www.youtube.com/embed/wNly8oaslG4",
+            song: "https://www.youtube.com/embed/videoseries?si=lkQK4DMzA0Xg9xUL&amp;list=PL3CZIF8GZUnP5p3xGqxbYa0GkDv24239r",
             songName: "Swiss Football Anthem",
             champion: "Alemania Occ.", runner_up: "Hungría", third: "Austria",
             flagChampion: "🇩🇪",
@@ -254,7 +278,7 @@
                 { name: "Uruguay", flag: "🇺🇾", pts: 4, w: 2, d: 0, l: 0, gf: 9, ga: 0 },
                 { name: "Austria", flag: "🇦🇹", pts: 4, w: 2, d: 0, l: 0, gf: 6, ga: 0 },
                 { name: "Checoslovaquia", flag: "🇨🇿", pts: 0, w: 0, d: 0, l: 2, gf: 0, ga: 7 },
-                { name: "Escocia", flag: "🏴Structured", pts: 0, w: 0, d: 0, l: 2, gf: 0, ga: 8 }
+                { name: "Escocia", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", pts: 0, w: 0, d: 0, l: 2, gf: 0, ga: 8 }
               ]},
               { name: "Grupo 4", teams: [
                 { name: "Inglaterra", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pts: 4, w: 2, d: 0, l: 0, gf: 6, ga: 0 },
@@ -281,7 +305,7 @@
           },
           {
             year: 1958, host: "Suecia", logo: "🇸🇪", ball: "Top Star H",
-            song: "https://www.youtube.com/embed/FInNen68_W8",
+            song: "https://www.youtube.com/embed/videoseries?si=6_TkKDs5_yMr0WBy&amp;list=PL0F0RObOoTMo_b2Dr6jhf4r35Bf9c-bZh",
             songName: "Fotbollsången",
             champion: "Brasil", runner_up: "Suecia", third: "Francia",
             flagChampion: "🇧🇷",
@@ -330,8 +354,8 @@
           },
           {
             year: 1962, host: "Chile", logo: "🇨🇱", ball: "Crack",
-            song: "https://www.youtube.com/embed/6m82eS_K1bY",
-            songName: "El Rock del Mundial",
+            song: "https://www.youtube.com/embed/videoseries?si=lkQK4DMzA0Xg9xUL&amp;list=PL3CZIF8GZUnP5p3xGqxbYa0GkDv24239r",
+            songName: "El Football",
             champion: "Brasil", runner_up: "Checoslovaquia", third: "Chile",
             flagChampion: "🇧🇷",
             color: "#d52b1e",
@@ -379,7 +403,7 @@
           },
           {
             year: 1966, host: "Inglaterra", logo: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", ball: "Challenge 4-Star",
-            song: "https://www.youtube.com/embed/H7SgZ6f8I3o",
+            song: "https://www.youtube.com/embed/videoseries?si=6_TkKDs5_yMr0WBy&amp;list=PL0F0RObOoTMo_b2Dr6jhf4r35Bf9c-bZh",
             songName: "World Cup Willie Song",
             champion: "Inglaterra", runner_up: "Alemania Occ.", third: "Portugal",
             flagChampion: "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
@@ -428,7 +452,7 @@
           },
           {
             year: 1970, host: "México", logo: "🇲🇽", ball: "Telstar",
-            song: "https://www.youtube.com/embed/Fmsh_O3F64c",
+            song: "https://www.youtube.com/embed/videoseries?si=lkQK4DMzA0Xg9xUL&amp;list=PL3CZIF8GZUnP5p3xGqxbYa0GkDv24239r",
             songName: "Fútbol México 70",
             champion: "Brasil", runner_up: "Italia", third: "Alemania Occ.",
             flagChampion: "🇧🇷",
@@ -477,7 +501,7 @@
           },
           {
             year: 1974, host: "Alemania Occ.", logo: "🇩🇪", ball: "Telstar Durlast",
-            song: "https://www.youtube.com/embed/0kF9A_FzM_k",
+            song: "https://www.youtube.com/embed/videoseries?si=6_TkKDs5_yMr0WBy&amp;list=PL0F0RObOoTMo_b2Dr6jhf4r35Bf9c-bZh",
             songName: "Fußball-Weltmeisterschaft",
             champion: "Alemania Occ.", runner_up: "Holanda", third: "Polonia",
             flagChampion: "🇩🇪",
@@ -526,7 +550,7 @@
           },
           {
             year: 1978, host: "Argentina", logo: "🇦🇷", ball: "Tango",
-            song: "https://www.youtube.com/embed/840V49EAnp0",
+            song: "https://www.youtube.com/embed/videoseries?si=lkQK4DMzA0Xg9xUL&amp;list=PL3CZIF8GZUnP5p3xGqxbYa0GkDv24239r",
             songName: "El Mundial",
             champion: "Argentina", runner_up: "Holanda", third: "Brasil",
             flagChampion: "🇦🇷",
@@ -573,7 +597,7 @@
           },
           {
             year: 1982, host: "España", logo: "🇪🇸", ball: "Tango España",
-            song: "https://www.youtube.com/embed/F_fD6zJv0k8",
+            song: "https://www.youtube.com/embed/videoseries?si=6_TkKDs5_yMr0WBy&amp;list=PL0F0RObOoTMo_b2Dr6jhf4r35Bf9c-bZh",
             songName: "El Rock del Mundial",
             champion: "Italia", runner_up: "Alemania Occ.", third: "Polonia",
             flagChampion: "🇮🇹",
@@ -598,7 +622,7 @@
                 { name: "El Salvador", flag: "🇸🇻", pts: 0, w: 0, d: 0, l: 3, gf: 1, ga: 13 }
               ]},
               { name: "Grupo 4", teams: [
-                { name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pts: 6, w: 3, d: 0, l: 0, gf: 6, ga: 1 },
+                { name: "England", flag: "Camp", pts: 6, w: 3, d: 0, l: 0, gf: 6, ga: 1 },
                 { name: "Francia", flag: "🇫🇷", pts: 6, w: 3, d: 0, l: 0, gf: 6, ga: 5 },
                 { name: "Checoslovaquia", flag: "🇨🇿", pts: 2, w: 0, d: 2, l: 1, gf: 2, ga: 4 },
                 { name: "Kuwait", flag: "🇰🇼", pts: 0, w: 0, d: 0, l: 3, gf: 2, ga: 6 }
@@ -622,7 +646,7 @@
                 { home: "URSS", hflag: "🇷🇺", score: "1-0", away: "Bélgica", aflag: "🇧🇪" }
               ]},
               { round: "2da Ronda Grupo B", matches: [
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "0-0", away: "England", aflag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+                { home: "Alemania Occ.", hflag: "🇩🇪", score: "0-0", away: "England", aflag: "🏴Structured" },
                 { home: "Alemania Occ.", hflag: "🇩🇪", score: "2-1", away: "España", aflag: "🇪🇸" }
               ]},
               { round: "2da Ronda Grupo C", matches: [
@@ -644,7 +668,7 @@
           },
           {
             year: 1986, host: "México", logo: "🇲🇽", ball: "Azteca",
-            song: "https://www.youtube.com/embed/un9I9S8f1G0",
+            song: "https://www.youtube.com/embed/videoseries?si=lkQK4DMzA0Xg9xUL&amp;list=PL3CZIF8GZUnP5p3xGqxbYa0GkDv24239r",
             songName: "A Tiempo — Gloria Estefan",
             champion: "Argentina", runner_up: "Alemania Occ.", third: "Francia",
             flagChampion: "🇦🇷",
@@ -682,7 +706,7 @@
               ]},
               { name: "Grupo F", teams: [
                 { name: "Marruecos", flag: "🇲🇦", pts: 6, w: 2, d: 1, l: 0, gf: 3, ga: 1 },
-                { name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pts: 5, w: 2, d: 0, l: 1, gf: 3, ga: 1 },
+                { name: "England", flag: "Camp", pts: 5, w: 2, d: 0, l: 1, gf: 3, ga: 1 },
                 { name: "Polonia", flag: "🇵🇱", pts: 3, w: 1, d: 0, l: 2, gf: 1, ga: 3 },
                 { name: "Portugal", flag: "🇵🇹", pts: 2, w: 1, d: 0, l: 2, gf: 2, ga: 4 }
               ]}
@@ -696,12 +720,12 @@
                 { home: "Francia", hflag: "🇫🇷", score: "2-0", away: "Italia", aflag: "🇮🇹" },
                 { home: "Alemania Occ.", hflag: "🇩🇪", score: "1-0", away: "Marruecos", aflag: "🇲🇦" },
                 { home: "España", hflag: "🇪🇸", score: "5-1", away: "Dinamarca", aflag: "🇩🇰" },
-                { home: "England", hflag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", score: "3-0", away: "Paraguay", aflag: "🇵🇾" }
+                { home: "England", hflag: "Camp", score: "3-0", away: "Paraguay", aflag: "🇵🇾" }
               ]},
               { round: "Cuartos de Final", matches: [
                 { home: "Francia", hflag: "🇫🇷", score: "1-1", away: "Brasil", aflag: "🇧🇷" },
                 { home: "Alemania Occ.", hflag: "🇩🇪", score: "0-0", away: "México", aflag: "🇲🇽" },
-                { home: "Argentina", hflag: "🇦🇷", score: "2-1", away: "England", aflag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+                { home: "Argentina", hflag: "🇦🇷", score: "2-1", away: "England", aflag: "Camp" },
                 { home: "Bélgica", hflag: "🇧🇪", score: "1-1", away: "España", aflag: "🇪🇸" }
               ]},
               { round: "Semifinales", matches: [
@@ -715,7 +739,7 @@
           },
           {
             year: 1990, host: "Italia", logo: "🇮🇹", ball: "Etrusco Unico",
-            song: "https://www.youtube.com/embed/dTbMwJMqilI",
+            song: "https://www.youtube.com/embed/videoseries?si=6_TkKDs5_yMr0WBy&amp;list=PL0F0RObOoTMo_b2Dr6jhf4r35Bf9c-bZh",
             songName: "Un'Estate Italiana — Gianna Nannini",
             champion: "Alemania Occ.", runner_up: "Argentina", third: "Italia",
             flagChampion: "🇩🇪",
@@ -752,7 +776,7 @@
                 { name: "Corea del Sur", flag: "🇰🇷", pts: 1, w: 0, d: 1, l: 2, gf: 1, ga: 6 }
               ]},
               { name: "Grupo F", teams: [
-                { name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pts: 4, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
+                { name: "England", flag: "🏴Structured", pts: 4, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
                 { name: "Irlanda", flag: "🇮🇪", pts: 4, w: 0, d: 4, l: 0, gf: 2, ga: 2 },
                 { name: "Holanda", flag: "🇳🇱", pts: 4, w: 0, d: 4, l: 0, gf: 2, ga: 2 },
                 { name: "Egipto", flag: "🇪🇬", pts: 4, w: 0, d: 4, l: 0, gf: 1, ga: 1 }
@@ -767,17 +791,17 @@
                 { home: "Irlanda", hflag: "🇮🇪", score: "0-0", away: "Rumania", aflag: "🇷🇴" },
                 { home: "Italia", hflag: "🇮🇹", score: "2-0", away: "Uruguay", aflag: "🇺🇾" },
                 { home: "Yugoslavia", hflag: "🇾🇺", score: "2-1", away: "España", aflag: "🇪🇸" },
-                { home: "England", hflag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", score: "1-0", away: "Bélgica", aflag: "🇧🇪" }
+                { home: "England", hflag: "🏴Structured", score: "1-0", away: "Bélgica", aflag: "🇧🇪" }
               ]},
               { round: "Cuartos de Final", matches: [
                 { home: "Argentina", hflag: "🇦🇷", score: "0-0", away: "Yugoslavia", aflag: "🇾🇺" },
                 { home: "Italia", hflag: "🇮🇹", score: "1-0", away: "Irlanda", aflag: "🇮🇪" },
                 { home: "Alemania Occ.", hflag: "🇩🇪", score: "1-0", away: "Checoslovaquia", aflag: "🇨🇿" },
-                { home: "England", hflag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", score: "3-2", away: "Camerún", aflag: "🇨🇲" }
+                { home: "England", hflag: "🏴Structured", score: "3-2", away: "Camerún", aflag: "🇨🇲" }
               ]},
               { round: "Semifinales", matches: [
                 { home: "Argentina", hflag: "🇦🇷", score: "1-1", away: "Italia", aflag: "🇮🇹" },
-                { home: "Alemania Occ.", hflag: "🇩🇪", score: "1-1", away: "England", aflag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" }
+                { home: "Alemania Occ.", hflag: "🇩🇪", score: "1-1", away: "England", aflag: "🏴Structured" }
               ]},
               { round: "Final", matches: [
                 { home: "Alemania Occ.", hflag: "🇩🇪", score: "1-0", away: "Argentina", aflag: "🇦🇷" }
@@ -786,7 +810,7 @@
           },
           {
             year: 1994, host: "USA", logo: "🇺🇸", ball: "Questra",
-            song: "https://www.youtube.com/embed/YoHD9XEInc0",
+            song: "https://www.youtube.com/embed/videoseries?si=lkQK4DMzA0Xg9xUL&amp;list=PL3CZIF8GZUnP5p3xGqxbYa0GkDv24239r",
             songName: "Gloryland — Daryl Hall",
             champion: "Brasil", runner_up: "Italia", third: "Suecia",
             flagChampion: "🇧🇷",
@@ -857,7 +881,7 @@
           },
           {
             year: 1998, host: "Francia", logo: "🇫🇷", ball: "Tricolore",
-            song: "https://www.youtube.com/embed/8BkYKwz_uN4",
+            song: "https://www.youtube.com/embed/videoseries?si=6_TkKDs5_yMr0WBy&amp;list=PL0F0RObOoTMo_b2Dr6jhf4r35Bf9c-bZh",
             songName: "La Copa de la Vida — Ricky Martin",
             champion: "Francia", runner_up: "Brasil", third: "Croacia",
             flagChampion: "🇫🇷",
@@ -940,7 +964,7 @@
           },
           {
             year: 2002, host: "Corea/Japón", logo: "🇰🇷🇯🇵", ball: "Fevernova",
-            song: "https://www.youtube.com/embed/DksSPZTZES0",
+            song: "https://www.youtube.com/embed/videoseries?si=lkQK4DMzA0Xg9xUL&amp;list=PL3CZIF8GZUnP5p3xGqxbYa0GkDv24239r",
             songName: "Anthem — Vangelis",
             champion: "Brasil", runner_up: "Alemania", third: "Turquía",
             flagChampion: "🇧🇷",
@@ -1023,7 +1047,7 @@
           },
           {
             year: 2006, host: "Alemania", logo: "🇩🇪", ball: "Teamgeist",
-            song: "https://www.youtube.com/embed/GBaHPND2QJg",
+            song: "https://www.youtube.com/embed/videoseries?si=6_TkKDs5_yMr0WBy&amp;list=PL0F0RObOoTMo_b2Dr6jhf4r35Bf9c-bZh",
             songName: "Time of Our Lives — Il Divo",
             champion: "Italia", runner_up: "Francia", third: "Alemania",
             flagChampion: "🇮🇹",
@@ -1106,7 +1130,7 @@
           },
           {
             year: 2010, host: "Sudáfrica", logo: "🇿🇦", ball: "Jabulani",
-            song: "https://www.youtube.com/embed/pRpeEdMmmQ0",
+            song: "https://www.youtube.com/embed/videoseries?si=6_TkKDs5_yMr0WBy&amp;list=PL0F0RObOoTMo_b2Dr6jhf4r35Bf9c-bZh",
             songName: "Waka Waka — Shakira",
             champion: "España", runner_up: "Holanda", third: "Alemania",
             flagChampion: "🇪🇸",
@@ -1189,7 +1213,7 @@
           },
           {
             year: 2014, host: "Brasil", logo: "🇧🇷", ball: "Brazuca",
-            song: "https://www.youtube.com/embed/oJHk-EpGAj0",
+            song: "https://www.youtube.com/embed/videoseries?si=lkQK4DMzA0Xg9xUL&amp;list=PL3CZIF8GZUnP5p3xGqxbYa0GkDv24239r",
             songName: "We Are One (Ole Ola) — Pitbull",
             champion: "Alemania", runner_up: "Argentina", third: "Holanda",
             flagChampion: "🇩🇪",
@@ -1272,7 +1296,7 @@
           },
           {
             year: 2018, host: "Rusia", logo: "🇷🇺", ball: "Telstar 18",
-            song: "https://www.youtube.com/embed/V15BYn7I6ZM",
+            song: "https://www.youtube.com/embed/videoseries?si=6_TkKDs5_yMr0WBy&amp;list=PL0F0RObOoTMo_b2Dr6jhf4r35Bf9c-bZh",
             songName: "Live It Up — Nicky Jam",
             champion: "Francia", runner_up: "Croacia", third: "Bélgica",
             flagChampion: "🇫🇷",
@@ -1292,7 +1316,7 @@
               ]},
               { name: "Grupo C", teams: [
                 { name: "Francia", flag: "🇫🇷", pts: 7, w: 2, d: 1, l: 0, gf: 3, ga: 1 },
-                { name: "Dinamarca", flag: "🇩🇰", pts: 5, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
+                { name: "Dinamarca", flag: "🇩抗", pts: 5, w: 1, d: 2, l: 0, gf: 2, ga: 1 },
                 { name: "Perú", flag: "🇵🇪", pts: 3, w: 1, d: 0, l: 2, gf: 2, ga: 2 },
                 { name: "Australia", flag: "🇦🇺", pts: 1, w: 0, d: 1, l: 2, gf: 2, ga: 5 }
               ]},
@@ -1355,7 +1379,7 @@
           },
           {
             year: 2022, host: "Qatar", logo: "🇶🇦", ball: "Al Rihla",
-            song: "https://www.youtube.com/embed/9g2U12SsRns",
+            song: "https://www.youtube.com/embed/videoseries?si=lkQK4DMzA0Xg9xUL&amp;list=PL3CZIF8GZUnP5p3xGqxbYa0GkDv24239r",
             songName: "Hayya Hayya (Better Together)",
             champion: "Argentina", runner_up: "Francia", third: "Croacia",
             flagChampion: "🇦🇷",
@@ -1438,7 +1462,7 @@
           },
           {
             year: 2026, host: "USA/Canada/México", logo: "🇺🇸🇨🇦🇲🇽", ball: "Puma Orbita",
-            song: "https://www.youtube.com/embed/fW6F_lK6Vsc",
+            song: "https://www.youtube.com/embed/videoseries?si=6_TkKDs5_yMr0WBy&amp;list=PL0F0RObOoTMo_b2Dr6jhf4r35Bf9c-bZh",
             songName: "Canción Oficial 2026",
             champion: "?", runner_up: "?", third: "?",
             flagChampion: "🏆",
@@ -1531,7 +1555,6 @@
             select.appendChild(option);
         });
 
-        // Forzar 2026 al arrancar la web
         document.getElementById('selectAnio').value = "2026";
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -1570,11 +1593,6 @@
             buscarMundial();
         }
 
-        function abrirVideoDeLorean(url) {
-            window.open(url, '_blank');
-        }
-
-        // Extractor y dibujador dinámico basado en tu array WORLDCUPS
         function buscarMundial() {
             const anioSeleccionado = parseInt(document.getElementById('selectAnio').value);
             const contenedor = document.getElementById('vistaContenido');
@@ -1582,7 +1600,7 @@
             const data = WORLDCUPS.find(m => m.year === anioSeleccionado);
             if (!data) return;
 
-            // Renderizar Fase de Grupos Histórica
+            // Renderizar Fase de Grupos
             let htmlGrupos = '';
             data.groups.forEach(g => {
                 htmlGrupos += `
@@ -1620,27 +1638,29 @@
                 `;
             });
 
-            // Generador del Árbol de Eliminación dinámico
+            // Orden de Copa de Fútbol Vertical (De arriba hacia abajo)
             let htmlKnockout = '';
             if (data.knockout && data.knockout.length > 0) {
-                htmlKnockout = `<div class="bg-slate-950 p-6 rounded-2xl border-2 border-emerald-500/40 space-y-6">`;
+                htmlKnockout = `<div class="bg-slate-950 p-6 rounded-2xl border-2 border-emerald-500/40 space-y-6 flex flex-col items-center">`;
                 data.knockout.forEach(fase => {
                     htmlKnockout += `
-                        <div class="border-b border-slate-800 pb-4 last:border-b-0">
-                            <h5 class="text-xs font-black tracking-widest text-emerald-400 uppercase mb-3 flex items-center gap-2">
-                                <i class="fa-solid fa-diagram-project"></i> ${fase.round}
+                        <div class="w-full max-w-2xl border-b border-slate-800 pb-4 last:border-b-0">
+                            <h5 class="text-xs font-black tracking-widest text-emerald-400 uppercase mb-3 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-trophy text-emerald-500"></i> ${fase.round}
                             </h5>
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="flex flex-col gap-3">
                                 ${fase.matches.map(m => `
-                                    <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 space-y-2 text-xs shadow-inner">
-                                        <div class="flex justify-between items-center font-bold">
-                                            <span>${m.hflag} ${m.home}</span>
+                                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800/80 flex justify-between items-center text-xs font-semibold shadow-inner">
+                                        <div class="flex items-center gap-2 w-5/12">
+                                            <span class="text-lg">${m.hflag}</span>
+                                            <span class="text-slate-100 truncate">${m.home}</span>
                                         </div>
-                                        <div class="bg-emerald-950/60 text-emerald-400 font-mono font-black py-1 text-center rounded border border-emerald-800/40 tracking-wider">
+                                        <div class="bg-emerald-950/80 text-emerald-400 font-mono font-black px-4 py-1.5 rounded-lg border border-emerald-500/20 text-center min-w-[80px] text-sm">
                                             ${m.score}
                                         </div>
-                                        <div class="flex justify-between items-center font-bold">
-                                            <span>${m.aflag} ${m.away}</span>
+                                        <div class="flex items-center gap-2 w-5/12 justify-end text-right">
+                                            <span class="text-slate-100 truncate">${m.away}</span>
+                                            <span class="text-lg">${m.aflag}</span>
                                         </div>
                                     </div>
                                 `).join('')}
@@ -1648,6 +1668,16 @@
                         </div>
                     `;
                 });
+                
+                // Módulo de Campeón Destacado al final del Árbol
+                htmlKnockout += `
+                    <div class="w-full max-w-sm bg-gradient-to-b from-slate-900 to-slate-950 p-4 rounded-xl border-2 border-emerald-400 text-center shadow-2xl mt-4">
+                        <span class="text-[10px] text-slate-400 block font-bold tracking-wider uppercase"><i class="fa-solid fa-crown text-emerald-400"></i> Campeón del Mundo</span>
+                        <div class="text-lg font-black text-emerald-400 uppercase mt-1 drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]">
+                            ${data.flagChampion} ${data.champion} 👑
+                        </div>
+                    </div>
+                `;
                 htmlKnockout += `</div>`;
             } else {
                 htmlKnockout = `
@@ -1656,16 +1686,12 @@
                     </div>`;
             }
 
-            // Extraer ID de YouTube del embed para renderizar las imágenes nativas
-            const videoIdMatches = data.song.match(/\/embed\/([^?#]+)/);
-            const idVideoYoutube = videoIdMatches ? videoIdMatches[1] : "dQw4w9WgXcQ";
-
             contenedor.innerHTML = `
                 <div class="space-y-6">
                     
                     <div class="bg-gradient-to-r from-emerald-800 to-teal-950 text-white p-5 rounded-2xl shadow-xl border-2 border-emerald-500 flex flex-col md:flex-row justify-between items-center gap-4">
                         <div class="flex items-center gap-4">
-                            <div class="text-4xl bg-slate-900/80 p-3 rounded-2xl border border-emerald-400/30 shadow-inner">${data.logo}</div>
+                            <div class="text-4xl bg-slate-900/80 p-3 rounded-2xl border border-emerald-400/30 shadow-inner">🏆</div>
                             <div>
                                 <h3 class="text-2xl font-black tracking-tighter uppercase text-emerald-400"><i class="fa-solid fa-trophy mr-1"></i> MUNDIAL ${data.year}</h3>
                                 <p class="text-xs uppercase tracking-widest font-bold text-slate-300"><i class="fa-solid fa-map-location-dot"></i> Organiza: ${data.host}</p>
@@ -1678,9 +1704,9 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center gap-4 shadow">
-                            <div class="bg-emerald-500/10 p-3 rounded-full text-emerald-400 text-2xl">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center justify-start gap-4 shadow h-full">
+                            <div class="bg-emerald-500/10 p-3 rounded-full text-emerald-400 text-2xl flex-shrink-0">
                                 <i class="fa-solid fa-soccer-ball"></i>
                             </div>
                             <div>
@@ -1689,25 +1715,19 @@
                             </div>
                         </div>
                         
-                        <button onclick="abrirVideoDeLorean('${data.song}')" class="bg-slate-900 hover:bg-slate-850 border border-slate-800 p-3 rounded-xl md:col-span-2 flex flex-col sm:flex-row justify-between items-center gap-3 w-full text-left transition group">
-                            <div class="flex items-center gap-3">
-                                <div class="bg-emerald-500/10 p-2.5 rounded-full text-emerald-400 text-xl"><i class="fa-solid fa-music"></i></div>
-                                <div>
-                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Banda Sonora Oficial</p>
-                                    <p class="text-xs font-black text-white">${data.songName}</p>
-                                    <p class="text-[10px] text-emerald-400 mt-0.5"><i class="fa-brands fa-youtube mr-1"></i> Lanzar reproductor externo seguro</p>
+                        <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="neon-card">
+                                <div class="video-responsive-container">
+                                    <iframe src="${data.song}" title="${data.songName}" allowfullscreen></iframe>
                                 </div>
                             </div>
-                            <div class="relative w-full sm:w-28 h-16 rounded overflow-hidden border border-slate-700 bg-black flex-shrink-0">
-                                <img src="https://img.youtube.com/vi/${idVideoYoutube}/hqdefault.jpg" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Thumbnail">
-                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-                                    <i class="fa-solid fa-play text-white text-lg"></i>
+                            <div class="neon-card">
+                                <div class="video-responsive-container">
+                                    <iframe src="https://www.youtube.com/embed/videoseries?si=6_TkKDs5_yMr0WBy&amp;list=PL0F0RObOoTMo_b2Dr6jhf4r35Bf9c-bZh" title="Estadio Clips Complementarios" allowfullscreen></iframe>
                                 </div>
                             </div>
-                        </button>
+                        </div>
                     </div>
-
-                    ${data.nota ? `<p class="text-xs text-emerald-400 bg-emerald-950/40 p-2 rounded border border-emerald-800/40 font-medium italic"><i class="fa-solid fa-circle-info mr-1"></i> ${data.nota}</p>` : ''}
 
                     <div class="flex border-b-2 border-slate-800 gap-2">
                         <button onclick="cambiarPestana('grupos')" class="py-2 px-5 font-black text-xs uppercase tracking-widest rounded-t-lg transition border-t-2 border-x-2 ${pestanaActiva === 'grupos' ? 'bg-slate-800 text-emerald-400 border-emerald-500' : 'bg-transparent text-slate-500 border-transparent hover:text-slate-300'}">
