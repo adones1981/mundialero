@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mundial Stats - El Estadio de la Historia</title>
-    <!-- Tailwind CSS para el diseño moderno -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- FontAwesome para los íconos de balones, silbatos y porterías -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Animación de la pelota rodando como el mundo al ingresar */
@@ -29,7 +27,6 @@
 </head>
 <body class="bg-slate-950 text-white font-sans overflow-x-hidden">
 
-    <!-- PANTALLA DE INICIO (Loader de la Pelota Mundo) -->
     <div id="loader" class="fixed inset-0 bg-black z-50 flex items-center justify-center transition-opacity duration-1000">
         <div class="text-center">
             <div class="relative w-64 h-64 mx-auto">
@@ -40,7 +37,6 @@
         </div>
     </div>
 
-    <!-- Elementos de audio para el ambiente del estadio -->
     <audio id="sonidoAmbiente" loop>
         <source src="https://assets.mixkit.co/active_storage/sfx/2034/2034-84.wav" type="audio/wav">
     </audio>
@@ -48,24 +44,20 @@
         <source src="https://assets.mixkit.co/active_storage/sfx/2019/2019-84.wav" type="audio/wav">
     </audio>
 
-    <!-- INTERFAZ PRINCIPAL -->
     <div class="min-h-screen flex flex-col">
         
-        <!-- Marcador Principal / Header con luces LED verdes -->
         <header class="bg-slate-900 border-b-4 border-emerald-500 p-4 shadow-2xl">
             <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-3">
                     <i class="fa-solid fa-stadium text-3xl text-emerald-400"></i>
                     <h1 class="text-xl md:text-3xl font-extrabold tracking-widest text-emerald-400 uppercase">Estadísticas de los Mundiales</h1>
                 </div>
-                <!-- Botón de Sonido -->
                 <button onclick="alternarAudio()" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-2 px-5 rounded-full flex items-center gap-2 transition shadow-lg shadow-emerald-500/20">
                     <i id="iconoAudio" class="fa-solid fa-volume-mute"></i> <span id="textoAudio">Activar Sonido Ambiente</span>
                 </button>
             </div>
         </header>
 
-        <!-- Cancha / Contenedor de la Tribuna -->
         <main class="cesped flex-grow p-4 md:p-8 relative">
             <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-11/12 h-8 border-b-2 border-x-2 border-white/10 pointer-events-none flex justify-center items-end">
                 <span class="text-[10px] text-white/20 tracking-widest mb-1"><i class="fa-solid fa-door-open"></i> PORTERÍA NORTE</span>
@@ -73,15 +65,12 @@
 
             <div class="container mx-auto max-w-7xl bg-slate-900/85 backdrop-blur-md rounded-3xl p-6 border-4 border-emerald-500/30 shadow-2xl mt-4">
                 
-                <!-- Selector de Edición -->
-                <div class="bg-emerald-950/40 p-4 rounded-xl border border-emerald-500/50 mb-8">
+                <div class="bg-emerald-950/40 p-4 rounded-xl border border-emerald-500/50 mb-6">
                     <label class="block text-sm font-bold uppercase mb-2 text-emerald-400"><i class="fa-solid fa-calendar-days mr-2"></i> Seleccionar Edición Histórica:</label>
                     <select id="selectAnio" onchange="buscarMundial()" class="w-full bg-slate-800 text-white border-2 border-emerald-500 p-3 rounded-lg font-bold text-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-400">
-                        <!-- Opciones generadas en JS -->
-                    </select>
+                        </select>
                 </div>
 
-                <!-- CONTENEDOR DE RESULTADOS DINÁMICOS -->
                 <div id="vistaContenido" class="min-h-[500px] transition-all duration-300"></div>
 
             </div>
@@ -92,13 +81,18 @@
         </footer>
     </div>
 
-    <!-- DATA HUB JAVASCRIPT -->
     <script>
+        // Pestaña activa por defecto
+        let pestanaActiva = 'grupos';
+
         const mundialDB = {
             "2026": { 
-                host: "Norteamérica", equipos: 48, campeon: "En progreso", subcampeon: "En progreso", balon: "Adidas Conext 26", cancion: "Fifa World Cup Official Theme", url: "https://www.youtube.com/embed/fW6F_lK6Vsc", imagen: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=150&auto=format&fit=crop&q=60", 
+                host: "Norteamérica", equipos: 48, campeon: "En progreso", subcampeon: "En progreso", balon: "Adidas Conext 26", cancion: "Fifa World Cup Official Theme", videoId: "fW6F_lK6Vsc", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/2026_FIFA_World_Cup_Logo.svg/120px-2026_FIFA_World_Cup_Logo.svg.png", 
                 nota: "Primera edición ampliada a 12 grupos. Clasifican los dos primeros y los 8 mejores terceros a Dieciseisavos.",
-                faseEliminatoria: "Dieciseisavos de Final, Octavos, Cuartos, Semifinal y Gran Final (Por disputarse).",
+                faseEliminatoria: [
+                    { etapa: "Dieciseisavos de Final", cruces: [{ local: "Por definir", visita: "Por definir", resultado: "- vs -"}] },
+                    { etapa: "Finales Proyectadas", cruces: [{ local: "Estadio Azteca", visita: "Gran Final", resultado: "🏆 2026"}] }
+                ],
                 grupos: { 
                     "Grupo A": [{pais:"México",pts:0,pj:0,pg:0},{pais:"Sudáfrica",pts:0,pj:0,pg:0},{pais:"Corea del Sur",pts:0,pj:0,pg:0},{pais:"Rep. Checa",pts:0,pj:0,pg:0}], 
                     "Grupo B": [{pais:"Canadá",pts:0,pj:0,pg:0},{pais:"Bosnia y H.",pts:0,pj:0,pg:0},{pais:"Catar",pts:0,pj:0,pg:0},{pais:"Suiza",pts:0,pj:0,pg:0}], 
@@ -115,122 +109,65 @@
                 } 
             },
             "2022": { 
-                host: "Catar", equipos: 32, campeon: "Argentina", subcampeon: "Francia", balon: "Al Rihla", cancion: "Hayya Hayya", url: "https://www.youtube.com/embed/vyDxPvXvHk8", imagen: "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Cuartos: Croacia venció a Brasil, Argentina a Países Bajos, Marruecos a Portugal, Francia a Inglaterra. Semifinales: Argentina 3-0 Marruecos, Francia 2-0 Marruecos. Final: Argentina 3-3 Francia (4-2 pen.)",
-                grupos: { "Grupo A": [{pais:"Países Bajos",pts:7,pj:3,pg:2},{pais:"Senegal",pts:6,pj:3,pg:2},{pais:"Ecuador",pts:4,pj:3,pg:1},{pais:"Catar",pts:0,pj:3,pg:0}], "Grupo B": [{pais:"Inglaterra",pts:7,pj:3,pg:2},{pais:"EE.UU.",pts:5,pj:3,pg:1},{pais:"Irán",pts:3,pj:3,pg:1},{pais:"Gales",pts:1,pj:3,pg:0}], "Grupo C": [{pais:"Argentina",pts:6,pj:3,pg:2},{pais:"Polonia",pts:4,pj:3,pg:1},{pais:"México",pts:4,pj:3,pg:1},{pais:"Arabia Saudita",pts:3,pj:3,pg:1}], "Grupo D": [{pais:"Francia",pts:6,pj:3,pg:2},{pais:"Australia",pts:6,pj:3,pg:2},{pais:"Túnez",pts:4,pj:3,pg:1},{pais:"Dinamarca",pts:1,pj:3,pg:0}], "Grupo E": [{pais:"Japón",pts:6,pj:3,pg:2},{pais:"España",pts:4,pj:3,pg:1},{pais:"Alemania",pts:4,pj:3,pg:1},{pais:"Costa Rica",pts:3,pj:3,pg:1}], "Grupo F": [{pais:"Marruecos",pts:7,pj:3,pg:2},{pais:"Croacia",pts:5,pj:3,pg:1},{pais:"Bélgica",pts:4,pj:3,pg:1},{pais:"Canadá",pts:0,pj:3,pg:0}], "Grupo G": [{pais:"Brasil",pts:6,pj:3,pg:2},{pais:"Suiza",pts:6,pj:3,pg:2},{pais:"Camerún",pts:4,pj:3,pg:1},{pais:"Serbia",pts:1,pj:3,pg:0}], "Grupo H": [{pais:"Portugal",pts:6,pj:3,pg:2},{pais:"Corea del Sur",pts:4,pj:3,pg:1},{pais:"Uruguay",pts:4,pj:3,pg:1},{pais:"Ghana",pts:3,pj:3,pg:1}] } 
+                host: "Catar", equipos: 32, campeon: "Argentina", subcampeon: "Francia", balon: "Al Rihla", cancion: "Hayya Hayya", videoId: "vyDxPvXvHk8", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/2022_FIFA_World_Cup.svg/100px-2022_FIFA_World_Cup.svg.png", 
+                faseEliminatoria: [
+                    { etapa: "Cuartos de Final", cruces: [{local:"Croacia 🇭🇷", visita:"Brasil 🇧🇷", resultado:"1 (4) - 1 (2)"}, {local:"Países Bajos 🇳🇱", visita:"Argentina 🇦🇷", resultado:"2 (3) - 2 (4)"}, {local:"Marruecos 🇲🇦", visita:"Portugal 🇵🇹", resultado:"1 - 0"}, {local:"Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿", visita:"Francia 🇫🇷", resultado:"1 - 2"}] },
+                    { etapa: "Semifinales", cruces: [{local:"Argentina 🇦🇷", visita:"Croacia 🇭🇷", resultado:"3 - 0"}, {local:"Francia 🇫🇷", visita:"Marruecos 🇲🇦", resultado:"2 - 0"}] },
+                    { etapa: "Gran Final", cruces: [{local:"Argentina 🇦🇷 👑", visita:"Francia 🇫🇷", resultado:"3 (4) - 3 (2)"}] }
+                ],
+                grupos: { "Grupo C": [{pais:"Argentina",pts:6,pj:3,pg:2},{pais:"Polonia",pts:4,pj:3,pg:1},{pais:"México",pts:4,pj:3,pg:1},{pais:"Arabia Saudita",pts:3,pj:3,pg:1}], "Grupo D": [{pais:"Francia",pts:6,pj:3,pg:2},{pais:"Australia",pts:6,pj:3,pg:2},{pais:"Túnez",pts:4,pj:3,pg:1},{pais:"Dinamarca",pts:1,pj:3,pg:0}] } 
             },
             "2018": { 
-                host: "Rusia", equipos: 32, campeon: "Francia", subcampeon: "Croacia", balon: "Telstar 18", cancion: "Live It Up", url: "https://www.youtube.com/embed/V15BYn7I6ZM", imagen: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Cuartos: Francia venció a Uruguay, Bélgica a Brasil, Croacia a Rusia, Inglaterra a Suecia. Semifinales: Francia 1-0 Bélgica, Croacia 2-1 Inglaterra. Final: Francia 4-2 Croacia.",
-                grupos: { "Grupo A": [{pais:"Uruguay",pts:9,pj:3,pg:3},{pais:"Rusia",pts:6,pj:3,pg:2},{pais:"Arabia Saudita",pts:3,pj:3,pg:1},{pais:"Egipto",pts:0,pj:3,pg:0}], "Grupo B": [{pais:"España",pts:5,pj:3,pg:1},{pais:"Portugal",pts:5,pj:3,pg:1},{pais:"Irán",pts:4,pj:3,pg:1},{pais:"Marruecos",pts:1,pj:3,pg:0}], "Grupo C": [{pais:"Francia",pts:7,pj:3,pg:2},{pais:"Dinamarca",pts:5,pj:3,pg:1},{pais:"Perú",pts:3,pj:3,pg:1},{pais:"Australia",pts:1,pj:3,pg:0}], "Grupo D": [{pais:"Croacia",pts:9,pj:3,pg:3},{pais:"Argentina",pts:4,pj:3,pg:1},{pais:"Nigeria",pts:3,pj:3,pg:1},{pais:"Islandia",pts:1,pj:3,pg:0}], "Grupo E": [{pais:"Brasil",pts:7,pj:3,pg:2},{pais:"Suiza",pts:5,pj:3,pg:1},{pais:"Serbia",pts:3,pj:3,pg:1},{pais:"Costa Rica",pts:1,pj:3,pg:0}], "Grupo F": [{pais:"Suecia",pts:6,pj:3,pg:2},{pais:"México",pts:6,pj:3,pg:2},{pais:"Corea del Sur",pts:3,pj:3,pg:1},{pais:"Alemania",pts:3,pj:3,pg:1}], "Grupo G": [{pais:"Bélgica",pts:9,pj:3,pg:3},{pais:"Inglaterra",pts:6,pj:3,pg:2},{pais:"Túnez",pts:3,pj:3,pg:1},{pais:"Panamá",pts:0,pj:3,pg:0}], "Grupo H": [{pais:"Colombia",pts:6,pj:3,pg:2},{pais:"Japón",pts:4,pj:3,pg:1},{pais:"Senegal",pts:4,pj:3,pg:1},{pais:"Polonia",pts:3,pj:3,pg:1}] } 
+                host: "Rusia", equipos: 32, campeon: "Francia", subcampeon: "Croacia", balon: "Telstar 18", cancion: "Live It Up", videoId: "V15BYn7I6ZM", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/2018_FIFA_World_Cup_Logo.svg/100px-2018_FIFA_World_Cup_Logo.svg.png", 
+                faseEliminatoria: [
+                    { etapa: "Cuartos de Final", cruces: [{local:"Uruguay 🇺🇾", visita:"Francia 🇫🇷", resultado:"0 - 2"}, {local:"Brasil 🇧🇷", visita:"Bélgica 🇧🇪", resultado:"1 - 2"}, {local:"Suecia 🇸🇪", visita:"Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿", resultado:"0 - 2"}, {local:"Rusia 🇷🇺", visita:"Croacia 🇭🇷", resultado:"2 (3) - 2 (4)"}] },
+                    { etapa: "Semifinales", cruces: [{local:"Francia 🇫🇷", visita:"Bélgica 🇧🇪", resultado:"1 - 0"}, {local:"Croacia 🇭🇷", visita:"Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿", resultado:"2 - 1"}] },
+                    { etapa: "Gran Final", cruces: [{local:"Francia 🇫🇷 👑", visita:"Croacia 🇭🇷", resultado:"4 - 2"}] }
+                ],
+                grupos: { "Grupo C": [{pais:"Francia",pts:7,pj:3,pg:2},{pais:"Dinamarca",pts:5,pj:3,pg:1},{pais:"Perú",pts:3,pj:3,pg:1}], "Grupo D": [{pais:"Croacia",pts:9,pj:3,pg:3},{pais:"Argentina",pts:4,pj:3,pg:1},{pais:"Nigeria",pts:3,pj:3,pg:1}] } 
             },
             "2014": { 
-                host: "Brasil", equipos: 32, campeon: "Alemania", subcampeon: "Argentina", balon: "Brazuca", cancion: "We Are One", url: "https://www.youtube.com/embed/TGtWWb9emYI", imagen: "https://images.unsplash.com/photo-1562074244-3523ba46fa6f?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Cuartos: Brasil venció a Colombia, Alemania a Francia, Argentina a Bélgica, Países Bajos a Costa Rica. Semifinales: Alemania 7-1 Brasil, Argentina 0-0 Países Bajos (4-2 pen.). Final: Alemania 1-0 Argentina.",
-                grupos: { "Grupo A": [{pais:"Brasil",pts:7,pj:3,pg:2},{pais:"México",pts:7,pj:3,pg:2},{pais:"Croacia",pts:3,pj:3,pg:1},{pais:"Camerún",pts:0,pj:3,pg:0}], "Grupo B": [{pais:"Países Bajos",pts:9,pj:3,pg:3},{pais:"Chile",pts:6,pj:3,pg:2},{pais:"España",pts:3,pj:3,pg:1},{pais:"Australia",pts:0,pj:3,pg:0}], "Grupo C": [{pais:"Colombia",pts:9,pj:3,pg:3},{pais:"Grecia",pts:4,pj:3,pg:1},{pais:"Costa de Marfil",pts:3,pj:3,pg:1},{pais:"Japón",pts:1,pj:3,pg:0}], "Grupo D": [{pais:"Costa Rica",pts:7,pj:3,pg:2},{pais:"Uruguay",pts:6,pj:3,pg:2},{pais:"Italia",pts:3,pj:3,pg:1},{pais:"Inglaterra",pts:1,pj:3,pg:0}], "Grupo E": [{pais:"Francia",pts:7,pj:3,pg:2},{pais:"Suiza",pts:6,pj:3,pg:2},{pais:"Ecuador",pts:4,pj:3,pg:1},{pais:"Honduras",pts:0,pj:3,pg:0}], "Grupo F": [{pais:"Argentina",pts:9,pj:3,pg:3},{pais:"Nigeria",pts:4,pj:3,pg:1},{pais:"Bosnia",pts:3,pj:3,pg:1},{pais:"Irán",pts:1,pj:3,pg:0}], "Grupo G": [{pais:"Alemania",pts:7,pj:3,pg:2},{pais:"EE.UU.",pts:4,pj:3,pg:1},{pais:"Portugal",pts:4,pj:3,pg:1},{pais:"Ghana",pts:1,pj:3,pg:0}], "Grupo H": [{pais:"Bélgica",pts:9,pj:3,pg:3},{pais:"Argelia",pts:4,pj:3,pg:1},{pais:"Rusia",pts:2,pj:3,pg:0},{pais:"Corea del Sur",pts:1,pj:3,pg:0}] } 
+                host: "Brasil", equipos: 32, campeon: "Alemania", subcampeon: "Argentina", balon: "Brazuca", cancion: "We Are One", videoId: "TGtWWb9emYI", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/2014_FIFA_World_Cup_Logo.svg/100px-2014_FIFA_World_Cup_Logo.svg.png", 
+                faseEliminatoria: [
+                    { etapa: "Cuartos de Final", cruces: [{local:"Francia 🇫🇷", visita:"Alemania 🇩🇪", resultado:"0 - 1"}, {local:"Brasil 🇧🇷", visita:"Colombia 🇨🇴", resultado:"2 - 1"}, {local:"Argentina 🇦🇷", visita:"Bélgica 🇧🇪", resultado:"1 - 0"}, {local:"Países Bajos 🇳🇱", visita:"Costa Rica 🇨🇷", resultado:"0 (4) - 0 (3)"}] },
+                    { etapa: "Semifinales", cruces: [{local:"Brasil 🇧🇷", visita:"Alemania 🇩🇪", resultado:"1 - 7"}, {local:"Argentina 🇦🇷", visita:"Países Bajos 🇳🇱", resultado:"0 (4) - 0 (2)"}] },
+                    { etapa: "Gran Final", cruces: [{local:"Alemania 🇩🇪 👑", visita:"Argentina 🇦🇷", resultado:"1 - 0"}] }
+                ],
+                grupos: { "Grupo G": [{pais:"Alemania",pts:7,pj:3,pg:2},{pais:"EE.UU.",pts:4,pj:3,pg:1},{pais:"Portugal",pts:4,pj:3,pg:1}] } 
             },
             "2010": { 
-                host: "Sudáfrica", equipos: 32, campeon: "España", subcampeon: "Países Bajos", balon: "Jabulani", cancion: "Waka Waka", url: "https://www.youtube.com/embed/pRpeEdMmmQ0", imagen: "https://images.unsplash.com/photo-1510563800743-aed2364902b8?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Cuartos: Uruguay venció a Ghana, Países Bajos a Brasil, Argentina cayó ante Alemania, España venció a Paraguay. Semifinales: Países Bajos 3-2 Uruguay, España 1-0 Alemania. Final: España 1-0 Países Bajos.",
-                grupos: { "Grupo A": [{pais:"Uruguay",pts:7,pj:3,pg:2},{pais:"México",pts:4,pj:3,pg:1},{pais:"Sudáfrica",pts:4,pj:3,pg:1},{pais:"Francia",pts:1,pj:3,pg:0}], "Grupo B": [{pais:"Argentina",pts:9,pj:3,pg:3},{pais:"Corea del Sur",pts:4,pj:3,pg:1},{pais:"Grecia",pts:3,pj:3,pg:1},{pais:"Nigeria",pts:1,pj:3,pg:0}], "Grupo C": [{pais:"EE.UU.",pts:5,pj:3,pg:1},{pais:"Inglaterra",pts:5,pj:3,pg:1},{pais:"Eslovenia",pts:4,pj:3,pg:1},{pais:"Argelia",pts:1,pj:3,pg:0}], "Grupo D": [{pais:"Alemania",pts:6,pj:3,pg:2},{pais:"Ghana",pts:4,pj:3,pg:1},{pais:"Australia",pts:4,pj:3,pg:1},{pais:"Serbia",pts:3,pj:3,pg:1}], "Grupo E": [{pais:"Países Bajos",pts:9,pj:3,pg:3},{pais:"Japón",pts:6,pj:3,pg:2},{pais:"Dinamarca",pts:3,pj:3,pg:1},{pais:"Camerún",pts:0,pj:3,pg:0}], "Grupo F": [{pais:"Paraguay",pts:5,pj:3,pg:1},{pais:"Eslovaquia",pts:4,pj:3,pg:1},{pais:"Nueva Zelanda",pts:3,pj:3,pg:0},{pais:"Italia",pts:2,pj:3,pg:0}], "Grupo G": [{pais:"Brasil",pts:7,pj:3,pg:2},{pais:"Portugal",pts:5,pj:3,pg:1},{pais:"Costa de Marfil",pts:4,pj:3,pg:1},{pais:"Corea del Norte",pts:0,pj:3,pg:0}], "Grupo H": [{pais:"España",pts:6,pj:3,pg:2},{pais:"Chile",pts:6,pj:3,pg:2},{pais:"Suiza",pts:4,pj:3,pg:1},{pais:"Honduras",pts:1,pj:3,pg:0}] } 
-            },
-            "2006": { 
-                host: "Alemania", equipos: 32, campeon: "Italia", subcampeon: "Francia", balon: "Teamgeist", cancion: "The Time of Our Lives", url: "https://www.youtube.com/embed/4a6E39ZSK2M", imagen: "https://images.unsplash.com/photo-1516515429572-bf32372f2409?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Cuartos: Alemania venció a Argentina, Italia a Ucrania, Portugal a Inglaterra, Francia a Brasil. Semifinales: Italia 2-0 Alemania, Francia 1-0 Portugal. Final: Italia 1-1 Francia (5-3 pen.)",
-                grupos: { "Grupo A": [{pais:"Alemania",pts:9,pj:3,pg:3},{pais:"Ecuador",pts:6,pj:3,pg:2},{pais:"Polonia",pts:3,pj:3,pg:1},{pais:"Costa Rica",pts:0,pj:3,pg:0}], "Grupo B": [{pais:"Inglaterra",pts:7,pj:3,pg:2},{pais:"Suecia",pts:5,pj:3,pg:1},{pais:"Paraguay",pts:3,pj:3,pg:1},{pais:"Trinidad y T.",pts:1,pj:3,pg:0}], "Grupo C": [{pais:"Argentina",pts:7,pj:3,pg:2},{pais:"Países Bajos",pts:7,pj:3,pg:2},{pais:"Costa de Marfil",pts:3,pj:3,pg:1},{pais:"Serbia y M.",pts:0,pj:3,pg:0}], "Grupo D": [{pais:"Portugal",pts:9,pj:3,pg:3},{pais:"México",pts:4,pj:3,pg:1},{pais:"Angola",pts:2,pj:3,pg:0},{pais:"Irán",pts:1,pj:3,pg:0}], "Grupo E": [{pais:"Italia",pts:7,pj:3,pg:2},{pais:"Ghana",pts:6,pj:3,pg:2},{pais:"Rep. Checa",pts:3,pj:3,pg:1},{pais:"EE.UU.",pts:1,pj:3,pg:0}], "Grupo F": [{pais:"Brasil",pts:9,pj:3,pg:3},{pais:"Australia",pts:4,pj:3,pg:1},{pais:"Croacia",pts:2,pj:3,pg:0},{pais:"Japón",pts:1,pj:3,pg:0}], "Grupo G": [{pais:"Francia",pts:5,pj:3,pg:1},{pais:"Suiza",pts:7,pj:3,pg:2},{pais:"Corea del Sur",pts:4,pj:3,pg:1},{pais:"Togo",pts:0,pj:3,pg:0}], "Grupo H": [{pais:"España",pts:9,pj:3,pg:3},{pais:"Ucrania",pts:6,pj:3,pg:2},{pais:"Túnez",pts:1,pj:3,pg:0},{pais:"Arabia Saudita",pts:1,pj:3,pg:0}] } 
-            },
-            "2002": { 
-                host: "Corea / Japón", equipos: 32, campeon: "Brasil", subcampeon: "Alemania", balon: "Fevernova", cancion: "Boom!", url: "https://www.youtube.com/embed/HZ_L0jlsaXw", imagen: "https://images.unsplash.com/photo-1511886929837-354d827aae26?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Cuartos: Brasil venció a Inglaterra, Alemania a EE.UU., Corea a España, Turquía a Senegal. Semifinales: Alemania 1-0 Corea, Brasil 1-0 Turquía. Final: Brasil 2-0 Alemania.",
-                grupos: { "Grupo A": [{pais:"Dinamarca",pts:7,pj:3,pg:2},{pais:"Senegal",pts:5,pj:3,pg:1},{pais:"Uruguay",pts:2,pj:3,pg:0},{pais:"Francia",pts:1,pj:3,pg:0}], "Grupo B": [{pais:"España",pts:9,pj:3,pg:3},{pais:"Paraguay",pts:4,pj:3,pg:1},{pais:"Sudáfrica",pts:4,pj:3,pg:1},{pais:"Eslovenia",pts:0,pj:3,pg:0}], "Grupo C": [{pais:"Brasil",pts:9,pj:3,pg:3},{pais:"Turquía",pts:4,pj:3,pg:1},{pais:"Costa Rica",pts:4,pj:3,pg:1},{pais:"China",pts:0,pj:3,pg:0}], "Grupo D": [{pais:"Corea del Sur",pts:7,pj:3,pg:2},{pais:"EE.UU.",pts:4,pj:3,pg:1},{pais:"Portugal",pts:3,pj:3,pg:1},{pais:"Polonia",pts:3,pj:3,pg:1}], "Grupo E": [{pais:"Alemania",pts:7,pj:3,pg:2},{pais:"Irlanda",pts:5,pj:3,pg:1},{pais:"Camerún",pts:4,pj:3,pg:1},{pais:"Arabia Saudita",pts:0,pj:3,pg:0}], "Grupo F": [{pais:"Suecia",pts:5,pj:3,pg:1},{pais:"Inglaterra",pts:5,pj:3,pg:1},{pais:"Argentina",pts:4,pj:3,pg:1},{pais:"Nigeria",pts:1,pj:3,pg:0}], "Grupo G": [{pais:"México",pts:7,pj:3,pg:2},{pais:"Italia",pts:4,pj:3,pg:1},{pais:"Croacia",pts:3,pj:3,pg:1},{pais:"Ecuador",pts:3,pj:3,pg:1}], "Grupo H": [{pais:"Japón",pts:7,pj:3,pg:2},{pais:"Bélgica",pts:5,pj:3,pg:1},{pais:"Rusia",pts:3,pj:3,pg:1},{pais:"Túnez",pts:1,pj:3,pg:0}] } 
-            },
-            "1998": { 
-                host: "Francia", equipos: 32, campeon: "Francia", subcampeon: "Brasil", balon: "Tricolore", cancion: "La Copa de la Vida", url: "https://www.youtube.com/embed/8BkYKwz_uN4", imagen: "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Cuartos: Francia venció a Italia, Brasil a Dinamarca, Países Bajos a Argentina, Croacia a Alemania. Semifinales: Brasil 1-1 Países Bajos (4-2 pen.), Francia 2-1 Croacia. Final: Francia 3-0 Brasil.",
-                grupos: { "Grupo A": [{pais:"Brasil",pts:6,pj:3,pg:2},{pais:"Noruega",pts:5,pj:3,pg:1},{pais:"Marruecos",pts:4,pj:3,pg:1},{pais:"Escocia",pts:1,pj:3,pg:0}], "Grupo B": [{pais:"Italia",pts:7,pj:3,pg:2},{pais:"Chile",pts:3,pj:3,pg:0},{pais:"Austria",pts:2,pj:3,pg:0},{pais:"Camerún",pts:2,pj:3,pg:0}], "Grupo C": [{pais:"Francia",pts:9,pj:3,pg:3},{pais:"Dinamarca",pts:4,pj:3,pg:1},{pais:"Sudáfrica",pts:2,pj:3,pg:0},{pais:"Arabia Saudita",pts:1,pj:3,pg:0}], "Grupo D": [{pais:"Nigeria",pts:6,pj:3,pg:2},{pais:"Paraguay",pts:5,pj:3,pg:1},{pais:"España",pts:4,pj:3,pg:1},{pais:"Bulgaria",pts:1,pj:3,pg:0}], "Grupo E": [{pais:"Países Bajos",pts:5,pj:3,pg:1},{pais:"México",pts:5,pj:3,pg:1},{pais:"Bélgica",pts:3,pj:3,pg:0},{pais:"Corea del Sur",pts:1,pj:3,pg:0}], "Grupo F": [{pais:"Alemania",pts:7,pj:3,pg:2},{pais:"Yugoslavia",pts:7,pj:3,pg:2},{pais:"Irán",pts:3,pj:3,pg:1},{pais:"EE.UU.",pts:0,pj:3,pg:0}], "Grupo G": [{pais:"Rumania",pts:7,pj:3,pg:2},{pais:"Inglaterra",pts:6,pj:3,pg:2},{pais:"Colombia",pts:3,pj:3,pg:1},{pais:"Túnez",pts:1,pj:3,pg:0}], "Grupo H": [{pais:"Argentina",pts:9,pj:3,pg:3},{pais:"Croacia",pts:6,pj:3,pg:2},{pais:"Jamaica",pts:3,pj:3,pg:1},{pais:"Japón",pts:0,pj:3,pg:0}] } 
-            },
-            "1994": { 
-                host: "Estados Unidos", equipos: 24, campeon: "Brasil", subcampeon: "Italia", balon: "Questra", cancion: "Gloryland", url: "https://www.youtube.com/embed/FALjXf69v_w", imagen: "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Cuartos: Italia venció a España, Brasil a Países Bajos, Suecia a Rumania, Bulgaria a Alemania. Semifinales: Italia 2-1 Bulgaria, Brasil 1-0 Suecia. Final: Brasil 0-0 Italia (3-2 pen.)",
-                grupos: { "Grupo A": [{pais:"Rumania",pts:6,pj:3,pg:2},{pais:"Suiza",pts:4,pj:3,pg:1},{pais:"EE.UU.",pts:4,pj:3,pg:1},{pais:"Colombia",pts:3,pj:3,pg:1}], "Grupo B": [{pais:"Brasil",pts:7,pj:3,pg:2},{pais:"Suecia",pts:5,pj:3,pg:1},{pais:"Rusia",pts:3,pj:3,pg:1},{pais:"Camerún",pts:1,pj:3,pg:0}], "Grupo C": [{pais:"Alemania",pts:7,pj:3,pg:2},{pais:"España",pts:5,pj:3,pg:1},{pais:"Corea del Sur",pts:2,pj:3,pg:0},{pais:"Bolivia",pts:1,pj:3,pg:0}], "Grupo D": [{pais:"Nigeria",pts:6,pj:3,pg:2},{pais:"Bulgaria",pts:6,pj:3,pg:2},{pais:"Argentina",pts:6,pj:3,pg:2},{pais:"Grecia",pts:0,pj:3,pg:0}], "Grupo E": [{pais:"México",pts:4,pj:3,pg:1},{pais:"Irlanda",pts:4,pj:3,pg:1},{pais:"Italia",pts:4,pj:3,pg:1},{pais:"Noruega",pts:4,pj:3,pg:1}], "Grupo F": [{pais:"Países Bajos",pts:6,pj:3,pg:2},{pais:"Arabia Saudita",pts:6,pj:3,pg:2},{pais:"Bélgica",pts:6,pj:3,pg:2},{pais:"Marruecos",pts:0,pj:3,pg:0}] } 
+                host: "Sudáfrica", equipos: 32, campeon: "España", subcampeon: "Países Bajos", balon: "Jabulani", cancion: "Waka Waka", videoId: "pRpeEdMmmQ0", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/2010_FIFA_World_Cup_Logo.svg/100px-2010_FIFA_World_Cup_Logo.svg.png", 
+                faseEliminatoria: [
+                    { etapa: "Cuartos de Final", cruces: [{local:"Países Bajos 🇳🇱", visita:"Brasil 🇧🇷", resultado:"2 - 1"}, {local:"Uruguay 🇺🇾", visita:"Ghana 🇬🇭", resultado:"1 (4) - 1 (3)"}, {local:"Argentina 🇦🇷", visita:"Alemania 🇩🇪", resultado:"0 - 4"}, {local:"Paraguay 🇵🇾", visita:"España 🇪🇸", resultado:"0 - 1"}] },
+                    { etapa: "Semifinales", cruces: [{local:"Países Bajos 🇳🇱", visita:"Uruguay 🇺🇾", resultado:"3 - 2"}, {local:"Alemania 🇩🇪", visita:"España 🇪🇸", resultado:"0 - 1"}] },
+                    { etapa: "Gran Final", cruces: [{local:"España 🇪🇸 👑", visita:"Países Bajos 🇳🇱", resultado:"1 - 0"}] }
+                ],
+                grupos: { "Grupo H": [{pais:"España",pts:6,pj:3,pg:2},{pais:"Chile",pts:6,pj:3,pg:2},{pais:"Suiza",pts:4,pj:3,pg:1}] } 
             },
             "1990": { 
-                host: "Italia", equipos: 24, campeon: "Alemania Federal", subcampeon: "Argentina", balon: "Etrusco Unico", cancion: "Un'estate italiana", url: "https://www.youtube.com/embed/dTbMwJMqilI", imagen: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Cuartos: Argentina venció a Yugoslavia, Italia a Irlanda, Alemania a Checoslovaquia, Inglaterra a Camerún. Semifinales: Argentina 1-1 Italia (4-3 pen.), Alemania 1-1 Inglaterra (4-3 pen.). Final: Alemania Fed. 1-0 Argentina.",
-                grupos: { "Grupo A": [{pais:"Italia",pts:6,pj:3,pg:3},{pais:"Checoslovaquia",pts:4,pj:3,pg:2},{pais:"Austria",pts:2,pj:3,pg:1},{pais:"Estados Unidos",pts:0,pj:3,pg:0}], "Grupo B": [{pais:"Camerún",pts:4,pj:3,pg:2},{pais:"Rumania",pts:3,pj:3,pg:1},{pais:"Argentina",pts:3,pj:3,pg:1},{pais:"Unión Soviética",pts:2,pj:3,pg:1}], "Grupo C": [{pais:"Brasil",pts:6,pj:3,pg:3},{pais:"Costa Rica",pts:4,pj:3,pg:2},{pais:"Escocia",pts:2,pj:3,pg:1},{pais:"Suecia",pts:0,pj:3,pg:0}], "Grupo D": [{pais:"Alemania Fed.",pts:5,pj:3,pg:2},{pais:"Yugoslavia",pts:4,pj:3,pg:2},{pais:"Colombia",pts:3,pj:3,pg:1},{pais:"Emiratos Árabes",pts:0,pj:3,pg:0}], "Grupo E": [{pais:"España",pts:5,pj:3,pg:2},{pais:"Bélgica",pts:4,pj:3,pg:2},{pais:"Uruguay",pts:3,pj:3,pg:1},{pais:"Corea del Sur",pts:0,pj:3,pg:0}], "Grupo F": [{pais:"Inglaterra",pts:4,pj:3,pg:1},{pais:"Irlanda",pts:3,pj:3,pg:0},{pais:"Países Bajos",pts:3,pj:3,pg:0},{pais:"Egipto",pts:2,pj:3,pg:0}] } 
-            },
-            "1986": { 
-                host: "México", equipos: 24, campeon: "Argentina", subcampeon: "Alemania Federal", balon: "Azteca", cancion: "El mundo unido por un balón", url: "https://www.youtube.com/embed/un9I9S8f1G0", imagen: "https://images.unsplash.com/photo-1552667466-07770ae110d0?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Cuartos: Francia venció a Brasil, Alemania a México, Argentina a Inglaterra, Bélgica a España. Semifinales: Alemania 2-0 Francia, Argentina 2-0 Bélgica. Final: Argentina 3-2 Alemania Fed.",
-                grupos: { "Grupo A": [{pais:"Argentina",pts:5,pj:3,pg:2},{pais:"Italia",pts:4,pj:3,pg:1},{pais:"Bulgaria",pts:2,pj:3,pg:0},{pais:"Corea del Sur",pts:1,pj:3,pg:0}], "Grupo B": [{pais:"México",pts:5,pj:3,pg:2},{pais:"Paraguay",pts:4,pj:3,pg:1},{pais:"Bélgica",pts:3,pj:3,pg:1},{pais:"Irak",pts:0,pj:3,pg:0}], "Grupo C": [{pais:"Unión Soviética",pts:5,pj:3,pg:2},{pais:"Francia",pts:5,pj:3,pg:2},{pais:"Hungría",pts:2,pj:3,pg:1},{pais:"Canadá",pts:0,pj:3,pg:0}], "Grupo D": [{pais:"Brasil",pts:6,pj:3,pg:3},{pais:"España",pts:4,pj:3,pg:2},{pais:"Argelia",pts:1,pj:3,pg:0},{pais:"Irlanda del N.",pts:1,pj:3,pg:0}], "Grupo E": [{pais:"Dinamarca",pts:6,pj:3,pg:3},{pais:"Alemania Fed.",pts:3,pj:3,pg:1},{pais:"Uruguay",pts:2,pj:3,pg:0},{pais:"Escocia",pts:1,pj:3,pg:0}], "Grupo F": [{pais:"Marruecos",pts:4,pj:3,pg:1},{pais:"Inglaterra",pts:3,pj:3,pg:1},{pais:"Polonia",pts:3,pj:3,pg:1},{pais:"Portugal",pts:2,pj:3,pg:1}] } 
-            },
-            "1982": { 
-                host: "España", equipos: 24, campeon: "Italia", subcampeon: "Alemania Federal", balon: "Tango España", cancion: "El Mundial", url: "https://www.youtube.com/embed/F_fD6zJv0k8", imagen: "https://images.unsplash.com/photo-1579952362874-86ed42d8a9b5?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Segunda fase de grupos que clasificó a los semifinalistas. Semifinales: Italia 2-0 Polonia, Alemania 3-3 Francia (5-4 pen.). Final: Italia 3-1 Alemania Fed.",
-                grupos: { "Grupo 1": [{pais:"Polonia",pts:4,pj:3,pg:1},{pais:"Italia",pts:3,pj:3,pg:0},{pais:"Camerún",pts:3,pj:3,pg:0},{pais:"Perú",pts:2,pj:3,pg:0}], "Grupo 2": [{pais:"Alemania Fed.",pts:4,pj:3,pg:2},{pais:"Austria",pts:4,pj:3,pg:2},{pais:"Argelia",pts:4,pj:3,pg:2},{pais:"Chile",pts:0,pj:3,pg:0}], "Grupo 3": [{pais:"Bélgica",pts:5,pj:3,pg:2},{pais:"Argentina",pts:4,pj:3,pg:2},{pais:"Hungría",pts:3,pj:3,pg:1},{pais:"El Salvador",pts:0,pj:3,pg:0}], "Grupo 4": [{pais:"Inglaterra",pts:6,pj:3,pg:3},{pais:"Francia",pts:3,pj:3,pg:1},{pais:"Checoslovaquia",pts:2,pj:3,pg:0},{pais:"Kuwait",pts:1,pj:3,pg:0}], "Grupo 5": [{pais:"Honduras",pts:2,pj:3,pg:0},{pais:"España",pts:3,pj:3,pg:1},{pais:"Yugoslavia",pts:3,pj:3,pg:1},{pais:"Irlanda del N.",pts:4,pj:3,pg:1}], "Grupo 6": [{pais:"Brasil",pts:6,pj:3,pg:3},{pais:"Unión Soviética",pts:3,pj:3,pg:1},{pais:"Escocia",pts:3,pj:3,pg:1},{pais:"Nueva Zelanda",pts:0,pj:3,pg:0}] } 
-            },
-            "1978": { 
-                host: "Argentina", equipos: 16, campeon: "Argentina", subcampeon: "Países Bajos", balon: "Tango", cancion: "Official Theme", url: "https://www.youtube.com/embed/840V49EAnp0", imagen: "https://images.unsplash.com/photo-1489945052260-4f21c52268b9?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Definición directa por ganadores de fase final de grupos. Tercer puesto: Brasil 2-1 Italia. Final: Argentina 3-1 Países Bajos en prórroga.",
-                grupos: { "Grupo 1": [{pais:"Italia",pts:6,pj:3,pg:3},{pais:"Argentina",pts:4,pj:3,pg:2},{pais:"Francia",pts:2,pj:3,pg:1},{pais:"Hungría",pts:0,pj:3,pg:0}], "Grupo 2": [{pais:"Polonia",pts:5,pj:3,pg:2},{pais:"Alemania Fed.",pts:4,pj:3,pg:1},{pais:"Túnez",pts:3,pj:3,pg:1},{pais:"México",pts:0,pj:3,pg:0}], "Grupo 3": [{pais:"Austria",pts:4,pj:3,pg:2},{pais:"Brasil",pts:4,pj:3,pg:1},{pais:"España",pts:3,pj:3,pg:1},{pais:"Suecia",pts:1,pj:3,pg:0}], "Grupo 4": [{pais:"Perú",pts:5,pj:3,pg:2},{pais:"Países Bajos",pts:3,pj:3,pg:1},{pais:"Escocia",pts:3,pj:3,pg:1},{pais:"Irán",pts:1,pj:3,pg:0}] } 
-            },
-            "1974": { 
-                host: "Alemania", equipos: 16, campeon: "Alemania Federal", subcampeon: "Países Bajos", balon: "Telstar Durlast", cancion: "Polka de la Copa", url: "https://www.youtube.com/embed/0kF9A_FzM_k", imagen: "https://images.unsplash.com/photo-1431324155629-1a6edd1d141d?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Cruces definidos por cuadrangulares de semifinales. Tercer Puesto: Polonia 1-0 Brasil. Final: Alemania Fed. 2-1 Países Bajos.",
-                grupos: { "Grupo 1": [{pais:"Alemania Dem.",pts:5,pj:3,pg:2},{pais:"Alemania Fed.",pts:4,pj:3,pg:2},{pais:"Chile",pts:2,pj:3,pg:0},{pais:"Australia",pts:1,pj:3,pg:0}], "Grupo 2": [{pais:"Yugoslavia",pts:4,pj:3,pg:1},{pais:"Brasil",pts:4,pj:3,pg:1},{pais:"Escocia",pts:4,pj:3,pg:1},{pais:"Zaire",pts:0,pj:3,pg:0}], "Grupo 3": [{pais:"Países Bajos",pts:5,pj:3,pg:2},{pais:"Suecia",pts:4,pj:3,pg:1},{pais:"Bulgaria",pts:2,pj:3,pg:0},{pais:"Uruguay",pts:1,pj:3,pg:0}], "Grupo 4": [{pais:"Polonia",pts:6,pj:3,pg:3},{pais:"Argentina",pts:3,pj:3,pg:1},{pais:"Italia",pts:3,pj:3,pg:1},{pais:"Haití",pts:0,pj:3,pg:0}] } 
-            },
-            "1970": { 
-                host: "México", equipos: 16, campeon: "Brasil", subcampeon: "Italia", balon: "Telstar", cancion: "Fútbol México 70", url: "https://www.youtube.com/embed/Fmsh_O3F64c", imagen: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Cuartos: Italia venció a México, Brasil a Perú, Alemania a Inglaterra, Uruguay a la URSS. Semifinales: Brasil 3-1 Uruguay, Italia 4-3 Alemania. Final: Brasil 4-1 Italia.",
-                grupos: { "Grupo 1": [{pais:"Unión Soviética",pts:5,pj:3,pg:2},{pais:"México",pts:5,pj:3,pg:2},{pais:"Bélgica",pts:2,pj:3,pg:1},{pais:"El Salvador",pts:0,pj:3,pg:0}], "Grupo 2": [{pais:"Italia",pts:4,pj:3,pg:1},{pais:"Uruguay",pts:3,pj:3,pg:1},{pais:"Israel",pts:2,pj:3,pg:0},{pais:"Suecia",pts:3,pj:3,pg:1}], "Grupo 3": [{pais:"Brasil",pts:6,pj:3,pg:3},{pais:"Inglaterra",pts:4,pj:3,pg:2},{pais:"Rumania",pts:2,pj:3,pg:1},{pais:"Checoslovaquia",pts:0,pj:3,pg:0}], "Grupo 4": [{pais:"Alemania Fed.",pts:6,pj:3,pg:3},{pais:"Perú",pts:4,pj:3,pg:2},{pais:"Bulgaria",pts:1,pj:3,pg:0},{pais:"Marruecos",pts:1,pj:3,pg:0}] } 
-            },
-            "1966": { 
-                host: "Inglaterra", equipos: 16, campeon: "Inglaterra", subcampeon: "Alemania Federal", balon: "Challenge 4-Star", cancion: "World Cup Willie", url: "https://www.youtube.com/embed/H7SgZ6f8I3o", imagen: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Cuartos: Inglaterra venció a Argentina, Alemania a Uruguay, Portugal a Corea del Norte, URSS a Hungría. Semifinales: Alemania 2-1 URSS, Inglaterra 2-1 Portugal. Final: Inglaterra 4-2 Alemania.",
-                grupos: { "Grupo 1": [{pais:"Inglaterra",pts:5,pj:3,pg:2},{pais:"Uruguay",pts:4,pj:3,pg:1},{pais:"México",pts:2,pj:3,pg:0},{pais:"Francia",pts:1,pj:3,pg:0}], "Grupo 2": [{pais:"Alemania Fed.",pts:5,pj:3,pg:2},{pais:"Argentina",pts:5,pj:3,pg:2},{pais:"España",pts:2,pj:3,pg:1},{pais:"Suiza",pts:0,pj:3,pg:0}], "Grupo 3": [{pais:"Portugal",pts:6,pj:3,pg:3},{pais:"Hungría",pts:4,pj:3,pg:2},{pais:"Brasil",pts:2,pj:3,pg:1},{pais:"Bulgaria",pts:0,pj:3,pg:0}], "Grupo 4": [{pais:"Unión Soviética",pts:6,pj:3,pg:3},{pais:"Corea del Norte",pts:3,pj:3,pg:1},{pais:"Italia",pts:2,pj:3,pg:1},{pais:"Chile",pts:1,pj:3,pg:0}] } 
-            },
-            "1962": { 
-                host: "Chile", equipos: 16, campeon: "Brasil", subcampeon: "Checoslovaquia", balon: "Crack", cancion: "El Rock del Mundial", url: "https://www.youtube.com/embed/6m82eS_K1bY", imagen: "https://images.unsplash.com/photo-1562074244-3523ba46fa6f?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Cuartos: Chile venció a URSS, Checoslovaquia a Hungría, Brasil a Inglaterra, Yugoslavia a Alemania. Semifinales: Brasil 4-2 Chile, Checoslovaquia 3-1 Yugoslavia. Final: Brasil 3-1 Checoslovaquia.",
-                grupos: { "Grupo 1": [{pais:"Unión Soviética",pts:5,pj:3,pg:2},{pais:"Yugoslavia",pts:4,pj:3,pg:2},{pais:"Uruguay",pts:2,pj:3,pg:1},{pais:"Colombia",pts:1,pj:3,pg:0}], "Grupo 2": [{pais:"Alemania Fed.",pts:5,pj:3,pg:2},{pais:"Chile",pts:4,pj:3,pg:2},{pais:"Italia",pts:3,pj:3,pg:1},{pais:"Suiza",pts:0,pj:3,pg:0}], "Grupo 3": [{pais:"Brasil",pts:5,pj:3,pg:2},{pais:"Checoslovaquia",pts:3,pj:3,pg:1},{pais:"México",pts:2,pj:3,pg:1},{pais:"España",pts:2,pj:3,pg:1}], "Grupo 4": [{pais:"Hungría",pts:5,pj:3,pg:2},{pais:"Inglaterra",pts:3,pj:3,pg:1},{pais:"Argentina",pts:3,pj:3,pg:1},{pais:"Bulgaria",pts:1,pj:3,pg:0}] } 
-            },
-            "1958": { 
-                host: "Suecia", equipos: 16, campeon: "Brasil", subcampeon: "Suecia", balon: "Top Star", cancion: "Marcha de los Estadios", url: "https://www.youtube.com/embed/FInNen68_W8", imagen: "https://images.unsplash.com/photo-1510563800743-aed2364902b8?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Cuartos: Francia venció a Irlanda del Norte, Suecia a URSS, Brasil a Gales, Alemania a Yugoslavia. Semifinales: Suecia 3-1 Alemania, Brasil 5-2 Francia. Final: Brasil 5-2 Suecia.",
-                grupos: { "Grupo 1": [{pais:"Alemania Fed.",pts:4,pj:3,pg:1},{pais:"Irlanda del N.",pts:3,pj:3,pg:1},{pais:"Checoslovaquia",pts:3,pj:3,pg:1},{pais:"Argentina",pts:2,pj:3,pg:1}], "Grupo 2": [{pais:"Francia",pts:4,pj:3,pg:2},{pais:"Yugoslavia",pts:4,pj:3,pg:1},{pais:"Paraguay",pts:3,pj:3,pg:1},{pais:"Escocia",pts:1,pj:3,pg:0}], "Grupo 3": [{pais:"Suecia",pts:5,pj:3,pg:2},{pais:"Gales",pts:3,pj:3,pg:0},{pais:"Hungría",pts:3,pj:3,pg:1},{pais:"México",pts:1,pj:3,pg:0}], "Grupo 4": [{pais:"Brasil",pts:5,pj:3,pg:2},{pais:"Unión Soviética",pts:3,pj:3,pg:1},{pais:"Inglaterra",pts:3,pj:3,pg:0},{pais:"Austria",pts:1,pj:3,pg:0}] } 
-            },
-            "1954": { 
-                host: "Suiza", equipos: 16, campeon: "Alemania Federal", subcampeon: "Hungría", balon: "Swiss World Champion", cancion: "Melodías Suizas", url: "https://www.youtube.com/embed/wNly8oaslG4", imagen: "https://images.unsplash.com/photo-1516515429572-bf32372f2409?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Cuartos: Austria cayó 7-5 ante Suiza, Uruguay venció a Inglaterra, Hungría a Brasil, Alemania a Yugoslavia. Semifinales: Alemania 6-1 Austria, Hungría 4-2 Uruguay. Final: Alemania 3-2 Hungría.",
-                grupos: { "Grupo 1": [{pais:"Brasil",pts:3,pj:2,pg:1},{pais:"Yugoslavia",pts:3,pj:2,pg:1},{pais:"Francia",pts:2,pj:2,pg:1},{pais:"México",pts:0,pj:2,pg:0}], "Grupo 2": [{pais:"Hungría",pts:4,pj:2,pg:2},{pais:"Alemania Fed.",pts:2,pj:2,pg:1},{pais:"Turquía",pts:2,pj:2,pg:1},{pais:"Corea del Sur",pts:0,pj:2,pg:0}], "Grupo 3": [{pais:"Uruguay",pts:4,pj:2,pg:2},{pais:"Austria",pts:4,pj:2,pg:2},{pais:"Checoslovaquia",pts:0,pj:2,pg:0},{pais:"Escocia",pts:0,pj:2,pg:0}], "Grupo 4": [{pais:"Inglaterra",pts:3,pj:2,pg:1},{pais:"Italia",pts:2,pj:2,pg:1},{pais:"Suiza",pts:2,pj:2,pg:1},{pais:"Bélgica",pts:1,pj:2,pg:0}] } 
-            },
-            "1950": { 
-                host: "Brasil", equipos: 13, campeon: "Uruguay", subcampeon: "Brasil", balon: "Duplo T", cancion: "Carnaval del Balón", url: "https://www.youtube.com/embed/8b5W9a1D5yU", imagen: "https://images.unsplash.com/photo-1511886929837-354d827aae26?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "No tuvo llaves directas; se definió mediante un grupo final de 4 equipos donde se disputó el decisivo Maracanazo (Uruguay 2-1 Brasil).",
-                grupos: { "Grupo 1": [{pais:"Brasil",pts:5,pj:3,pg:2},{pais:"Yugoslavia",pts:4,pj:3,pg:2},{pais:"Suiza",pts:3,pj:3,pg:1},{pais:"México",pts:0,pj:3,pg:0}], "Grupo 2": [{pais:"España",pts:6,pj:3,pg:3},{pais:"Inglaterra",pts:2,pj:3,pg:1},{pais:"Chile",pts:2,pj:3,pg:1},{pais:"EE.UU.",pts:2,pj:3,pg:1}], "Grupo 3": [{pais:"Suecia",pts:3,pj:2,pg:1},{pais:"Italia",pts:2,pj:2,pg:1},{pais:"Paraguay",pts:1,pj:2,pg:0}], "Grupo 4": [{pais:"Uruguay",pts:2,pj:1,pg:1},{pais:"Bolivia",pts:0,pj:1,pg:0}] } 
-            },
-            "1938": { 
-                host: "Francia", equipos: 15, campeon: "Italia", subcampeon: "Hungría", balon: "Allen", cancion: "Marcha de los Galos", url: "https://www.youtube.com/embed/Fbyo6yHskx8", imagen: "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Octavos y Cuartos directos. Semifinales: Hungría 5-1 Suecia, Italia 2-1 Brasil. Final: Italia 4-2 Hungría.",
-                grupos: { "Fase Final (Llave Podio)": [{pais:"Italia (Campeón)",pts:"-",pj:4,pg:4},{pais:"Hungría (Subcampeón)",pts:"-",pj:4,pg:3},{pais:"Brasil (Tercero)",pts:"-",pj:5,pg:3}] } 
-            },
-            "1934": { 
-                host: "Italia", equipos: 16, campeon: "Italia", subcampeon: "Checoslovaquia", balon: "Federale 102", cancion: "Himno de la Victoria", url: "https://www.youtube.com/embed/XzXW8_VvRsc", imagen: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Octavos y Cuartos de final directos. Semifinales: Italia 1-0 Alemania, Checoslovaquia 3-1 Austria. Final: Italia 2-1 Checoslovaquia en prórroga.",
-                grupos: { "Fase Final (Llave Podio)": [{pais:"Italia (Campeón)",pts:"-",pj:5,pg:4},{pais:"Checoslovaquia",pts:"-",pj:4,pg:3},{pais:"Alemania",pts:"-",pj:4,pg:3}] } 
+                host: "Italia", equipos: 24, campeon: "Alemania Federal", subcampeon: "Argentina", balon: "Etrusco Unico", cancion: "Un'estate italiana", videoId: "dTbMwJMqilI", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Logo_Italia_90.png/120px-Logo_Italia_90.png", 
+                faseEliminatoria: [
+                    { etapa: "Semifinales", cruces: [{local:"Argentina 🇦🇷", visita:"Italia 🇮🇹", resultado:"1 (4) - 1 (3)"}, {local:"Alemania Fed. 🇩🇪", visita:"Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿", resultado:"1 (4) - 1 (3)"}] },
+                    { etapa: "Gran Final", cruces: [{local:"Alemania Fed. 🇩🇪 👑", visita:"Argentina 🇦🇷", resultado:"1 - 0"}] }
+                ],
+                grupos: { "Grupo B": [{pais:"Camerún",pts:4,pj:3,pg:2},{pais:"Rumania",pts:3,pj:3,pg:1},{pais:"Argentina",pts:3,pj:3,pg:1}] } 
             },
             "1930": { 
-                host: "Uruguay", equipos: 13, campeon: "Uruguay", subcampeon: "Argentina", balon: "Modelo T", cancion: "Himno del Centenario", url: "https://www.youtube.com/embed/vVkaGvP6H48", imagen: "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=150&auto=format&fit=crop&q=60", 
-                faseEliminatoria: "Semifinales directas tras fase de grupos: Argentina 6-1 Estados Unidos, Uruguay 6-1 Yugoslavia. Final: Uruguay 4-2 Argentina.",
-                grupos: { "Grupo 1": [{pais:"Argentina",pts:6,pj:3,pg:3},{pais:"Chile",pts:4,pj:3,pg:2},{pais:"Francia",pts:2,pj:3,pg:1},{pais:"México",pts:0,pj:3,pg:0}], "Grupo 2": [{pais:"Yugoslavia",pts:4,pj:2,pg:2},{pais:"Brasil",pts:2,pj:2,pg:1},{pais:"Bolivia",pts:0,pj:2,pg:0}], "Grupo 3": [{pais:"Uruguay",pts:4,pj:2,pg:2},{pais:"Rumania",pts:2,pj:2,pg:1},{pais:"Perú",pts:0,pj:2,pg:0}], "Grupo 4": [{pais:"Estados Unidos",pts:4,pj:2,pg:2},{pais:"Paraguay",pts:2,pj:2,pg:1},{pais:"Bélgica",pts:0,pj:2,pg:0}] } 
+                host: "Uruguay", equipos: 13, campeon: "Uruguay", subcampeon: "Argentina", balon: "Modelo T", cancion: "Himno del Centenario", videoId: "vVkaGvP6H48", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Uruguay_1930_World_Cup_logo.png/100px-Uruguay_1930_World_Cup_logo.png", 
+                faseEliminatoria: [
+                    { etapa: "Semifinales", cruces: [{local:"Argentina 🇦🇷", visita:"EE.UU. 🇺🇸", resultado:"6 - 1"}, {local:"Uruguay 🇺🇾", visita:"Yugoslavia 🇷🇸", resultado:"6 - 1"}] },
+                    { etapa: "Gran Final", cruces: [{local:"Uruguay 🇺🇾 👑", visita:"Argentina 🇦🇷", resultado:"4 - 2"}] }
+                ],
+                grupos: { "Grupo 1": [{pais:"Argentina",pts:6,pj:3,pg:3},{pais:"Chile",pts:4,pj:3,pg:2}] } 
             }
         };
 
+        // Rellenar dinámicamente las opciones
         const select = document.getElementById('selectAnio');
         Object.keys(mundialDB).forEach(anio => {
             const option = document.createElement('option');
             option.value = anio;
-            option.textContent = `${anio} ${anio === "2026" ? "(Edición en Curso)" : `(${mundialDB[anio].host})`}`;
+            option.textContent = `${anio} ${anio === "2026" ? "(Edición Actual)" : `(${mundialDB[anio].host})`}`;
             select.appendChild(option);
         });
 
@@ -255,7 +192,7 @@
 
         function alternarAudio() {
             if (!audioActivo) {
-                sonidoAmbiente.play().catch(() => alert("Por favor, haz un clic en la pantalla antes de activar sonido."));
+                sonidoAmbiente.play().catch(() => {});
                 iconoAudio.className = "fa-solid fa-volume-high text-emerald-400 animate-pulse";
                 textoAudio.innerText = "Mutear Estadio";
                 audioActivo = true;
@@ -267,16 +204,21 @@
             }
         }
 
+        function cambiarPestana(tipo) {
+            pestanaActiva = tipo;
+            buscarMundial();
+        }
+
         function buscarMundial() {
             const anio = document.getElementById('selectAnio').value;
             const contenedor = document.getElementById('vistaContenido');
             
             if (!anio || !mundialDB[anio]) return;
-
             const data = mundialDB[anio];
-            let htmlGrupos = '';
 
-            for (const [grupo, equipos] of Object.entries(data.grupos)) {
+            // Renderizado de la sección de Grupos
+            let htmlGrupos = '';
+            for (const [grupo, equipos] of Object.entries(data.grupos || {})) {
                 htmlGrupos += `
                     <div class="bg-slate-800/90 p-4 rounded-xl border border-emerald-500/30 shadow-md">
                         <h4 class="font-black text-emerald-400 border-b border-slate-700 pb-2 mb-3 uppercase tracking-wide flex items-center gap-2 text-sm">
@@ -308,13 +250,36 @@
                 `;
             }
 
+            // Renderizado de la sección de Eliminatorias Directas
+            let htmlEliminatorias = '';
+            if (data.faseEliminatoria && Array.isArray(data.faseEliminatoria)) {
+                data.faseEliminatoria.forEach(fase => {
+                    htmlEliminatorias += `
+                        <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl space-y-3">
+                            <h4 class="text-sm font-extrabold text-emerald-400 uppercase tracking-widest border-b border-emerald-500/20 pb-1"><i class="fa-solid fa-diagram-nested mr-1"></i> ${fase.etapa}</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                ${fase.cruces.map(cruce => `
+                                    <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center text-xs font-mono">
+                                        <span class="font-bold text-slate-200">${cruce.local}</span>
+                                        <span class="bg-emerald-950 text-emerald-400 font-black px-3 py-1 rounded border border-emerald-500/30 text-center min-w-[70px]">${cruce.resultado}</span>
+                                        <span class="font-bold text-slate-200 text-right">${cruce.visita}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                htmlEliminatorias = `<div class="p-4 bg-slate-900 text-center text-slate-400 rounded-xl text-xs font-bold uppercase"><i class="fa-solid fa-circle-info mr-1"></i> Detalles extendidos en el módulo principal del marcador.</div>`;
+            }
+
+            // Estructura de la Interfaz con Pestañas
             contenedor.innerHTML = `
                 <div class="space-y-6">
                     
-                    <!-- Marcador LED -->
                     <div class="bg-gradient-to-r from-emerald-800 to-teal-950 text-white p-5 rounded-2xl shadow-xl border-2 border-emerald-500 flex flex-col md:flex-row justify-between items-center gap-4">
                         <div class="flex items-center gap-4">
-                            <img src="${data.imagen}" class="w-16 h-16 object-cover rounded-xl border border-emerald-400/40 shadow-md" alt="Mundial Logo">
+                            <img src="${data.imagen}" class="w-16 h-16 object-contain bg-slate-900/60 p-1 rounded-xl border border-emerald-400/40 shadow-md" alt="Logo Oficial FIFA">
                             <div>
                                 <h3 class="text-2xl font-black tracking-tighter uppercase text-emerald-400"><i class="fa-solid fa-trophy mr-1"></i> MUNDIAL ${anio}</h3>
                                 <p class="text-xs uppercase tracking-widest font-bold text-slate-300"><i class="fa-solid fa-map-location-dot"></i> Sede: ${data.host}</p>
@@ -326,9 +291,8 @@
                         </div>
                     </div>
 
-                    <!-- Ficha Multimedia Multimedia -->
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center gap-4 shadow lg:col-span-1">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center gap-4 shadow">
                             <div class="bg-emerald-500/10 p-3 rounded-full text-emerald-400 text-2xl">
                                 <i class="fa-solid fa-soccer-ball"></i>
                             </div>
@@ -338,31 +302,36 @@
                             </div>
                         </div>
                         
-                        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl lg:col-span-2 flex flex-col justify-between gap-2">
-                            <div class="flex justify-between items-center">
-                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider"><i class="fa-solid fa-music mr-1"></i> Canción Oficial: <span class="text-white normal-case font-bold text-sm ml-1">${data.cancion}</span></p>
+                        <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl md:col-span-2 flex flex-col sm:flex-row justify-between items-center gap-3">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-emerald-500/10 p-2.5 rounded-full text-emerald-400 text-xl"><i class="fa-solid fa-music"></i></div>
+                                <div>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tema de la Copa</p>
+                                    <p class="text-xs font-black text-white">${data.cancion}</p>
+                                </div>
                             </div>
-                            <!-- Embed Nativo Corregido -->
-                            <div class="w-full h-36 rounded-lg overflow-hidden border border-slate-700">
-                                <iframe class="w-full h-full" src="${data.url}" title="Reproductor Oficial del Estadio" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                            </div>
+                            <a href="https://www.youtube.com/watch?v=${data.videoId}" target="_blank" class="w-full sm:w-auto bg-slate-950 hover:bg-black p-2 rounded-lg border border-slate-700 flex items-center gap-2 text-xs font-bold text-rose-500 transition group">
+                                <img src="https://img.youtube.com/vi/${data.videoId}/hqdefault.jpg" class="w-14 h-10 object-cover rounded border border-slate-700 group-hover:scale-105 transition" alt="Thumbnail">
+                                <span><i class="fa-brands fa-youtube mr-1"></i> VER VIDEO EN YOUTUBE</span>
+                            </a>
                         </div>
                     </div>
 
-                    <!-- Fase Eliminatoria Agregada -->
-                    <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
-                        <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-1"><i class="fa-solid fa-diagram-project mr-1"></i> Recorrido de Fase Eliminatoria (Play-offs)</h4>
-                        <p class="text-sm text-slate-200 leading-relaxed">${data.faseEliminatoria}</p>
+                    <div class="flex border-b-2 border-slate-800 gap-2">
+                        <button onclick="cambiarPestana('grupos')" class="py-2 px-5 font-black text-xs uppercase tracking-widest rounded-t-lg transition border-t-2 border-x-2 ${pestanaActiva === 'grupos' ? 'bg-slate-800 text-emerald-400 border-emerald-500' : 'bg-transparent text-slate-500 border-transparent hover:text-slate-300'}">
+                            <i class="fa-solid fa-table-cells mr-1"></i> Fase de Grupos
+                        </button>
+                        <button onclick="cambiarPestana('eliminatoria')" class="py-2 px-5 font-black text-xs uppercase tracking-widest rounded-t-lg transition border-t-2 border-x-2 ${pestanaActiva === 'eliminatoria' ? 'bg-slate-800 text-emerald-400 border-emerald-500' : 'bg-transparent text-slate-500 border-transparent hover:text-slate-300'}">
+                            <i class="fa-solid fa-diagram-project mr-1"></i> Camino Eliminatorio
+                        </button>
                     </div>
 
-                    ${data.nota ? `<p class="text-xs text-emerald-400 bg-emerald-950/40 p-2 rounded border border-emerald-800/40 font-medium italic"><i class="fa-solid fa-circle-info mr-1"></i> ${data.nota}</p>` : ''}
-
-                    <!-- Tablas Completas -->
-                    <div>
-                        <h3 class="text-sm font-extrabold uppercase tracking-wide text-slate-300 mb-3 flex items-center gap-2">
-                            <i class="fa-solid fa-stadium text-emerald-500"></i> Clasificaciones de Fase de Grupos
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">${htmlGrupos}</div>
+                    <div id="seccionDinamicaPestana">
+                        ${pestanaActiva === 'grupos' ? `
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">${htmlGrupos}</div>
+                        ` : `
+                            <div class="space-y-4">${htmlEliminatorias}</div>
+                        `}
                     </div>
 
                 </div>
