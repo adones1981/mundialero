@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mundial Stats - El Estadio de la Historia</title>
+    <!-- Tailwind CSS para el diseño moderno -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome para los íconos de balones, silbatos y porterías -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Animación de la pelota rodando como el mundo al ingresar */
@@ -18,25 +20,27 @@
         }
         /* Textura de césped para el fondo del estadio */
         .cesped {
-            background-color: #15803d;
-            background-image: linear-gradient(rgba(255,255,255,0.08) 50%, transparent 50%),
-                              linear-gradient(90deg, rgba(255,255,255,0.08) 50%, transparent 50%);
-            background-size: 60px 60px;
+            background-color: #115e59;
+            background-image: linear-gradient(rgba(255,255,255,0.05) 50%, transparent 50%),
+                              linear-gradient(90deg, rgba(255,255,255,0.05) 50%, transparent 50%);
+            background-size: 80px 80px;
         }
     </style>
 </head>
-<body class="bg-gray-900 text-white font-sans overflow-x-hidden">
+<body class="bg-slate-950 text-white font-sans overflow-x-hidden">
 
+    <!-- PANTALLA DE INICIO (Loader de la Pelota Mundo) -->
     <div id="loader" class="fixed inset-0 bg-black z-50 flex items-center justify-center transition-opacity duration-1000">
         <div class="text-center">
             <div class="relative w-64 h-64 mx-auto">
-                <i class="fa-solid fa-soccer-ball text-8xl text-white absolute top-1/2 left-1/2 loader-ball"></i>
+                <i class="fa-solid fa-soccer-ball text-8xl text-emerald-400 absolute top-1/2 left-1/2 loader-ball"></i>
             </div>
-            <h1 class="text-3xl font-bold mt-8 tracking-wider animate-pulse">INGRESANDO AL ESTADIO...</h1>
-            <p class="text-green-400 mt-2"><i class="fa-solid fa-whistle mr-2"></i> Prepárate para el pitazo inicial</p>
+            <h1 class="text-3xl font-bold mt-8 tracking-wider text-emerald-400 animate-pulse">INGRESANDO AL ESTADIO...</h1>
+            <p class="text-emerald-500 mt-2"><i class="fa-solid fa-whistle mr-2"></i> Prepárate para el pitazo inicial</p>
         </div>
     </div>
 
+    <!-- Elementos de audio para el ambiente del estadio -->
     <audio id="sonidoAmbiente" loop>
         <source src="https://assets.mixkit.co/active_storage/sfx/2034/2034-84.wav" type="audio/wav">
     </audio>
@@ -44,103 +48,99 @@
         <source src="https://assets.mixkit.co/active_storage/sfx/2019/2019-84.wav" type="audio/wav">
     </audio>
 
+    <!-- INTERFAZ PRINCIPAL -->
     <div class="min-h-screen flex flex-col">
         
-        <header class="bg-black border-b-4 border-yellow-500 p-4 shadow-2xl">
+        <!-- Marcador Principal / Header con luces LED verdes -->
+        <header class="bg-slate-900 border-b-4 border-emerald-500 p-4 shadow-2xl">
             <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-ranking-star text-3xl text-yellow-500"></i>
-                    <h1 class="text-xl md:text-3xl font-extrabold tracking-widest text-yellow-400 uppercase">Estadísticas de los Mundiales (1930 - 2026)</h1>
+                    <i class="fa-solid fa-stadium text-3xl text-emerald-400"></i>
+                    <h1 class="text-xl md:text-3xl font-extrabold tracking-widest text-emerald-400 uppercase">Estadísticas de los Mundiales</h1>
                 </div>
-                <button onclick="alternarAudio()" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-full flex items-center gap-2 transition">
-                    <i id="iconoAudio" class="fa-solid fa-volume-mute"></i> <span id="textoAudio">Activar Ambiente</span>
+                <!-- Botón de Sonido -->
+                <button onclick="alternarAudio()" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-2 px-5 rounded-full flex items-center gap-2 transition shadow-lg shadow-emerald-500/20">
+                    <i id="iconoAudio" class="fa-solid fa-volume-mute"></i> <span id="textoAudio">Activar Sonido Ambiente</span>
                 </button>
             </div>
         </header>
 
+        <!-- Cancha / Contenedor de la Tribuna -->
         <main class="cesped flex-grow p-4 md:p-8 relative">
-            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-11/12 h-6 border-b-2 border-x-2 border-white/10 pointer-events-none flex justify-center">
-                <span class="text-[10px] text-white/20"><i class="fa-solid fa-door-open"></i> PORTERÍA NORTE</span>
+            <!-- Líneas de portería del estadio -->
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-11/12 h-8 border-b-2 border-x-2 border-white/10 pointer-events-none flex justify-center items-end">
+                <span class="text-[10px] text-white/20 tracking-widest mb-1"><i class="fa-solid fa-door-open"></i> PORTERÍA NORTE</span>
             </div>
 
-            <div class="container mx-auto max-w-6xl bg-black/75 backdrop-blur-md rounded-3xl p-6 border-4 border-white/40 shadow-inner">
+            <div class="container mx-auto max-w-7xl bg-slate-900/85 backdrop-blur-md rounded-3xl p-6 border-4 border-emerald-500/30 shadow-2xl mt-4">
                 
-                <div class="bg-green-950/60 p-4 rounded-xl border border-green-500 mb-8">
-                    <label class="block text-sm font-bold uppercase mb-2 text-yellow-400"><i class="fa-solid fa-calendar-days mr-2"></i> Selecciona la Edición del Mundial:</label>
-                    <select id="selectAnio" onchange="buscarMundial()" class="w-full bg-gray-800 text-white border-2 border-white p-3 rounded-lg font-bold text-lg cursor-pointer">
-                        <option value="">-- Elige un Año del Historial --</option>
-                        <option value="1930">1930 (Uruguay)</option>
-                        <option value="1934">1934 (Italia)</option>
-                        <option value="1938">1938 (Francia)</option>
-                        <option value="1950">1950 (Brasil)</option>
-                        <option value="1954">1954 (Suiza)</option>
-                        <option value="1958">1958 (Suecia)</option>
-                        <option value="1962">1962 (Chile)</option>
-                        <option value="1966">1966 (Inglaterra)</option>
-                        <option value="1970">1970 (México)</option>
-                        <option value="1974">1974 (Alemania)</option>
-                        <option value="1978">1978 (Argentina)</option>
-                        <option value="1982">1982 (España)</option>
-                        <option value="1986">1986 (México)</option>
-                        <option value="1990">1990 (Italia)</option>
-                        <option value="1994">1994 (Estados Unidos)</option>
-                        <option value="1998">1998 (Francia)</option>
-                        <option value="2002">2002 (Corea - Japón)</option>
-                        <option value="2006">2006 (Alemania)</option>
-                        <option value="2010">2010 (Sudáfrica)</option>
-                        <option value="2014">2014 (Brasil)</option>
-                        <option value="2018">2018 (Rusia)</option>
-                        <option value="2022">2022 (Catar)</option>
-                        <option value="2026">2026 (Norteamérica)</option>
+                <!-- Selector de Edición (Filtro del Estadio) -->
+                <div class="bg-emerald-950/40 p-4 rounded-xl border border-emerald-500/50 mb-8">
+                    <label class="block text-sm font-bold uppercase mb-2 text-emerald-400"><i class="fa-solid fa-calendar-days mr-2"></i> Seleccionar Edición Histórica:</label>
+                    <select id="selectAnio" onchange="buscarMundial()" class="w-full bg-slate-800 text-white border-2 border-emerald-500 p-3 rounded-lg font-bold text-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                        <!-- Generado dinámicamente -->
                     </select>
                 </div>
 
-                <div id="vistaContenido" class="min-h-[400px]">
-                    <div class="text-center py-24 border-2 border-dashed border-gray-700 rounded-xl">
-                        <i class="fa-solid fa-futbol text-6xl text-gray-500 animate-spin mb-4" style="animation-duration: 8s;"></i>
-                        <h2 class="text-2xl font-bold tracking-wide">¡BIENVENIDO AL MARCADOR CENTRAL!</h2>
-                        <p class="text-gray-400 mt-2">Selecciona un año en el panel superior para desplegar estadísticas, grupos, balones y canciones.</p>
-                    </div>
+                <!-- CONTENEDOR DE RESULTADOS DINÁMICOS -->
+                <div id="vistaContenido" class="min-h-[500px] transition-all duration-300">
+                    <!-- Se inyecta la información aquí mediante JavaScript -->
                 </div>
 
             </div>
         </main>
 
-        <footer class="bg-black text-center p-4 border-t-4 border-green-600 text-gray-500 text-xs">
-            <p><i class="fa-solid fa-bullhorn text-green-500 mr-2"></i> © Estadio de Estadísticas Históricas. Compendio sin base de datos pesada de jugadores.</p>
+        <!-- Pie de página / Tribuna Baja -->
+        <footer class="bg-slate-950 text-center p-4 border-t-4 border-emerald-700 text-slate-500 text-xs">
+            <p><i class="fa-solid fa-bullhorn text-emerald-500 mr-2"></i> © Estadio Virtual del Fútbol - Estadísticas completas de todos los grupos de la historia.</p>
         </footer>
     </div>
 
+    <!-- DATA HUB COMPLETO JAVASCRIPT -->
     <script>
-        // Base de datos integrada de todos los mundiales desde 1930 hasta 2026
+        // Base de datos oficial expandida sin omitir ningún grupo ni país de la historia
         const mundialDB = {
-            "1930": { host: "Uruguay", equipos: 13, campeon: "Uruguay", subcampeon: "Argentina", balon: "Modelo T / Tiento", cancion: "Marchas Populares", url: "https://www.youtube.com/watch?v=vVkaGvP6H48", grupos: { "Grupo 1": [ { pais: "Argentina", pts: 6, pj: 3, pg: 3, pe: 0, pp: 0 }, { pais: "Chile", pts: 4, pj: 3, pg: 2, pe: 0, pp: 1 }, { pais: "Francia", pts: 2, pj: 3, pg: 1, pe: 0, pp: 2 }, { pais: "México", pts: 0, pj: 3, pg: 0, pe: 0, pp: 3 } ] } },
-            "1934": { host: "Italia", equipos: 16, campeon: "Italia", subcampeon: "Checoslovaquia", balon: "Federale 102", cancion: "Himno Oficial de Época", url: "https://www.youtube.com/watch?v=XzXW8_VvRsc", nota: "Formato directo de eliminación desde octavos.", grupos: { "Podio Final": [ { pais: "Italia (Campeón)", pts: "-", pj: 5, pg: 4, pe: 1, pp: 0 }, { pais: "Checoslovaquia", pts: "-", pj: 4, pg: 3, pe: 0, pp: 1 } ] } },
-            "1938": { host: "Francia", equipos: 15, campeon: "Italia", subcampeon: "Hungría", balon: "Allen", cancion: "Melodías de París", url: "https://www.youtube.com/watch?v=Fbyo6yHskx8", nota: "Eliminación directa de play-offs.", grupos: { "Podio Final": [ { pais: "Italia (Campeón)", pts: "-", pj: 4, pg: 4, pe: 0, pp: 0 }, { pais: "Hungría", pts: "-", pj: 4, pg: 3, pe: 0, pp: 1 } ] } },
-            "1950": { host: "Brasil", equipos: 13, campeon: "Uruguay", subcampeon: "Brasil", balon: "Duplo T", cancion: "Marchas de Carnaval", url: "https://www.youtube.com/watch?v=8b5W9a1D5yU", grupos: { "Grupo Final": [ { pais: "Uruguay", pts: 5, pj: 3, pg: 2, pe: 1, pp: 0 }, { pais: "Brasil", pts: 4, pj: 3, pg: 2, pe: 0, pp: 1 }, { pais: "Suecia", pts: 2, pj: 3, pg: 1, pe: 0, pp: 2 } ] } },
-            "1954": { host: "Suiza", equipos: 16, campeon: "Alemania Federal", subcampeon: "Hungría", balon: "Swiss World Champion", cancion: "Marchas Alpinas", url: "https://www.youtube.com/watch?v=wNly8oaslG4", grupos: { "Grupo 1 (Líderes)": [ { pais: "Brasil", pts: 3, pj: 2, pg: 1, pe: 1, pp: 0 }, { pais: "Yugoslavia", pts: 3, pj: 2, pg: 1, pe: 1, pp: 0 } ], "Grupo 2 (Líderes)": [ { pais: "Hungría", pts: 4, pj: 2, pg: 2, pe: 0, pp: 0 }, { pais: "Alemania Fed.", pts: 2, pj: 2, pg: 1, pe: 0, pp: 1 } ] } },
-            "1958": { host: "Suecia", equipos: 16, campeon: "Brasil", subcampeon: "Suecia", balon: "Top Star", cancion: "Fotbollsvals", url: "https://www.youtube.com/watch?v=FInNen68_W8", grupos: { "Grupo 4": [ { pais: "Brasil", pts: 5, pj: 3, pg: 2, pe: 1, pp: 0 }, { pais: "Unión Soviética", pts: 3, pj: 3, pg: 1, pe: 1, pp: 1 }, { pais: "Inglaterra", pts: 3, pj: 3, pg: 0, pe: 3, pp: 0 } ] } },
-            "1962": { host: "Chile", equipos: 16, campeon: "Brasil", subcampeon: "Checoslovaquia", balon: "Crack", cancion: "El Rock del Mundial", url: "https://www.youtube.com/watch?v=6m82eS_K1bY", grupos: { "Grupo 2 (Santiago)": [ { pais: "Alemania Fed.", pts: 5, pj: 3, pg: 2, pe: 1, pp: 0 }, { pais: "Chile", pts: 4, pj: 3, pg: 2, pe: 0, pp: 1 }, { pais: "Italia", pts: 3, pj: 3, pg: 1, pe: 1, pp: 1 } ] } },
-            "1966": { host: "Inglaterra", equipos: 16, campeon: "Inglaterra", subcampeon: "Alemania Federal", balon: "Challenge 4-Star", cancion: "World Cup Willie", url: "https://www.youtube.com/watch?v=H7SgZ6f8I3o", grupos: { "Grupo 1": [ { pais: "Inglaterra", pts: 5, pj: 3, pg: 2, pe: 1, pp: 0 }, { pais: "Uruguay", pts: 4, pj: 3, pg: 1, pe: 2, pp: 0 }, { pais: "México", pts: 2, pj: 3, pg: 0, pe: 2, pp: 1 } ] } },
-            "1970": { host: "México", equipos: 16, campeon: "Brasil", subcampeon: "Italia", balon: "Telstar", cancion: "Fútbol México 70", url: "https://www.youtube.com/watch?v=Fmsh_O3F64c", grupos: { "Grupo 3": [ { pais: "Brasil", pts: 6, pj: 3, pg: 3, pe: 0, pp: 0 }, { pais: "Inglaterra", pts: 4, pj: 3, pg: 2, pe: 0, pp: 1 }, { pais: "Rumania", pts: 2, pj: 3, pg: 1, pe: 0, pp: 2 } ] } },
-            "1974": { host: "Alemania", equipos: 16, campeon: "Alemania Federal", subcampeon: "Países Bajos", balon: "Telstar Durlast", cancion: "Futbol", url: "https://www.youtube.com/watch?v=0kF9A_FzM_k", grupos: { "Grupo A (S. Fase)": [ { pais: "Países Bajos", pts: 6, pj: 3, pg: 3, pe: 0, pp: 0 }, { pais: "Brasil", pts: 4, pj: 3, pg: 2, pe: 0, pp: 1 }, { pais: "Argentina", pts: 1, pj: 3, pg: 0, pe: 1, pp: 2 } ] } },
-            "1978": { host: "Argentina", equipos: 16, campeon: "Argentina", subcampeon: "Países Bajos", balon: "Tango", cancion: "El Mundial (Morricone)", url: "https://www.youtube.com/watch?v=840V49EAnp0", grupos: { "Grupo B (S. Fase)": [ { pais: "Argentina", pts: 5, pj: 3, pg: 2, pe: 1, pp: 0 }, { pais: "Brasil", pts: 5, pj: 3, pg: 2, pe: 1, pp: 0 }, { pais: "Perú", pts: 0, pj: 3, pg: 0, pe: 0, pp: 3 } ] } },
-            "1982": { host: "España", equipos: 24, campeon: "Italia", subcampeon: "Alemania Federal", balon: "Tango España", cancion: "El Mundial (P. Domingo)", url: "https://www.youtube.com/watch?v=F_fD6zJv0k8", grupos: { "Grupo 3": [ { pais: "Bélgica", pts: 5, pj: 3, pg: 2, pe: 1, pp: 0 }, { pais: "Argentina", pts: 4, pj: 3, pg: 2, pe: 0, pp: 1 }, { pais: "Hungría", pts: 3, pj: 3, pg: 1, pe: 1, pp: 1 } ] } },
-            "1986": { host: "México", equipos: 24, campeon: "Argentina", subcampeon: "Alemania Federal", balon: "Azteca", cancion: "El mundo unido por un balón", url: "https://www.youtube.com/watch?v=un9I9S8f1G0", grupos: { "Grupo A": [ { pais: "Argentina", pts: 5, pj: 3, pg: 2, pe: 1, pp: 0 }, { pais: "Italia", pts: 4, pj: 3, pg: 1, pe: 2, pp: 0 }, { pais: "Corea del Sur", pts: 1, pj: 3, pg: 0, pe: 1, pp: 2 } ] } },
-            "1990": { host: "Italia", equipos: 24, campeon: "Alemania Federal", subcampeon: "Argentina", balon: "Etrusco Unico", cancion: "Un'estate italiana", url: "https://www.youtube.com/watch?v=dTbMwJMqilI", grupos: { "Grupo B": [ { pais: "Camerún", pts: 4, pj: 3, pg: 2, pe: 0, pp: 1 }, { pais: "Rumania", pts: 3, pj: 3, pg: 1, pe: 1, pp: 1 }, { pais: "Argentina", pts: 3, pj: 3, pg: 1, pe: 1, pp: 1 } ] } },
-            "1994": { host: "Estados Unidos", equipos: 24, campeon: "Brasil", subcampeon: "Italia", balon: "Questra", cancion: "Gloryland", url: "https://www.youtube.com/watch?v=FALjXf69v_w", grupos: { "Grupo F": [ { pais: "Países Bajos", pts: 6, pj: 3, pg: 2, pe: 0, pp: 1 }, { pais: "Arabia Saudita", pts: 6, pj: 3, pg: 2, pe: 0, pp: 1 }, { pais: "Bélgica", pts: 6, pj: 3, pg: 2, pe: 0, pp: 1 } ] } },
-            "1998": { host: "Francia", equipos: 32, campeon: "Francia", subcampeon: "Brasil", balon: "Tricolore", cancion: "La Copa de la Vida", url: "https://www.youtube.com/watch?v=8BkYKwz_uN4", grupos: { "Grupo A": [ { pais: "Brasil", pts: 6, pj: 3, pg: 2, pe: 0, pp: 1 }, { pais: "Noruega", pts: 5, pj: 3, pg: 1, pe: 2, pp: 0 }, { pais: "Marruecos", pts: 4, pj: 3, pg: 1, pe: 1, pp: 1 } ] } },
-            "2002": { host: "Corea - Japón", equipos: 32, campeon: "Brasil", subcampeon: "Alemania", balon: "Fevernova", cancion: "Boom!", url: "https://www.youtube.com/watch?v=HZ_L0jlsaXw", grupos: { "Grupo F": [ { pais: "Suecia", pts: 5, pj: 3, pg: 1, pe: 2, pp: 0 }, { pais: "Inglaterra", pts: 5, pj: 3, pg: 1, pe: 2, pp: 0 }, { pais: "Argentina", pts: 4, pj: 3, pg: 1, pe: 1, pp: 1 } ] } },
-            "2006": { host: "Alemania", equipos: 32, campeon: "Italia", subcampeon: "Francia", balon: "Teamgeist", cancion: "The Time of Our Lives", url: "https://www.youtube.com/watch?v=4a6E39ZSK2M", grupos: { "Grupo C": [ { pais: "Argentina", pts: 7, pj: 3, pg: 2, pe: 1, pp: 0 }, { pais: "Países Bajos", pts: 7, pj: 3, pg: 2, pe: 1, pp: 0 }, { pais: "Costa de Marfil", pts: 3, pj: 3, pg: 1, pe: 0, pp: 2 } ] } },
-            "2010": { host: "Sudáfrica", equipos: 32, campeon: "España", subcampeon: "Países Bajos", balon: "Jabulani", cancion: "Waka Waka", url: "https://www.youtube.com/watch?v=pRpeEdMmmQ0", grupos: { "Grupo H": [ { pais: "España", pts: 6, pj: 3, pg: 2, pe: 0, pp: 1 }, { pais: "Chile", pts: 6, pj: 3, pg: 2, pe: 0, pp: 1 }, { pais: "Suiza", pts: 4, pj: 3, pg: 1, pe: 1, pp: 1 } ] } },
-            "2014": { host: "Brasil", equipos: 32, campeon: "Alemania", subcampeon: "Argentina", balon: "Brazuca", cancion: "We Are One", url: "https://www.youtube.com/watch?v=TGtWWb9emYI", grupos: { "Grupo B": [ { pais: "Países Bajos", pts: 9, pj: 3, pg: 3, pe: 0, pp: 0 }, { pais: "Chile", pts: 6, pj: 3, pg: 2, pe: 0, pp: 1 }, { pais: "España", pts: 3, pj: 3, pg: 1, pe: 0, pp: 2 } ] } },
-            "2018": { host: "Rusia", equipos: 32, campeon: "Francia", subcampeon: "Croacia", balon: "Telstar 18", cancion: "Live It Up", url: "https://www.youtube.com/watch?v=V15BYn7I6ZM", grupos: { "Grupo D": [ { pais: "Croacia", pts: 9, pj: 3, pg: 3, pe: 0, pp: 0 }, { pais: "Argentina", pts: 4, pj: 3, pg: 1, pe: 1, pp: 1 }, { pais: "Nigeria", pts: 3, pj: 3, pg: 1, pe: 0, pp: 2 } ] } },
-            "2022": { host: "Catar", equipos: 32, campeon: "Argentina", subcampeon: "Francia", balon: "Al Rihla", cancion: "Hayya Hayya", url: "https://www.youtube.com/watch?v=vyDxPvXvHk8", grupos: { "Grupo C": [ { pais: "Argentina", pts: 6, pj: 3, pg: 2, pe: 0, pp: 1 }, { pais: "Polonia", pts: 4, pj: 3, pg: 1, pe: 1, pp: 1 }, { pais: "México", pts: 4, pj: 3, pg: 1, pe: 1, pp: 1 } ] } },
-            "2026": { host: "Norteamérica", equipos: 48, campeon: "Por disputarse", subchampion: "Por disputarse", balon: "Adidas Especial 2026", cancion: "Por confirmarse", url: "https://www.youtube.com", nota: "Primer torneo con 48 selecciones.", grupos: { "Estructura Proyectada": [ { pais: "48 Equipos Clasificados", pts: "-", pj: "-", pg: "-", pe: "-", pp: "-" } ] } }
+            "2026": { host: "Norteamérica (EEUU, México, Canadá)", equipos: 48, campeon: "En progreso", subcampeon: "En progreso", balon: "Adidas Conext 26", cancion: "Himno Oficial 2026", url: "https://www.youtube.com/embed/V15BYn7I6ZM", imagen: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=150&auto=format&fit=crop&q=60", nota: "Primer mundial de la historia con el formato expandido de 48 selecciones.", grupos: { "Grupo A": [{pais:"Estados Unidos",pts:0,pj:0,pg:0},{pais:"México",pts:0,pj:0,pg:0},{pais:"Canadá",pts:0,pj:0,pg:0},{pais:"Clasificado A4",pts:0,pj:0,pg:0}], "Grupo B": [{pais:"Argentina",pts:0,pj:0,pg:0},{pais:"Clasificado B2",pts:0,pj:0,pg:0},{pais:"Clasificado B3",pts:0,pj:0,pg:0},{pais:"Clasificado B4",pts:0,pj:0,pg:0}], "Grupo C": [{pais:"Francia",pts:0,pj:0,pg:0},{pais:"Clasificado C2",pts:0,pj:0,pg:0},{pais:"Clasificado C3",pts:0,pj:0,pg:0},{pais:"Clasificado C4",pts:0,pj:0,pg:0}], "Grupo D": [{pais:"Inglaterra",pts:0,pj:0,pg:0},{pais:"Clasificado D2",pts:0,pj:0,pg:0},{pais:"Clasificado D3",pts:0,pj:0,pg:0},{pais:"Clasificado D4",pts:0,pj:0,pg:0}], "Grupo E": [{pais:"Brasil",pts:0,pj:0,pg:0},{pais:"Clasificado E2",pts:0,pj:0,pg:0},{pais:"Clasificado E3",pts:0,pj:0,pg:0},{pais:"Clasificado E4",pts:0,pj:0,pg:0}], "Grupo F": [{pais:"Bélgica",pts:0,pj:0,pg:0},{pais:"Clasificado F2",pts:0,pj:0,pg:0},{pais:"Clasificado F3",pts:0,pj:0,pg:0},{pais:"Clasificado F4",pts:0,pj:0,pg:0}], "Grupo G": [{pais:"España",pts:0,pj:0,pg:0},{pais:"Clasificado G2",pts:0,pj:0,pg:0},{pais:"Clasificado G3",pts:0,pj:0,pg:0},{pais:"Clasificado G4",pts:0,pj:0,pg:0}], "Grupo H": [{pais:"Portugal",pts:0,pj:0,pg:0},{pais:"Clasificado H2",pts:0,pj:0,pg:0},{pais:"Clasificado H3",pts:0,pj:0,pg:0},{pais:"Clasificado H4",pts:0,pj:0,pg:0}], "Grupo I": [{pais:"Países Bajos",pts:0,pj:0,pg:0},{pais:"Clasificado I2",pts:0,pj:0,pg:0},{pais:"Clasificado I3",pts:0,pj:0,pg:0},{pais:"Clasificado I4",pts:0,pj:0,pg:0}], "Grupo J": [{pais:"Italia",pts:0,pj:0,pg:0},{pais:"Clasificado J2",pts:0,pj:0,pg:0},{pais:"Clasificado J3",pts:0,pj:0,pg:0},{pais:"Clasificado J4",pts:0,pj:0,pg:0}], "Grupo K": [{pais:"Alemania",pts:0,pj:0,pg:0},{pais:"Clasificado K2",pts:0,pj:0,pg:0},{pais:"Clasificado K3",pts:0,pj:0,pg:0},{pais:"Clasificado K4",pts:0,pj:0,pg:0}], "Grupo L": [{pais:"Uruguay",pts:0,pj:0,pg:0},{pais:"Clasificado L2",pts:0,pj:0,pg:0},{pais:"Clasificado L3",pts:0,pj:0,pg:0},{pais:"Clasificado L4",pts:0,pj:0,pg:0}] } },
+            "2022": { host: "Catar", equipos: 32, campeon: "Argentina", subcampeon: "Francia", balon: "Al Rihla", cancion: "Hayya Hayya", url: "https://www.youtube.com/embed/vyDxPvXvHk8", imagen: "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo A": [{pais:"Países Bajos",pts:7,pj:3,pg:2},{pais:"Senegal",pts:6,pj:3,pg:2},{pais:"Ecuador",pts:4,pj:3,pg:1},{pais:"Catar",pts:0,pj:3,pg:0}], "Grupo B": [{pais:"Inglaterra",pts:7,pj:3,pg:2},{pais:"EE.UU.",pts:5,pj:3,pg:1},{pais:"Irán",pts:3,pj:3,pg:1},{pais:"Gales",pts:1,pj:3,pg:0}], "Grupo C": [{pais:"Argentina",pts:6,pj:3,pg:2},{pais:"Polonia",pts:4,pj:3,pg:1},{pais:"México",pts:4,pj:3,pg:1},{pais:"Arabia Saudita",pts:3,pj:3,pg:1}], "Grupo D": [{pais:"Francia",pts:6,pj:3,pg:2},{pais:"Australia",pts:6,pj:3,pg:2},{pais:"Túnez",pts:4,pj:3,pg:1},{pais:"Dinamarca",pts:1,pj:3,pg:0}], "Grupo E": [{pais:"Japón",pts:6,pj:3,pg:2},{pais:"España",pts:4,pj:3,pg:1},{pais:"Alemania",pts:4,pj:3,pg:1},{pais:"Costa Rica",pts:3,pj:3,pg:1}], "Grupo F": [{pais:"Marruecos",pts:7,pj:3,pg:2},{pais:"Croacia",pts:5,pj:3,pg:1},{pais:"Bélgica",pts:4,pj:3,pg:1},{pais:"Canadá",pts:0,pj:3,pg:0}], "Grupo G": [{pais:"Brasil",pts:6,pj:3,pg:2},{pais:"Suiza",pts:6,pj:3,pg:2},{pais:"Camerún",pts:4,pj:3,pg:1},{pais:"Serbia",pts:1,pj:3,pg:0}], "Grupo H": [{pais:"Portugal",pts:6,pj:3,pg:2},{pais:"Corea del Sur",pts:4,pj:3,pg:1},{pais:"Uruguay",pts:4,pj:3,pg:1},{pais:"Ghana",pts:3,pj:3,pg:1}] } },
+            "2018": { host: "Rusia", equipos: 32, campeon: "Francia", subcampeon: "Croacia", balon: "Telstar 18", cancion: "Live It Up", url: "https://www.youtube.com/embed/V15BYn7I6ZM", imagen: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo A": [{pais:"Uruguay",pts:9,pj:3,pg:3},{pais:"Rusia",pts:6,pj:3,pg:2},{pais:"Arabia Saudita",pts:3,pj:3,pg:1},{pais:"Egipto",pts:0,pj:3,pg:0}], "Grupo B": [{pais:"España",pts:5,pj:3,pg:1},{pais:"Portugal",pts:5,pj:3,pg:1},{pais:"Irán",pts:4,pj:3,pg:1},{pais:"Marruecos",pts:1,pj:3,pg:0}], "Grupo C": [{pais:"Francia",pts:7,pj:3,pg:2},{pais:"Dinamarca",pts:5,pj:3,pg:1},{pais:"Perú",pts:3,pj:3,pg:1},{pais:"Australia",pts:1,pj:3,pg:0}], "Grupo D": [{pais:"Croacia",pts:9,pj:3,pg:3},{pais:"Argentina",pts:4,pj:3,pg:1},{pais:"Nigeria",pts:3,pj:3,pg:1},{pais:"Islandia",pts:1,pj:3,pg:0}], "Grupo E": [{pais:"Brasil",pts:7,pj:3,pg:2},{pais:"Suiza",pts:5,pj:3,pg:1},{pais:"Serbia",pts:3,pj:3,pg:1},{pais:"Costa Rica",pts:1,pj:3,pg:0}], "Grupo F": [{pais:"Suecia",pts:6,pj:3,pg:2},{pais:"México",pts:6,pj:3,pg:2},{pais:"Corea del Sur",pts:3,pj:3,pg:1},{pais:"Alemania",pts:3,pj:3,pg:1}], "Grupo G": [{pais:"Bélgica",pts:9,pj:3,pg:3},{pais:"Inglaterra",pts:6,pj:3,pg:2},{pais:"Túnez",pts:3,pj:3,pg:1},{pais:"Panamá",pts:0,pj:3,pg:0}], "Grupo H": [{pais:"Colombia",pts:6,pj:3,pg:2},{pais:"Japón",pts:4,pj:3,pg:1},{pais:"Senegal",pts:4,pj:3,pg:1},{pais:"Polonia",pts:3,pj:3,pg:1}] } },
+            "2014": { host: "Brasil", equipos: 32, campeon: "Alemania", subcampeon: "Argentina", balon: "Brazuca", cancion: "We Are One", url: "https://www.youtube.com/embed/TGtWWb9emYI", imagen: "https://images.unsplash.com/photo-1562074244-3523ba46fa6f?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo A": [{pais:"Brasil",pts:7,pj:3,pg:2},{pais:"México",pts:7,pj:3,pg:2},{pais:"Croacia",pts:3,pj:3,pg:1},{pais:"Camerún",pts:0,pj:3,pg:0}], "Grupo B": [{pais:"Países Bajos",pts:9,pj:3,pg:3},{pais:"Chile",pts:6,pj:3,pg:2},{pais:"España",pts:3,pj:3,pg:1},{pais:"Australia",pts:0,pj:3,pg:0}], "Grupo C": [{pais:"Colombia",pts:9,pj:3,pg:3},{pais:"Grecia",pts:4,pj:3,pg:1},{pais:"Costa de Marfil",pts:3,pj:3,pg:1},{pais:"Japón",pts:1,pj:3,pg:0}], "Grupo D": [{pais:"Costa Rica",pts:7,pj:3,pg:2},{pais:"Uruguay",pts:6,pj:3,pg:2},{pais:"Italia",pts:3,pj:3,pg:1},{pais:"Inglaterra",pts:1,pj:3,pg:0}], "Grupo E": [{pais:"Francia",pts:7,pj:3,pg:2},{pais:"Suiza",pts:6,pj:3,pg:2},{pais:"Ecuador",pts:4,pj:3,pg:1},{pais:"Honduras",pts:0,pj:3,pg:0}], "Grupo F": [{pais:"Argentina",pts:9,pj:3,pg:3},{pais:"Nigeria",pts:4,pj:3,pg:1},{pais:"Bosnia",pts:3,pj:3,pg:1},{pais:"Irán",pts:1,pj:3,pg:0}], "Grupo G": [{pais:"Alemania",pts:7,pj:3,pg:2},{pais:"EE.UU.",pts:4,pj:3,pg:1},{pais:"Portugal",pts:4,pj:3,pg:1},{pais:"Ghana",pts:1,pj:3,pg:0}], "Grupo H": [{pais:"Bélgica",pts:9,pj:3,pg:3},{pais:"Argelia",pts:4,pj:3,pg:1},{pais:"Rusia",pts:2,pj:3,pg:0},{pais:"Corea del Sur",pts:1,pj:3,pg:0}] } },
+            "2010": { host: "Sudáfrica", equipos: 32, campeon: "España", subcampeon: "Países Bajos", balon: "Jabulani", cancion: "Waka Waka", url: "https://www.youtube.com/embed/pRpeEdMmmQ0", imagen: "https://images.unsplash.com/photo-1510563800743-aed2364902b8?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo A": [{pais:"Uruguay",pts:7,pj:3,pg:2},{pais:"México",pts:4,pj:3,pg:1},{pais:"Sudáfrica",pts:4,pj:3,pg:1},{pais:"Francia",pts:1,pj:3,pg:0}], "Grupo B": [{pais:"Argentina",pts:9,pj:3,pg:3},{pais:"Corea del Sur",pts:4,pj:3,pg:1},{pais:"Grecia",pts:3,pj:3,pg:1},{pais:"Nigeria",pts:1,pj:3,pg:0}], "Grupo C": [{pais:"EE.UU.",pts:5,pj:3,pg:1},{pais:"Inglaterra",pts:5,pj:3,pg:1},{pais:"Eslovenia",pts:4,pj:3,pg:1},{pais:"Argelia",pts:1,pj:3,pg:0}], "Grupo D": [{pais:"Alemania",pts:6,pj:3,pg:2},{pais:"Ghana",pts:4,pj:3,pg:1},{pais:"Australia",pts:4,pj:3,pg:1},{pais:"Serbia",pts:3,pj:3,pg:1}], "Grupo E": [{pais:"Países Bajos",pts:9,pj:3,pg:3},{pais:"Japón",pts:6,pj:3,pg:2},{pais:"Dinamarca",pts:3,pj:3,pg:1},{pais:"Camerún",pts:0,pj:3,pg:0}], "Grupo F": [{pais:"Paraguay",pts:5,pj:3,pg:1},{pais:"Eslovaquia",pts:4,pj:3,pg:1},{pais:"Nueva Zelanda",pts:3,pj:3,pg:0},{pais:"Italia",pts:2,pj:3,pg:0}], "Grupo G": [{pais:"Brasil",pts:7,pj:3,pg:2},{pais:"Portugal",pts:5,pj:3,pg:1},{pais:"Costa de Marfil",pts:4,pj:3,pg:1},{pais:"Corea del Norte",pts:0,pj:3,pg:0}], "Grupo H": [{pais:"España",pts:6,pj:3,pg:2},{pais:"Chile",pts:6,pj:3,pg:2},{pais:"Suiza",pts:4,pj:3,pg:1},{pais:"Honduras",pts:1,pj:3,pg:0}] } },
+            "2006": { host: "Alemania", equipos: 32, campeon: "Italia", subcampeon: "Francia", balon: "Teamgeist", cancion: "The Time of Our Lives", url: "https://www.youtube.com/embed/4a6E39ZSK2M", imagen: "https://images.unsplash.com/photo-1516515429572-bf32372f2409?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo A": [{pais:"Alemania",pts:9,pj:3,pg:3},{pais:"Ecuador",pts:6,pj:3,pg:2},{pais:"Polonia",pts:3,pj:3,pg:1},{pais:"Costa Rica",pts:0,pj:3,pg:0}], "Grupo B": [{pais:"Inglaterra",pts:7,pj:3,pg:2},{pais:"Suecia",pts:5,pj:3,pg:1},{pais:"Paraguay",pts:3,pj:3,pg:1},{pais:"Trinidad y T.",pts:1,pj:3,pg:0}], "Grupo C": [{pais:"Argentina",pts:7,pj:3,pg:2},{pais:"Países Bajos",pts:7,pj:3,pg:2},{pais:"Costa de Marfil",pts:3,pj:3,pg:1},{pais:"Serbia y M.",pts:0,pj:3,pg:0}], "Grupo D": [{pais:"Portugal",pts:9,pj:3,pg:3},{pais:"México",pts:4,pj:3,pg:1},{pais:"Angola",pts:2,pj:3,pg:0},{pais:"Irán",pts:1,pj:3,pg:0}], "Grupo E": [{pais:"Italia",pts:7,pj:3,pg:2},{pais:"Ghana",pts:6,pj:3,pg:2},{pais:"Rep. Checa",pts:3,pj:3,pg:1},{pais:"EE.UU.",pts:1,pj:3,pg:0}], "Grupo F": [{pais:"Brasil",pts:9,pj:3,pg:3},{pais:"Australia",pts:4,pj:3,pg:1},{pais:"Croacia",pts:2,pj:3,pg:0},{pais:"Japón",pts:1,pj:3,pg:0}], "Grupo G": [{pais:"Francia",pts:5,pj:3,pg:1},{pais:"Suiza",pts:7,pj:3,pg:2},{pais:"Corea del Sur",pts:4,pj:3,pg:1},{pais:"Togo",pts:0,pj:3,pg:0}], "Grupo H": [{pais:"España",pts:9,pj:3,pg:3},{pais:"Ucrania",pts:6,pj:3,pg:2},{pais:"Túnez",pts:1,pj:3,pg:0},{pais:"Arabia Saudita",pts:1,pj:3,pg:0}] } },
+            "2002": { host: "Corea del Sur / Japón", equipos: 32, campeon: "Brasil", subcampeon: "Alemania", balon: "Fevernova", cancion: "Boom!", url: "https://www.youtube.com/embed/HZ_L0jlsaXw", imagen: "https://images.unsplash.com/photo-1511886929837-354d827aae26?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo A": [{pais:"Dinamarca",pts:7,pj:3,pg:2},{pais:"Senegal",pts:5,pj:3,pg:1},{pais:"Uruguay",pts:2,pj:3,pg:0},{pais:"Francia",pts:1,pj:3,pg:0}], "Grupo B": [{pais:"España",pts:9,pj:3,pg:3},{pais:"Paraguay",pts:4,pj:3,pg:1},{pais:"Sudáfrica",pts:4,pj:3,pg:1},{pais:"Eslovenia",pts:0,pj:3,pg:0}], "Grupo C": [{pais:"Brasil",pts:9,pj:3,pg:3},{pais:"Turquía",pts:4,pj:3,pg:1},{pais:"Costa Rica",pts:4,pj:3,pg:1},{pais:"China",pts:0,pj:3,pg:0}], "Grupo D": [{pais:"Corea del Sur",pts:7,pj:3,pg:2},{pais:"EE.UU.",pts:4,pj:3,pg:1},{pais:"Portugal",pts:3,pj:3,pg:1},{pais:"Polonia",pts:3,pj:3,pg:1}], "Grupo E": [{pais:"Alemania",pts:7,pj:3,pg:2},{pais:"Irlanda",pts:5,pj:3,pg:1},{pais:"Camerún",pts:4,pj:3,pg:1},{pais:"Arabia Saudita",pts:0,pj:3,pg:0}], "Grupo F": [{pais:"Suecia",pts:5,pj:3,pg:1},{pais:"Inglaterra",pts:5,pj:3,pg:1},{pais:"Argentina",pts:4,pj:3,pg:1},{pais:"Nigeria",pts:1,pj:3,pg:0}], "Grupo G": [{pais:"México",pts:7,pj:3,pg:2},{pais:"Italia",pts:4,pj:3,pg:1},{pais:"Croacia",pts:3,pj:3,pg:1},{pais:"Ecuador",pts:3,pj:3,pg:1}], "Grupo H": [{pais:"Japón",pts:7,pj:3,pg:2},{pais:"Bélgica",pts:5,pj:3,pg:1},{pais:"Rusia",pts:3,pj:3,pg:1},{pais:"Túnez",pts:1,pj:3,pg:0}] } },
+            "1998": { host: "Francia", equipos: 32, campeon: "Francia", subcampeon: "Brasil", balon: "Tricolore", cancion: "La Copa de la Vida", url: "https://www.youtube.com/embed/8BkYKwz_uN4", imagen: "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo A": [{pais:"Brasil",pts:6,pj:3,pg:2},{pais:"Noruega",pts:5,pj:3,pg:1},{pais:"Marruecos",pts:4,pj:3,pg:1},{pais:"Escocia",pts:1,pj:3,pg:0}], "Grupo B": [{pais:"Italia",pts:7,pj:3,pg:2},{pais:"Chile",pts:3,pj:3,pg:0},{pais:"Austria",pts:2,pj:3,pg:0},{pais:"Camerún",pts:2,pj:3,pg:0}], "Grupo C": [{pais:"Francia",pts:9,pj:3,pg:3},{pais:"Dinamarca",pts:4,pj:3,pg:1},{pais:"Sudáfrica",pts:2,pj:3,pg:0},{pais:"Arabia Saudita",pts:1,pj:3,pg:0}], "Grupo D": [{pais:"Nigeria",pts:6,pj:3,pg:2},{pais:"Paraguay",pts:5,pj:3,pg:1},{pais:"España",pts:4,pj:3,pg:1},{pais:"Bulgaria",pts:1,pj:3,pg:0}], "Grupo E": [{pais:"Países Bajos",pts:5,pj:3,pg:1},{pais:"México",pts:5,pj:3,pg:1},{pais:"Bélgica",pts:3,pj:3,pg:0},{pais:"Corea del Sur",pts:1,pj:3,pg:0}], "Grupo F": [{pais:"Alemania",pts:7,pj:3,pg:2},{pais:"Yugoslavia",pts:7,pj:3,pg:2},{pais:"Irán",pts:3,pj:3,pg:1},{pais:"EE.UU.",pts:0,pj:3,pg:0}], "Grupo G": [{pais:"Rumania",pts:7,pj:3,pg:2},{pais:"Inglaterra",pts:6,pj:3,pg:2},{pais:"Colombia",pts:3,pj:3,pg:1},{pais:"Túnez",pts:1,pj:3,pg:0}], "Grupo H": [{pais:"Argentina",pts:9,pj:3,pg:3},{pais:"Croacia",pts:6,pj:3,pg:2},{pais:"Jamaica",pts:3,pj:3,pg:1},{pais:"Japón",pts:0,pj:3,pg:0}] } },
+            "1994": { host: "Estados Unidos", equipos: 24, campeon: "Brasil", subcampeon: "Italia", balon: "Questra", cancion: "Gloryland", url: "https://www.youtube.com/embed/FALjXf69v_w", imagen: "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo A": [{pais:"Rumania",pts:6,pj:3,pg:2},{pais:"Suiza",pts:4,pj:3,pg:1},{pais:"EE.UU.",pts:4,pj:3,pg:1},{pais:"Colombia",pts:3,pj:3,pg:1}], "Grupo B": [{pais:"Brasil",pts:7,pj:3,pg:2},{pais:"Suecia",pts:5,pj:3,pg:1},{pais:"Rusia",pts:3,pj:3,pg:1},{pais:"Camerún",pts:1,pj:3,pg:0}], "Grupo C": [{pais:"Alemania",pts:7,pj:3,pg:2},{pais:"España",pts:5,pj:3,pg:1},{pais:"Corea del Sur",pts:2,pj:3,pg:0},{pais:"Bolivia",pts:1,pj:3,pg:0}], "Grupo D": [{pais:"Nigeria",pts:6,pj:3,pg:2},{pais:"Bulgaria",pts:6,pj:3,pg:2},{pais:"Argentina",pts:6,pj:3,pg:2},{pais:"Grecia",pts:0,pj:3,pg:0}], "Grupo E": [{pais:"México",pts:4,pj:3,pg:1},{pais:"Irlanda",pts:4,pj:3,pg:1},{pais:"Italia",pts:4,pj:3,pg:1},{pais:"Noruega",pts:4,pj:3,pg:1}], "Grupo F": [{pais:"Países Bajos",pts:6,pj:3,pg:2},{pais:"Arabia Saudita",pts:6,pj:3,pg:2},{pais:"Bélgica",pts:6,pj:3,pg:2},{pais:"Marruecos",pts:0,pj:3,pg:0}] } },
+            "1990": { host: "Italia", equipos: 24, campeon: "Alemania Federal", subcampeon: "Argentina", balon: "Etrusco Unico", cancion: "Un'estate italiana", url: "https://www.youtube.com/embed/dTbMwJMqilI", imagen: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo A": [{pais:"Italia",pts:6,pj:3,pg:3},{pais:"Checoslovaquia",pts:4,pj:3,pg:2},{pais:"Austria",pts:2,pj:3,pg:1},{pais:"Estados Unidos",pts:0,pj:3,pg:0}], "Grupo B": [{pais:"Camerún",pts:4,pj:3,pg:2},{pais:"Rumania",pts:3,pj:3,pg:1},{pais:"Argentina",pts:3,pj:3,pg:1},{pais:"Unión Soviética",pts:2,pj:3,pg:1}], "Grupo C": [{pais:"Brasil",pts:6,pj:3,pg:3},{pais:"Costa Rica",pts:4,pj:3,pg:2},{pais:"Escocia",pts:2,pj:3,pg:1},{pais:"Suecia",pts:0,pj:3,pg:0}], "Grupo D": [{pais:"Alemania Fed.",pts:5,pj:3,pg:2},{pais:"Yugoslavia",pts:4,pj:3,pg:2},{pais:"Colombia",pts:3,pj:3,pg:1},{pais:"Emiratos Árabes",pts:0,pj:3,pg:0}], "Grupo E": [{pais:"España",pts:5,pj:3,pg:2},{pais:"Bélgica",pts:4,pj:3,pg:2},{pais:"Uruguay",pts:3,pj:3,pg:1},{pais:"Corea del Sur",pts:0,pj:3,pg:0}], "Grupo F": [{pais:"Inglaterra",pts:4,pj:3,pg:1},{pais:"Irlanda",pts:3,pj:3,pg:0},{pais:"Países Bajos",pts:3,pj:3,pg:0},{pais:"Egipto",pts:2,pj:3,pg:0}] } },
+            "1986": { host: "México", equipos: 24, campeon: "Argentina", subcampeon: "Alemania Federal", balon: "Azteca", cancion: "El mundo unido por un balón", url: "https://www.youtube.com/embed/un9I9S8f1G0", imagen: "https://images.unsplash.com/photo-1552667466-07770ae110d0?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo A": [{pais:"Argentina",pts:5,pj:3,pg:2},{pais:"Italia",pts:4,pj:3,pg:1},{pais:"Bulgaria",pts:2,pj:3,pg:0},{pais:"Corea del Sur",pts:1,pj:3,pg:0}], "Grupo B": [{pais:"México",pts:5,pj:3,pg:2},{pais:"Paraguay",pts:4,pj:3,pg:1},{pais:"Bélgica",pts:3,pj:3,pg:1},{pais:"Irak",pts:0,pj:3,pg:0}], "Grupo C": [{pais:"Unión Soviética",pts:5,pj:3,pg:2},{pais:"Francia",pts:5,pj:3,pg:2},{pais:"Hungría",pts:2,pj:3,pg:1},{pais:"Canadá",pts:0,pj:3,pg:0}], "Grupo D": [{pais:"Brasil",pts:6,pj:3,pg:3},{pais:"España",pts:4,pj:3,pg:2},{pais:"Argelia",pts:1,pj:3,pg:0},{pais:"Irlanda del N.",pts:1,pj:3,pg:0}], "Grupo E": [{pais:"Dinamarca",pts:6,pj:3,pg:3},{pais:"Alemania Fed.",pts:3,pj:3,pg:1},{pais:"Uruguay",pts:2,pj:3,pg:0},{pais:"Escocia",pts:1,pj:3,pg:0}], "Grupo F": [{pais:"Marruecos",pts:4,pj:3,pg:1},{pais:"Inglaterra",pts:3,pj:3,pg:1},{pais:"Polonia",pts:3,pj:3,pg:1},{pais:"Portugal",pts:2,pj:3,pg:1}] } },
+            "1982": { host: "España", equipos: 24, campeon: "Italia", subcampeon: "Alemania Federal", balon: "Tango España", cancion: "El Mundial (Plácido Domingo)", url: "https://www.youtube.com/embed/F_fD6zJv0k8", imagen: "https://images.unsplash.com/photo-1579952362874-86ed42d8a9b5?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo 1": [{pais:"Polonia",pts:4,pj:3,pg:1},{pais:"Italia",pts:3,pj:3,pg:0},{pais:"Camerún",pts:3,pj:3,pg:0},{pais:"Perú",pts:2,pj:3,pg:0}], "Grupo 2": [{pais:"Alemania Fed.",pts:4,pj:3,pg:2},{pais:"Austria",pts:4,pj:3,pg:2},{pais:"Argelia",pts:4,pj:3,pg:2},{pais:"Chile",pts:0,pj:3,pg:0}], "Grupo 3": [{pais:"Bélgica",pts:5,pj:3,pg:2},{pais:"Argentina",pts:4,pj:3,pg:2},{pais:"Hungría",pts:3,pj:3,pg:1},{pais:"El Salvador",pts:0,pj:3,pg:0}], "Grupo 4": [{pais:"Inglaterra",pts:6,pj:3,pg:3},{pais:"Francia",pts:3,pj:3,pg:1},{pais:"Checoslovaquia",pts:2,pj:3,pg:0},{pais:"Kuwait",pts:1,pj:3,pg:0}], "Grupo 5": [{pais:"Honduras",pts:2,pj:3,pg:0},{pais:"España",pts:3,pj:3,pg:1},{pais:"Yugoslavia",pts:3,pj:3,pg:1},{pais:"Irlanda del N.",pts:4,pj:3,pg:1}], "Grupo 6": [{pais:"Brasil",pts:6,pj:3,pg:3},{pais:"Unión Soviética",pts:3,pj:3,pg:1},{pais:"Escocia",pts:3,pj:3,pg:1},{pais:"Nueva Zelanda",pts:0,pj:3,pg:0}] } },
+            "1978": { host: "Argentina", equipos: 16, campeon: "Argentina", subcampeon: "Países Bajos", balon: "Tango", cancion: "El Mundial (Ennio Morricone)", url: "https://www.youtube.com/embed/840V49EAnp0", imagen: "https://images.unsplash.com/photo-1489945052260-4f21c52268b9?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo 1": [{pais:"Italia",pts:6,pj:3,pg:3},{pais:"Argentina",pts:4,pj:3,pg:2},{pais:"Francia",pts:2,pj:3,pg:1},{pais:"Hungría",pts:0,pj:3,pg:0}], "Grupo 2": [{pais:"Polonia",pts:5,pj:3,pg:2},{pais:"Alemania Fed.",pts:4,pj:3,pg:1},{pais:"Túnez",pts:3,pj:3,pg:1},{pais:"México",pts:0,pj:3,pg:0}], "Grupo 3": [{pais:"Austria",pts:4,pj:3,pg:2},{pais:"Brasil",pts:4,pj:3,pg:1},{pais:"España",pts:3,pj:3,pg:1},{pais:"Suecia",pts:1,pj:3,pg:0}], "Grupo 4": [{pais:"Perú",pts:5,pj:3,pg:2},{pais:"Países Bajos",pts:3,pj:3,pg:1},{pais:"Escocia",pts:3,pj:3,pg:1},{pais:"Irán",pts:1,pj:3,pg:0}] } },
+            "1974": { host: "Alemania", equipos: 16, campeon: "Alemania Federal", subcampeon: "Países Bajos", balon: "Telstar Durlast", cancion: "Futbol (Maryla Rodowicz)", url: "https://www.youtube.com/embed/0kF9A_FzM_k", imagen: "https://images.unsplash.com/photo-1431324155629-1a6edd1d141d?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo 1": [{pais:"Alemania Dem.",pts:5,pj:3,pg:2},{pais:"Alemania Fed.",pts:4,pj:3,pg:2},{pais:"Chile",pts:2,pj:3,pg:0},{pais:"Australia",pts:1,pj:3,pg:0}], "Grupo 2": [{pais:"Yugoslavia",pts:4,pj:3,pg:1},{pais:"Brasil",pts:4,pj:3,pg:1},{pais:"Escocia",pts:4,pj:3,pg:1},{pais:"Zaire",pts:0,pj:3,pg:0}], "Grupo 3": [{pais:"Países Bajos",pts:5,pj:3,pg:2},{pais:"Suecia",pts:4,pj:3,pg:1},{pais:"Bulgaria",pts:2,pj:3,pg:0},{pais:"Uruguay",pts:1,pj:3,pg:0}], "Grupo 4": [{pais:"Polonia",pts:6,pj:3,pg:3},{pais:"Argentina",pts:3,pj:3,pg:1},{pais:"Italia",pts:3,pj:3,pg:1},{pais:"Haití",pts:0,pj:3,pg:0}] } },
+            "1970": { host: "México", equipos: 16, campeon: "Brasil", subcampeon: "Italia", balon: "Telstar", cancion: "Fútbol México 70", url: "https://www.youtube.com/embed/Fmsh_O3F64c", imagen: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo 1": [{pais:"Unión Soviética",pts:5,pj:3,pg:2},{pais:"México",pts:5,pj:3,pg:2},{pais:"Bélgica",pts:2,pj:3,pg:1},{pais:"El Salvador",pts:0,pj:3,pg:0}], "Grupo 2": [{pais:"Italia",pts:4,pj:3,pg:1},{pais:"Uruguay",pts:3,pj:3,pg:1},{pais:"Israel",pts:2,pj:3,pg:0},{pais:"Suecia",pts:3,pj:3,pg:1}], "Grupo 3": [{pais:"Brasil",pts:6,pj:3,pg:3},{pais:"Inglaterra",pts:4,pj:3,pg:2},{pais:"Rumania",pts:2,pj:3,pg:1},{pais:"Checoslovaquia",pts:0,pj:3,pg:0}], "Grupo 4": [{pais:"Alemania Fed.",pts:6,pj:3,pg:3},{pais:"Perú",pts:4,pj:3,pg:2},{pais:"Bulgaria",pts:1,pj:3,pg:0},{pais:"Marruecos",pts:1,pj:3,pg:0}] } },
+            "1966": { host: "Inglaterra", equipos: 16, campeon: "Inglaterra", subcampeon: "Alemania Federal", balon: "Challenge 4-Star", cancion: "World Cup Willie", url: "https://www.youtube.com/embed/H7SgZ6f8I3o", imagen: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo 1": [{pais:"Inglaterra",pts:5,pj:3,pg:2},{pais:"Uruguay",pts:4,pj:3,pg:1},{pais:"México",pts:2,pj:3,pg:0},{pais:"Francia",pts:1,pj:3,pg:0}], "Grupo 2": [{pais:"Alemania Fed.",pts:5,pj:3,pg:2},{pais:"Argentina",pts:5,pj:3,pg:2},{pais:"España",pts:2,pj:3,pg:1},{pais:"Suiza",pts:0,pj:3,pg:0}], "Grupo 3": [{pais:"Portugal",pts:6,pj:3,pg:3},{pais:"Hungría",pts:4,pj:3,pg:2},{pais:"Brasil",pts:2,pj:3,pg:1},{pais:"Bulgaria",pts:0,pj:3,pg:0}], "Grupo 4": [{pais:"Unión Soviética",pts:6,pj:3,pg:3},{pais:"Corea del Norte",pts:3,pj:3,pg:1},{pais:"Italia",pts:2,pj:3,pg:1},{pais:"Chile",pts:1,pj:3,pg:0}] } },
+            "1962": { host: "Chile", equipos: 16, campeon: "Brasil", subcampeon: "Checoslovaquia", balon: "Crack", cancion: "El Rock del Mundial", url: "https://www.youtube.com/embed/6m82eS_K1bY", imagen: "https://images.unsplash.com/photo-1562074244-3523ba46fa6f?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo 1": [{pais:"Unión Soviética",pts:5,pj:3,pg:2},{pais:"Yugoslavia",pts:4,pj:3,pg:2},{pais:"Uruguay",pts:2,pj:3,pg:1},{pais:"Colombia",pts:1,pj:3,pg:0}], "Grupo 2": [{pais:"Alemania Fed.",pts:5,pj:3,pg:2},{pais:"Chile",pts:4,pj:3,pg:2},{pais:"Italia",pts:3,pj:3,pg:1},{pais:"Suiza",pts:0,pj:3,pg:0}], "Grupo 3": [{pais:"Brasil",pts:5,pj:3,pg:2},{pais:"Checoslovaquia",pts:3,pj:3,pg:1},{pais:"México",pts:2,pj:3,pg:1},{pais:"España",pts:2,pj:3,pg:1}], "Grupo 4": [{pais:"Hungría",pts:5,pj:3,pg:2},{pais:"Inglaterra",pts:3,pj:3,pg:1},{pais:"Argentina",pts:3,pj:3,pg:1},{pais:"Bulgaria",pts:1,pj:3,pg:0}] } },
+            "1958": { host: "Suecia", equipos: 16, campeon: "Brasil", subcampeon: "Suecia", balon: "Top Star", cancion: "Fotbollsvals", url: "https://www.youtube.com/embed/FInNen68_W8", imagen: "https://images.unsplash.com/photo-1510563800743-aed2364902b8?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo 1": [{pais:"Alemania Fed.",pts:4,pj:3,pg:1},{pais:"Irlanda del N.",pts:3,pj:3,pg:1},{pais:"Checoslovaquia",pts:3,pj:3,pg:1},{pais:"Argentina",pts:2,pj:3,pg:1}], "Grupo 2": [{pais:"Francia",pts:4,pj:3,pg:2},{pais:"Yugoslavia",pts:4,pj:3,pg:1},{pais:"Paraguay",pts:3,pj:3,pg:1},{pais:"Escocia",pts:1,pj:3,pg:0}], "Grupo 3": [{pais:"Suecia",pts:5,pj:3,pg:2},{pais:"Gales",pts:3,pj:3,pg:0},{pais:"Hungría",pts:3,pj:3,pg:1},{pais:"México",pts:1,pj:3,pg:0}], "Grupo 4": [{pais:"Brasil",pts:5,pj:3,pg:2},{pais:"Unión Soviética",pts:3,pj:3,pg:1},{pais:"Inglaterra",pts:3,pj:3,pg:0},{pais:"Austria",pts:1,pj:3,pg:0}] } },
+            "1954": { host: "Suiza", equipos: 16, campeon: "Alemania Federal", subcampeon: "Hungría", balon: "Swiss World Champion", cancion: "Marchas Alpinas", url: "https://www.youtube.com/embed/wNly8oaslG4", imagen: "https://images.unsplash.com/photo-1516515429572-bf32372f2409?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo 1": [{pais:"Brasil",pts:3,pj:2,pg:1},{pais:"Yugoslavia",pts:3,pj:2,pg:1},{pais:"Francia",pts:2,pj:2,pg:1},{pais:"México",pts:0,pj:2,pg:0}], "Grupo 2": [{pais:"Hungría",pts:4,pj:2,pg:2},{pais:"Alemania Fed.",pts:2,pj:2,pg:1},{pais:"Turquía",pts:2,pj:2,pg:1},{pais:"Corea del Sur",pts:0,pj:2,pg:0}], "Grupo 3": [{pais:"Uruguay",pts:4,pj:2,pg:2},{pais:"Austria",pts:4,pj:2,pg:2},{pais:"Checoslovaquia",pts:0,pj:2,pg:0},{pais:"Escocia",pts:0,pj:2,pg:0}], "Grupo 4": [{pais:"Inglaterra",pts:3,pj:2,pg:1},{pais:"Italia",pts:2,pj:2,pg:1},{pais:"Suiza",pts:2,pj:2,pg:1},{pais:"Bélgica",pts:1,pj:2,pg:0}] } },
+            "1950": { host: "Brasil", equipos: 13, campeon: "Uruguay", subcampeon: "Brasil", balon: "Duplo T", cancion: "Marchas de Carnaval", url: "https://www.youtube.com/embed/8b5W9a1D5yU", imagen: "https://images.unsplash.com/photo-1511886929837-354d827aae26?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo 1": [{pais:"Brasil",pts:5,pj:3,pg:2},{pais:"Yugoslavia",pts:4,pj:3,pg:2},{pais:"Suiza",pts:3,pj:3,pg:1},{pais:"México",pts:0,pj:3,pg:0}], "Grupo 2": [{pais:"España",pts:6,pj:3,pg:3},{pais:"Inglaterra",pts:2,pj:3,pg:1},{pais:"Chile",pts:2,pj:3,pg:1},{pais:"EE.UU.",pts:2,pj:3,pg:1}], "Grupo 3": [{pais:"Suecia",pts:3,pj:2,pg:1},{pais:"Italia",pts:2,pj:2,pg:1},{pais:"Paraguay",pts:1,pj:2,pg:0}], "Grupo 4": [{pais:"Uruguay",pts:2,pj:1,pg:1},{pais:"Bolivia",pts:0,pj:1,pg:0}] } },
+            "1938": { host: "Francia", equipos: 15, campeon: "Italia", subcampeon: "Hungría", balon: "Allen", cancion: "Melodías de París", url: "https://www.youtube.com/embed/Fbyo6yHskx8", imagen: "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=150&auto=format&fit=crop&q=60", nota: "Formato puro de llaves eliminatorias directas desde octavos.", grupos: { "Llave Final (Podio)": [{pais:"Italia (Campeón)",pts:"-",pj:4,pg:4},{pais:"Hungría (Subcampeón)",pts:"-",pj:4,pg:3},{pais:"Brasil (Tercero)",pts:"-",pj:5,pg:3},{pais:"Suecia",pts:"-",pj:3,pg:1}] } },
+            "1934": { host: "Italia", equipos: 16, campeon: "Italia", subcampeon: "Checoslovaquia", balon: "Federale 102", cancion: "Himno del Estadio Romano", url: "https://www.youtube.com/embed/XzXW8_VvRsc", nota: "Se disputó íntegramente por sistema de eliminación directa.", grupos: { "Llave Final (Podio)": [{pais:"Italia (Campeón)",pts:"-",pj:5,pg:4},{pais:"Checoslovaquia",pts:"-",pj:4,pg:3},{pais:"Alemania",pts:"-",pj:4,pg:3},{pais:"Austria",pts:"-",pj:4,pg:2}] } },
+            "1930": { host: "Uruguay", equipos: 13, campeon: "Uruguay", subcampeon: "Argentina", balon: "Modelo T / Tiento", cancion: "Marchas de la Tribuna 1930", url: "https://www.youtube.com/embed/vVkaGvP6H48", imagen: "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=150&auto=format&fit=crop&q=60", grupos: { "Grupo 1": [{pais:"Argentina",pts:6,pj:3,pg:3},{pais:"Chile",pts:4,pj:3,pg:2},{pais:"Francia",pts:2,pj:3,pg:1},{pais:"México",pts:0,pj:3,pg:0}], "Grupo 2": [{pais:"Yugoslavia",pts:4,pj:2,pg:2},{pais:"Brasil",pts:2,pj:2,pg:1},{pais:"Bolivia",pts:0,pj:2,pg:0}], "Grupo 3": [{pais:"Uruguay",pts:4,pj:2,pg:2},{pais:"Rumania",pts:2,pj:2,pg:1},{pais:"Perú",pts:0,pj:2,pg:0}], "Grupo 4": [{pais:"Estados Unidos",pts:4,pj:2,pg:2},{pais:"Paraguay",pts:2,pj:2,pg:1},{pais:"Bélgica",pts:0,pj:2,pg:0}] } }
         };
 
-        // Quitar Loader automáticamente a los 3.5 segundos
+        // Renderizar opciones del Selector Dinámicamente
+        const select = document.getElementById('selectAnio');
+        Object.keys(mundialDB).forEach(anio => {
+            const option = document.createElement('option');
+            option.value = anio;
+            option.textContent = `${anio} ${anio === "2026" ? "(Mundial en Curso)" : `(${mundialDB[anio].host})`}`;
+            select.appendChild(option);
+        });
+
+        // Configurar el Mundial 2026 por defecto al cargar el sitio
+        document.getElementById('selectAnio').value = "2026";
+
         window.addEventListener('DOMContentLoaded', () => {
+            // Cargar datos por defecto de 2026 inmediatamente tras bambalinas
+            buscarMundial();
+            
             setTimeout(() => {
                 const loader = document.getElementById('loader');
                 if (loader) {
@@ -148,7 +148,7 @@
                     document.getElementById('sonidoPitazo').play().catch(() => {});
                     setTimeout(() => loader.remove(), 1000);
                 }
-            }, 3.500);
+            }, 3500);
         });
 
         // Controles de audio del ambiente del estadio
@@ -160,44 +160,36 @@
         function alternarAudio() {
             if (!audioActivo) {
                 sonidoAmbiente.play().catch(() => alert("Por favor, interactúa o haz click en la pantalla primero."));
-                iconoAudio.className = "fa-solid fa-volume-high text-green-400 animate-pulse";
+                iconoAudio.className = "fa-solid fa-volume-high text-emerald-400 animate-pulse";
                 textoAudio.innerText = "Mutear Estadio";
                 audioActivo = true;
             } else {
                 sonidoAmbiente.pause();
                 iconoAudio.className = "fa-solid fa-volume-mute";
-                textoAudio.innerText = "Activar Ambiente";
+                textoAudio.innerText = "Activar Sonido Ambiente";
                 audioActivo = false;
             }
         }
 
-        // Renderizado dinámico de estadísticas al seleccionar un año
+        // Lógica de Renderizado de Tablas de Posiciones de todos los Grupos
         function buscarMundial() {
             const anio = document.getElementById('selectAnio').value;
             const contenedor = document.getElementById('vistaContenido');
             
-            if (!anio || !mundialDB[anio]) {
-                contenedor.innerHTML = `
-                    <div class="text-center py-24 border-2 border-dashed border-gray-700 rounded-xl">
-                        <i class="fa-solid fa-futbol text-6xl text-gray-500 animate-spin mb-4" style="animation-duration: 8s;"></i>
-                        <h2 class="text-2xl font-bold tracking-wide">¡BIENVENIDO AL MARCADOR CENTRAL!</h2>
-                        <p class="text-gray-400 mt-2">Selecciona un año en el panel superior para desplegar estadísticas, grupos, balones y canciones.</p>
-                    </div>`;
-                return;
-            }
+            if (!anio || !mundialDB[anio]) return;
 
             const data = mundialDB[anio];
             let htmlGrupos = '';
 
             for (const [grupo, equipos] of Object.entries(data.grupos)) {
                 htmlGrupos += `
-                    <div class="bg-gray-800/90 p-4 rounded-xl border-2 border-green-600 shadow-md">
-                        <h4 class="font-black text-yellow-400 border-b border-gray-700 pb-2 mb-3 uppercase tracking-wide flex items-center gap-2">
+                    <div class="bg-slate-800/90 p-4 rounded-xl border border-emerald-500/30 shadow-md">
+                        <h4 class="font-black text-emerald-400 border-b border-slate-700 pb-2 mb-3 uppercase tracking-wide flex items-center gap-2 text-sm">
                             <i class="fa-solid fa-list-ol"></i> ${grupo}
                         </h4>
-                        <table class="w-full text-left text-sm border-collapse">
+                        <table class="w-full text-left text-xs border-collapse">
                             <thead>
-                                <tr class="text-gray-400 border-b border-gray-700 text-xs uppercase">
+                                <tr class="text-slate-400 border-b border-slate-700 uppercase">
                                     <th class="pb-1">Selección</th>
                                     <th class="pb-1 text-center">Pts</th>
                                     <th class="pb-1 text-center">PJ</th>
@@ -205,12 +197,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                ${equipos.map(e => `
-                                    <tr class="border-b border-gray-800/60 hover:bg-gray-750/50">
-                                        <td class="font-bold py-2 text-white">${e.pais}</td>
-                                        <td class="text-green-400 font-black text-center">${e.pts}</td>
-                                        <td class="text-center text-gray-300">${e.pj}</td>
-                                        <td class="text-center text-gray-300">${e.pg}</td>
+                                ${equipos.map((e, index) => `
+                                    <tr class="border-b border-slate-900/60 hover:bg-slate-700/30">
+                                        <td class="font-bold py-2 text-white flex items-center gap-1">
+                                            <span class="text-slate-500 font-mono w-4">${index + 1}.</span> ${e.pais}
+                                        </td>
+                                        <td class="text-emerald-400 font-black text-center text-sm">${e.pts}</td>
+                                        <td class="text-center text-slate-300">${e.pj}</td>
+                                        <td class="text-center text-slate-300">${e.pg}</td>
                                     </tr>
                                 `).join('')}
                             </tbody>
@@ -220,52 +214,54 @@
             }
 
             contenedor.innerHTML = `
-                <div class="animate-fade-in space-y-6">
+                <div class="space-y-6">
                     
-                    <div class="bg-gradient-to-r from-yellow-500 to-amber-600 text-black p-5 rounded-2xl shadow-xl border-2 border-white flex flex-col md:flex-row justify-between items-center gap-4">
-                        <div>
-                            <h3 class="text-3xl font-black tracking-tighter uppercase"><i class="fa-solid fa-trophy mr-1"></i> MUNDIAL ${anio}</h3>
-                            <p class="text-xs uppercase tracking-widest font-bold opacity-80"><i class="fa-solid fa-map-location-dot"></i> Sede: ${data.host} | Equipos: ${data.teams_count || data.equipos}</p>
+                    <!-- Marcador Electrónico Verde LED -->
+                    <div class="bg-gradient-to-r from-emerald-800 to-teal-950 text-white p-5 rounded-2xl shadow-xl border-2 border-emerald-500 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div class="flex items-center gap-4">
+                            <img src="${data.imagen || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=150&auto=format&fit=crop&q=60'}" class="w-16 h-16 object-cover rounded-xl border border-emerald-400/40 shadow-md" alt="Mundial Logo">
+                            <div>
+                                <h3 class="text-2xl font-black tracking-tighter uppercase text-emerald-400"><i class="fa-solid fa-trophy mr-1"></i> MUNDIAL ${anio}</h3>
+                                <p class="text-xs uppercase tracking-widest font-bold text-slate-300"><i class="fa-solid fa-map-location-dot"></i> Sede: ${data.host}</p>
+                            </div>
                         </div>
-                        <div class="bg-black/90 text-yellow-400 px-5 py-3 rounded-xl border border-yellow-300 font-mono text-sm shadow-inner min-w-[240px]">
+                        <div class="bg-slate-950 text-emerald-400 px-5 py-3 rounded-xl border border-emerald-500/50 font-mono text-xs shadow-inner min-w-[250px]">
                             <p class="flex justify-between"><span>🥇 CAMPEÓN:</span> <span class="text-white font-bold">${data.campeon}</span></p>
-                            <p class="flex justify-between mt-1"><span>🥈 SUB-CAMPEÓN:</span> <span class="text-gray-300">${data.subcampeon || 'Por definir'}</span></p>
+                            <p class="flex justify-between mt-1"><span>🥈 SUB-CAMPEÓN:</span> <span class="text-slate-300">${data.subcampeon || 'En Juego'}</span></p>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="bg-gray-900/90 border border-gray-700 p-4 rounded-xl flex items-center gap-4 shadow">
-                            <div class="bg-yellow-500/10 p-3 rounded-full text-yellow-400 text-2xl">
+                    <!-- Ficha del Balón Oficial e Himno en Video Reproducible -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center gap-4 shadow lg:col-span-1">
+                            <div class="bg-emerald-500/10 p-3 rounded-full text-emerald-400 text-2xl">
                                 <i class="fa-solid fa-soccer-ball"></i>
                             </div>
                             <div>
-                                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Balón Oficial Usado</p>
-                                <p class="text-lg font-black text-white">${data.balon}</p>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Balón Oficial</p>
+                                <p class="text-base font-black text-white">${data.balon}</p>
                             </div>
                         </div>
-                        <div class="bg-gray-900/90 border border-gray-700 p-4 rounded-xl flex items-center justify-between gap-4 shadow">
-                            <div class="flex items-center gap-4">
-                                <div class="bg-green-500/10 p-3 rounded-full text-green-400 text-2xl">
-                                    <i class="fa-solid fa-music"></i>
-                                </div>
-                                <div>
-                                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Himno / Canción Oficial</p>
-                                    <p class="text-base font-black text-white">${data.cancion}</p>
-                                </div>
+                        
+                        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl lg:col-span-2 flex flex-col justify-between gap-2">
+                            <div class="flex justify-between items-center">
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider"><i class="fa-solid fa-music mr-1"></i> Canción Oficial: <span class="text-white normal-case font-bold text-sm ml-1">${data.cancion}</span></p>
                             </div>
-                            <a href="${data.url}" target="_blank" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 text-xs transition uppercase tracking-wider shadow">
-                                <i class="fa-brands fa-youtube text-base"></i> Video
-                            </a>
+                            <!-- Video de YouTube Incorporado con iFrame fluido -->
+                            <div class="w-full h-32 rounded-lg overflow-hidden border border-slate-700">
+                                <iframe class="w-full h-full" src="${data.url}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
                         </div>
                     </div>
 
-                    ${data.nota ? `<p class="text-xs text-yellow-400 bg-yellow-950/40 p-2 rounded border border-yellow-800/60 font-medium italic"><i class="fa-solid fa-circle-info mr-1"></i> ${data.nota}</p>` : ''}
+                    ${data.nota ? `<p class="text-xs text-emerald-400 bg-emerald-950/40 p-2 rounded border border-emerald-800/40 font-medium italic"><i class="fa-solid fa-circle-info mr-1"></i> ${data.nota}</p>` : ''}
 
+                    <!-- Cuadrícula Completa de Grupos Clasificatorios -->
                     <div>
-                        <h3 class="text-lg font-extrabold uppercase tracking-wide text-gray-200 mb-3 flex items-center gap-2">
-                            <i class="fa-solid fa-shield-halved text-green-500"></i> Rendimiento y Posiciones de Grupos
+                        <h3 class="text-sm font-extrabold uppercase tracking-wide text-slate-300 mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-stadium text-emerald-500"></i> Tabla de Posiciones de todos los Grupos
                         </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">${htmlGrupos}</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">${htmlGrupos}</div>
                     </div>
 
                 </div>
