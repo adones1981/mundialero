@@ -77,22 +77,30 @@
         </main>
 
         <footer class="bg-slate-950 text-center p-4 border-t-4 border-emerald-700 text-slate-500 text-xs">
-            <p><i class="fa-solid fa-bullhorn text-emerald-500 mr-2"></i> © Estadio Virtual del Fútbol - Compendio de Grupos y Fases Eliminatorias.</p>
+            <p><i class="fa-solid fa-bullhorn text-emerald-500 mr-2"></i> © Estadio Virtual del Fútbol - Compendio de Grupos y Diagramas de Eliminación.</p>
         </footer>
     </div>
 
     <script>
-        // Pestaña activa por defecto
         let pestanaActiva = 'grupos';
 
         const mundialDB = {
             "2026": { 
-                host: "Norteamérica", equipos: 48, campeon: "En progreso", subcampeon: "En progreso", balon: "Adidas Conext 26", cancion: "Fifa World Cup Official Theme", videoId: "fW6F_lK6Vsc", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/2026_FIFA_World_Cup_Logo.svg/120px-2026_FIFA_World_Cup_Logo.svg.png", 
-                nota: "Primera edición ampliada a 12 grupos. Clasifican los dos primeros y los 8 mejores terceros a Dieciseisavos.",
-                faseEliminatoria: [
-                    { etapa: "Dieciseisavos de Final", cruces: [{ local: "Por definir", visita: "Por definir", resultado: "- vs -"}] },
-                    { etapa: "Finales Proyectadas", cruces: [{ local: "Estadio Azteca", visita: "Gran Final", resultado: "🏆 2026"}] }
-                ],
+                host: "Norteamérica", equipos: 48, campeon: "Por disputarse", subcampeon: "Por disputarse", balon: "Adidas Conext 26", cancion: "Fifa World Cup Official Anthem", videoId: "fW6F_lK6Vsc", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/2026_FIFA_World_Cup_Logo.svg/120px-2026_FIFA_World_Cup_Logo.svg.png", 
+                nota: "Edición masiva con 48 selecciones. Clasifican los dos mejores de cada uno de los 12 grupos más los 8 mejores terceros a Dieciseisavos.",
+                arbolEliminatorio: {
+                    cuartos: [
+                        { local: "Por Definir 🏴", visita: "Por Definir 🏴", res: "- vs -" },
+                        { local: "Por Definir 🏴", visita: "Por Definir 🏴", res: "- vs -" },
+                        { local: "Por Definir 🏴", visita: "Por Definir 🏴", res: "- vs -" },
+                        { local: "Por Definir 🏴", visita: "Por Definir 🏴", res: "- vs -" }
+                    ],
+                    semis: [
+                        { local: "Ganador C1 🏴", visita: "Ganador C2 🏴", res: "- vs -" },
+                        { local: "Ganador C3 🏴", visita: "Ganador C4 🏴", res: "- vs -" }
+                    ],
+                    final: { local: "Finalista 1 🏴", visita: "Finalista 2 🏴", res: "🏆 Julio 2026", campeon: "Por Disputarse 👑" }
+                },
                 grupos: { 
                     "Grupo A": [{pais:"México",pts:0,pj:0,pg:0},{pais:"Sudáfrica",pts:0,pj:0,pg:0},{pais:"Corea del Sur",pts:0,pj:0,pg:0},{pais:"Rep. Checa",pts:0,pj:0,pg:0}], 
                     "Grupo B": [{pais:"Canadá",pts:0,pj:0,pg:0},{pais:"Bosnia y H.",pts:0,pj:0,pg:0},{pais:"Catar",pts:0,pj:0,pg:0},{pais:"Suiza",pts:0,pj:0,pg:0}], 
@@ -110,64 +118,81 @@
             },
             "2022": { 
                 host: "Catar", equipos: 32, campeon: "Argentina", subcampeon: "Francia", balon: "Al Rihla", cancion: "Hayya Hayya", videoId: "vyDxPvXvHk8", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/2022_FIFA_World_Cup.svg/100px-2022_FIFA_World_Cup.svg.png", 
-                faseEliminatoria: [
-                    { etapa: "Cuartos de Final", cruces: [{local:"Croacia 🇭🇷", visita:"Brasil 🇧🇷", resultado:"1 (4) - 1 (2)"}, {local:"Países Bajos 🇳🇱", visita:"Argentina 🇦🇷", resultado:"2 (3) - 2 (4)"}, {local:"Marruecos 🇲🇦", visita:"Portugal 🇵🇹", resultado:"1 - 0"}, {local:"Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿", visita:"Francia 🇫🇷", resultado:"1 - 2"}] },
-                    { etapa: "Semifinales", cruces: [{local:"Argentina 🇦🇷", visita:"Croacia 🇭🇷", resultado:"3 - 0"}, {local:"Francia 🇫🇷", visita:"Marruecos 🇲🇦", resultado:"2 - 0"}] },
-                    { etapa: "Gran Final", cruces: [{local:"Argentina 🇦🇷 👑", visita:"Francia 🇫🇷", resultado:"3 (4) - 3 (2)"}] }
-                ],
-                grupos: { "Grupo C": [{pais:"Argentina",pts:6,pj:3,pg:2},{pais:"Polonia",pts:4,pj:3,pg:1},{pais:"México",pts:4,pj:3,pg:1},{pais:"Arabia Saudita",pts:3,pj:3,pg:1}], "Grupo D": [{pais:"Francia",pts:6,pj:3,pg:2},{pais:"Australia",pts:6,pj:3,pg:2},{pais:"Túnez",pts:4,pj:3,pg:1},{pais:"Dinamarca",pts:1,pj:3,pg:0}] } 
+                arbolEliminatorio: {
+                    cuartos: [
+                        { local: "Croacia 🇭🇷", visita: "Brasil 🇧🇷", res: "1 (4) - 1 (2)" },
+                        { local: "Países Bajos 🇳🇱", visita: "Argentina 🇦🇷", res: "2 (3) - 2 (4)" },
+                        { local: "Marruecos 🇲🇦", visita: "Portugal 🇵🇹", res: "1 - 0" },
+                        { local: "Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿", visita: "Francia 🇫🇷", res: "1 - 2" }
+                    ],
+                    semis: [
+                        { local: "Croacia 🇭🇷", visita: "Argentina 🇦🇷", res: "0 - 3" },
+                        { local: "Marruecos 🇲🇦", visita: "Francia 🇫🇷", res: "0 - 2" }
+                    ],
+                    final: { local: "Argentina 🇦🇷", visita: "Francia 🇫🇷", res: "3 (4) - 3 (2)", campeon: "Argentina 🇦🇷 👑" }
+                },
+                grupos: { 
+                    "Grupo A": [{pais:"Países Bajos",pts:7,pj:3,pg:2},{pais:"Senegal",pts:6,pj:3,pg:2},{pais:"Ecuador",pts:4,pj:3,pg:1},{pais:"Catar",pts:0,pj:3,pg:0}],
+                    "Grupo C": [{pais:"Argentina",pts:6,pj:3,pg:2},{pais:"Polonia",pts:4,pj:3,pg:1},{pais:"México",pts:4,pj:3,pg:1},{pais:"Arabia Saudita",pts:3,pj:3,pg:1}], 
+                    "Grupo D": [{pais:"Francia",pts:6,pj:3,pg:2},{pais:"Australia",pts:6,pj:3,pg:2},{pais:"Túnez",pts:4,pj:3,pg:1},{pais:"Dinamarca",pts:1,pj:3,pg:0}] 
+                } 
             },
             "2018": { 
                 host: "Rusia", equipos: 32, campeon: "Francia", subcampeon: "Croacia", balon: "Telstar 18", cancion: "Live It Up", videoId: "V15BYn7I6ZM", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/2018_FIFA_World_Cup_Logo.svg/100px-2018_FIFA_World_Cup_Logo.svg.png", 
-                faseEliminatoria: [
-                    { etapa: "Cuartos de Final", cruces: [{local:"Uruguay 🇺🇾", visita:"Francia 🇫🇷", resultado:"0 - 2"}, {local:"Brasil 🇧🇷", visita:"Bélgica 🇧🇪", resultado:"1 - 2"}, {local:"Suecia 🇸🇪", visita:"Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿", resultado:"0 - 2"}, {local:"Rusia 🇷🇺", visita:"Croacia 🇭🇷", resultado:"2 (3) - 2 (4)"}] },
-                    { etapa: "Semifinales", cruces: [{local:"Francia 🇫🇷", visita:"Bélgica 🇧🇪", resultado:"1 - 0"}, {local:"Croacia 🇭🇷", visita:"Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿", resultado:"2 - 1"}] },
-                    { etapa: "Gran Final", cruces: [{local:"Francia 🇫🇷 👑", visita:"Croacia 🇭🇷", resultado:"4 - 2"}] }
-                ],
+                arbolEliminatorio: {
+                    cuartos: [
+                        { local: "Uruguay 🇺🇾", visita: "Francia 🇫🇷", res: "0 - 2" },
+                        { local: "Brasil 🇧🇷", visita: "Bélgica 🇧🇪", res: "1 - 2" },
+                        { local: "Suecia 🇸🇪", visita: "Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿", res: "0 - 2" },
+                        { local: "Rusia 🇷🇺", visita: "Croacia 🇭🇷", res: "2 (3) - 2 (4)" }
+                    ],
+                    semis: [
+                        { local: "Francia 🇫🇷", visita: "Bélgica 🇧🇪", res: "1 - 0" },
+                        { local: "Croacia 🇭🇷", visita: "Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿", res: "2 - 1" }
+                    ],
+                    final: { local: "Francia 🇫🇷", visita: "Croacia 🇭🇷", res: "4 - 2", campeon: "Francia 🇫🇷 👑" }
+                },
                 grupos: { "Grupo C": [{pais:"Francia",pts:7,pj:3,pg:2},{pais:"Dinamarca",pts:5,pj:3,pg:1},{pais:"Perú",pts:3,pj:3,pg:1}], "Grupo D": [{pais:"Croacia",pts:9,pj:3,pg:3},{pais:"Argentina",pts:4,pj:3,pg:1},{pais:"Nigeria",pts:3,pj:3,pg:1}] } 
             },
-            "2014": { 
-                host: "Brasil", equipos: 32, campeon: "Alemania", subcampeon: "Argentina", balon: "Brazuca", cancion: "We Are One", videoId: "TGtWWb9emYI", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/2014_FIFA_World_Cup_Logo.svg/100px-2014_FIFA_World_Cup_Logo.svg.png", 
-                faseEliminatoria: [
-                    { etapa: "Cuartos de Final", cruces: [{local:"Francia 🇫🇷", visita:"Alemania 🇩🇪", resultado:"0 - 1"}, {local:"Brasil 🇧🇷", visita:"Colombia 🇨🇴", resultado:"2 - 1"}, {local:"Argentina 🇦🇷", visita:"Bélgica 🇧🇪", resultado:"1 - 0"}, {local:"Países Bajos 🇳🇱", visita:"Costa Rica 🇨🇷", resultado:"0 (4) - 0 (3)"}] },
-                    { etapa: "Semifinales", cruces: [{local:"Brasil 🇧🇷", visita:"Alemania 🇩🇪", resultado:"1 - 7"}, {local:"Argentina 🇦🇷", visita:"Países Bajos 🇳🇱", resultado:"0 (4) - 0 (2)"}] },
-                    { etapa: "Gran Final", cruces: [{local:"Alemania 🇩🇪 👑", visita:"Argentina 🇦🇷", resultado:"1 - 0"}] }
-                ],
-                grupos: { "Grupo G": [{pais:"Alemania",pts:7,pj:3,pg:2},{pais:"EE.UU.",pts:4,pj:3,pg:1},{pais:"Portugal",pts:4,pj:3,pg:1}] } 
-            },
-            "2010": { 
-                host: "Sudáfrica", equipos: 32, campeon: "España", subcampeon: "Países Bajos", balon: "Jabulani", cancion: "Waka Waka", videoId: "pRpeEdMmmQ0", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/2010_FIFA_World_Cup_Logo.svg/100px-2010_FIFA_World_Cup_Logo.svg.png", 
-                faseEliminatoria: [
-                    { etapa: "Cuartos de Final", cruces: [{local:"Países Bajos 🇳🇱", visita:"Brasil 🇧🇷", resultado:"2 - 1"}, {local:"Uruguay 🇺🇾", visita:"Ghana 🇬🇭", resultado:"1 (4) - 1 (3)"}, {local:"Argentina 🇦🇷", visita:"Alemania 🇩🇪", resultado:"0 - 4"}, {local:"Paraguay 🇵🇾", visita:"España 🇪🇸", resultado:"0 - 1"}] },
-                    { etapa: "Semifinales", cruces: [{local:"Países Bajos 🇳🇱", visita:"Uruguay 🇺🇾", resultado:"3 - 2"}, {local:"Alemania 🇩🇪", visita:"España 🇪🇸", resultado:"0 - 1"}] },
-                    { etapa: "Gran Final", cruces: [{local:"España 🇪🇸 👑", visita:"Países Bajos 🇳🇱", resultado:"1 - 0"}] }
-                ],
-                grupos: { "Grupo H": [{pais:"España",pts:6,pj:3,pg:2},{pais:"Chile",pts:6,pj:3,pg:2},{pais:"Suiza",pts:4,pj:3,pg:1}] } 
-            },
             "1990": { 
-                host: "Italia", equipos: 24, campeon: "Alemania Federal", subcampeon: "Argentina", balon: "Etrusco Unico", cancion: "Un'estate italiana", videoId: "dTbMwJMqilI", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Logo_Italia_90.png/120px-Logo_Italia_90.png", 
-                faseEliminatoria: [
-                    { etapa: "Semifinales", cruces: [{local:"Argentina 🇦🇷", visita:"Italia 🇮🇹", resultado:"1 (4) - 1 (3)"}, {local:"Alemania Fed. 🇩🇪", visita:"Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿", resultado:"1 (4) - 1 (3)"}] },
-                    { etapa: "Gran Final", cruces: [{local:"Alemania Fed. 🇩🇪 👑", visita:"Argentina 🇦🇷", resultado:"1 - 0"}] }
-                ],
+                host: "Italia", equipos: 24, campeon: "Alemania Fed.", subcampeon: "Argentina", balon: "Etrusco Unico", cancion: "Un'estate italiana", videoId: "dTbMwJMqilI", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Logo_Italia_90.png/120px-Logo_Italia_90.png", 
+                arbolEliminatorio: {
+                    cuartos: [
+                        { local: "Argentina 🇦🇷", visita: "Yugoslavia 🇷🇸", res: "0 (3) - 0 (2)" },
+                        { local: "Italia 🇮🇹", visita: "Irlanda 🇮🇪", res: "1 - 0" },
+                        { local: "Alemania Fed. 🇩🇪", visita: "Checoslovaquia 🇨🇿", res: "1 - 0" },
+                        { local: "Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿", visita: "Camerún 🇨🇲", res: "3 - 2" }
+                    ],
+                    semis: [
+                        { local: "Argentina 🇦🇷", visita: "Italia 🇮🇹", res: "1 (4) - 1 (3)" },
+                        { local: "Alemania Fed. 🇩🇪", visita: "Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿", res: "1 (4) - 1 (3)" }
+                    ],
+                    final: { local: "Alemania Fed. 🇩🇪", visita: "Argentina 🇦🇷", res: "1 - 0", campeon: "Alemania Federal 🇩🇪 👑" }
+                },
                 grupos: { "Grupo B": [{pais:"Camerún",pts:4,pj:3,pg:2},{pais:"Rumania",pts:3,pj:3,pg:1},{pais:"Argentina",pts:3,pj:3,pg:1}] } 
             },
             "1930": { 
                 host: "Uruguay", equipos: 13, campeon: "Uruguay", subcampeon: "Argentina", balon: "Modelo T", cancion: "Himno del Centenario", videoId: "vVkaGvP6H48", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Uruguay_1930_World_Cup_logo.png/100px-Uruguay_1930_World_Cup_logo.png", 
-                faseEliminatoria: [
-                    { etapa: "Semifinales", cruces: [{local:"Argentina 🇦🇷", visita:"EE.UU. 🇺🇸", resultado:"6 - 1"}, {local:"Uruguay 🇺🇾", visita:"Yugoslavia 🇷🇸", resultado:"6 - 1"}] },
-                    { etapa: "Gran Final", cruces: [{local:"Uruguay 🇺🇾 👑", visita:"Argentina 🇦🇷", resultado:"4 - 2"}] }
-                ],
-                grupos: { "Grupo 1": [{pais:"Argentina",pts:6,pj:3,pg:3},{pais:"Chile",pts:4,pj:3,pg:2}] } 
+                arbolEliminatorio: {
+                    cuartos: [
+                        { local: "No Hubo", visita: "Cuartos", res: "Clasificación Directa" }
+                    ],
+                    semis: [
+                        { local: "Argentina 🇦🇷", visita: "EE.UU. 🇺🇸", res: "6 - 1" },
+                        { local: "Uruguay 🇺🇾", visita: "Yugoslavia 🇷🇸", res: "6 - 1" }
+                    ],
+                    final: { local: "Uruguay 🇺🇾", visita: "Argentina 🇦🇷", res: "4 - 2", campeon: "Uruguay 🇺🇾 👑" }
+                },
+                grupos: { "Grupo 1": [{pais:"Argentina",pts:6,pj:3,pg:3},{pais:"Chile",pts:4,pj:3,pg:2}], "Grupo 2": [{pais:"Yugoslavia",pts:4,pj:2,pg:2},{pais:"Brasil",pts:2,pj:2,pg:1}] } 
             }
         };
 
-        // Rellenar dinámicamente las opciones
+        // Rellenar selectores
         const select = document.getElementById('selectAnio');
         Object.keys(mundialDB).forEach(anio => {
             const option = document.createElement('option');
             option.value = anio;
-            option.textContent = `${anio} ${anio === "2026" ? "(Edición Actual)" : `(${mundialDB[anio].host})`}`;
+            option.textContent = `${anio} ${anio === "2026" ? "(Mundial en Curso)" : `(${mundialDB[anio].host})`}`;
             select.appendChild(option);
         });
 
@@ -209,6 +234,10 @@
             buscarMundial();
         }
 
+        function verVideoExterno(id) {
+            window.open(`https://www.youtube.com/watch?v=${id}`, '_blank');
+        }
+
         function buscarMundial() {
             const anio = document.getElementById('selectAnio').value;
             const contenedor = document.getElementById('vistaContenido');
@@ -216,7 +245,7 @@
             if (!anio || !mundialDB[anio]) return;
             const data = mundialDB[anio];
 
-            // Renderizado de la sección de Grupos
+            // 1. Renderizado de la sección de Grupos
             let htmlGrupos = '';
             for (const [grupo, equipos] of Object.entries(data.grupos || {})) {
                 htmlGrupos += `
@@ -250,93 +279,63 @@
                 `;
             }
 
-            // Renderizado de la sección de Eliminatorias Directas
-            let htmlEliminatorias = '';
-            if (data.faseEliminatoria && Array.isArray(data.faseEliminatoria)) {
-                data.faseEliminatoria.forEach(fase => {
-                    htmlEliminatorias += `
-                        <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl space-y-3">
-                            <h4 class="text-sm font-extrabold text-emerald-400 uppercase tracking-widest border-b border-emerald-500/20 pb-1"><i class="fa-solid fa-diagram-nested mr-1"></i> ${fase.etapa}</h4>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                ${fase.cruces.map(cruce => `
-                                    <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center text-xs font-mono">
-                                        <span class="font-bold text-slate-200">${cruce.local}</span>
-                                        <span class="bg-emerald-950 text-emerald-400 font-black px-3 py-1 rounded border border-emerald-500/30 text-center min-w-[70px]">${cruce.resultado}</span>
-                                        <span class="font-bold text-slate-200 text-right">${cruce.visita}</span>
+            // 2. DIAGRAMA VISUAL DE LLAVES (ÁRBOL DE ELIMINATORIAS)
+            let htmlArbol = '';
+            if (data.arbolEliminatorio) {
+                const arb = data.arbolEliminatorio;
+                htmlArbol = `
+                    <div class="bg-slate-950 p-6 rounded-2xl border-2 border-emerald-500/40 space-y-8 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-b from-emerald-950/10 to-transparent pointer-events-none"></div>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10">
+                            
+                            <div class="space-y-4">
+                                <h5 class="text-xs font-black tracking-widest text-emerald-400 uppercase border-b border-slate-800 pb-1 text-center"><i class="fa-solid fa-diagram-project"></i> Cuartos de Final</h5>
+                                ${arb.cuartos.map(c => `
+                                    <div class="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800 space-y-1 text-xs">
+                                        <div class="flex justify-between font-bold"><span>${c.local}</span></div>
+                                        <div class="bg-emerald-950/60 text-emerald-400 font-mono font-black py-0.5 text-center rounded border border-emerald-800/40">${c.res}</div>
+                                        <div class="flex justify-between font-bold"><span>${c.visita}</span></div>
                                     </div>
                                 `).join('')}
                             </div>
+
+                            <div class="space-y-4 lg:pt-12">
+                                <h5 class="text-xs font-black tracking-widest text-emerald-400 uppercase border-b border-slate-800 pb-1 text-center"><i class="fa-solid fa-arrows-split-up-and-left"></i> Semifinales</h5>
+                                ${arb.semis.map(s => `
+                                    <div class="bg-slate-900/90 p-3 rounded-lg border border-emerald-500/30 space-y-1 text-xs shadow-md shadow-emerald-950/20">
+                                        <div class="font-bold text-slate-200">${s.local}</div>
+                                        <div class="bg-slate-950 text-center py-1 font-mono text-emerald-400 font-bold rounded border border-slate-800">${s.res}</div>
+                                        <div class="font-bold text-slate-200">${s.visita}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+
+                            <div class="flex flex-col justify-center items-center space-y-4 lg:pt-6">
+                                <h5 class="text-xs font-black tracking-widest text-emerald-400 uppercase border-b border-slate-800 pb-1 w-full text-center"><i class="fa-solid fa-trophy"></i> Gran Final</h5>
+                                <div class="w-full bg-gradient-to-b from-slate-900 to-slate-950 p-4 rounded-xl border-2 border-emerald-400 shadow-xl text-center space-y-2">
+                                    <p class="text-xs font-mono text-slate-400 uppercase">Marcador del Título</p>
+                                    <div class="text-xs font-bold text-white space-y-1">
+                                        <p>${arb.final.local}</p>
+                                        <p class="text-sm font-black text-emerald-400 my-1 bg-emerald-950/60 py-1 rounded border border-emerald-500/20">${arb.final.res}</p>
+                                        <p>${arb.final.visita}</p>
+                                    </div>
+                                    <div class="pt-3 border-t border-slate-800 mt-2">
+                                        <span class="text-[10px] text-slate-400 block font-bold tracking-wider uppercase">Campeón del Mundo</span>
+                                        <div class="text-base font-black text-emerald-400 uppercase drop-shadow-[0_0_8px_rgba(52,211,153,0.3)] mt-1">
+                                            ${arb.final.campeon}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
-                    `;
-                });
-            } else {
-                htmlEliminatorias = `<div class="p-4 bg-slate-900 text-center text-slate-400 rounded-xl text-xs font-bold uppercase"><i class="fa-solid fa-circle-info mr-1"></i> Detalles extendidos en el módulo principal del marcador.</div>`;
+                    </div>
+                `;
             }
 
-            // Estructura de la Interfaz con Pestañas
+            // Estructura completa de la pantalla
             contenedor.innerHTML = `
                 <div class="space-y-6">
                     
-                    <div class="bg-gradient-to-r from-emerald-800 to-teal-950 text-white p-5 rounded-2xl shadow-xl border-2 border-emerald-500 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <div class="flex items-center gap-4">
-                            <img src="${data.imagen}" class="w-16 h-16 object-contain bg-slate-900/60 p-1 rounded-xl border border-emerald-400/40 shadow-md" alt="Logo Oficial FIFA">
-                            <div>
-                                <h3 class="text-2xl font-black tracking-tighter uppercase text-emerald-400"><i class="fa-solid fa-trophy mr-1"></i> MUNDIAL ${anio}</h3>
-                                <p class="text-xs uppercase tracking-widest font-bold text-slate-300"><i class="fa-solid fa-map-location-dot"></i> Sede: ${data.host}</p>
-                            </div>
-                        </div>
-                        <div class="bg-slate-950 text-emerald-400 px-5 py-3 rounded-xl border border-emerald-500/50 font-mono text-xs shadow-inner min-w-[250px]">
-                            <p class="flex justify-between"><span>🥇 CAMPEÓN:</span> <span class="text-white font-bold">${data.campeon}</span></p>
-                            <p class="flex justify-between mt-1"><span>🥈 SUB-CAMPEÓN:</span> <span class="text-slate-300">${data.subcampeon}</span></p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center gap-4 shadow">
-                            <div class="bg-emerald-500/10 p-3 rounded-full text-emerald-400 text-2xl">
-                                <i class="fa-solid fa-soccer-ball"></i>
-                            </div>
-                            <div>
-                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Balón Oficial</p>
-                                <p class="text-base font-black text-white">${data.balon}</p>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl md:col-span-2 flex flex-col sm:flex-row justify-between items-center gap-3">
-                            <div class="flex items-center gap-3">
-                                <div class="bg-emerald-500/10 p-2.5 rounded-full text-emerald-400 text-xl"><i class="fa-solid fa-music"></i></div>
-                                <div>
-                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tema de la Copa</p>
-                                    <p class="text-xs font-black text-white">${data.cancion}</p>
-                                </div>
-                            </div>
-                            <a href="https://www.youtube.com/watch?v=${data.videoId}" target="_blank" class="w-full sm:w-auto bg-slate-950 hover:bg-black p-2 rounded-lg border border-slate-700 flex items-center gap-2 text-xs font-bold text-rose-500 transition group">
-                                <img src="https://img.youtube.com/vi/${data.videoId}/hqdefault.jpg" class="w-14 h-10 object-cover rounded border border-slate-700 group-hover:scale-105 transition" alt="Thumbnail">
-                                <span><i class="fa-brands fa-youtube mr-1"></i> VER VIDEO EN YOUTUBE</span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="flex border-b-2 border-slate-800 gap-2">
-                        <button onclick="cambiarPestana('grupos')" class="py-2 px-5 font-black text-xs uppercase tracking-widest rounded-t-lg transition border-t-2 border-x-2 ${pestanaActiva === 'grupos' ? 'bg-slate-800 text-emerald-400 border-emerald-500' : 'bg-transparent text-slate-500 border-transparent hover:text-slate-300'}">
-                            <i class="fa-solid fa-table-cells mr-1"></i> Fase de Grupos
-                        </button>
-                        <button onclick="cambiarPestana('eliminatoria')" class="py-2 px-5 font-black text-xs uppercase tracking-widest rounded-t-lg transition border-t-2 border-x-2 ${pestanaActiva === 'eliminatoria' ? 'bg-slate-800 text-emerald-400 border-emerald-500' : 'bg-transparent text-slate-500 border-transparent hover:text-slate-300'}">
-                            <i class="fa-solid fa-diagram-project mr-1"></i> Camino Eliminatorio
-                        </button>
-                    </div>
-
-                    <div id="seccionDinamicaPestana">
-                        ${pestanaActiva === 'grupos' ? `
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">${htmlGrupos}</div>
-                        ` : `
-                            <div class="space-y-4">${htmlEliminatorias}</div>
-                        `}
-                    </div>
-
-                </div>
-            `;
-        }
-    </script>
-</body>
-</html>
+                    <div class="bg-gradient-to-r from-emerald-800 to-teal-950 text-white p-5 rounded-2xl shadow-xl border-2 border-
