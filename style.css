@@ -1,0 +1,523 @@
+/* ==========================
+   FIFA WORLD CUP HISTORY
+   ========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#0b2d0b;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* ==========================
+   LOADER
+   ========================== */
+
+#loader{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#021202;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+}
+
+#loader h2{
+    margin-top:30px;
+    color:#00ff88;
+    text-shadow:0 0 20px #00ff88;
+}
+
+.ball{
+    width:120px;
+    height:120px;
+
+    background:url("assets/ball.png");
+    background-size:cover;
+
+    animation:
+    roll 2s linear infinite,
+    bounce 1s ease-in-out infinite;
+}
+
+@keyframes roll{
+
+    0%{
+        transform:translateX(-200px) rotate(0deg);
+    }
+
+    100%{
+        transform:translateX(200px) rotate(720deg);
+    }
+
+}
+
+@keyframes bounce{
+
+    0%,100%{
+        margin-top:0;
+    }
+
+    50%{
+        margin-top:-25px;
+    }
+
+}
+
+/* ==========================
+   HEADER
+   ========================== */
+
+header{
+    width:100%;
+    height:100vh;
+
+    background:
+    linear-gradient(
+    rgba(0,0,0,.55),
+    rgba(0,0,0,.55)
+    ),
+    url("assets/stadium.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.overlay{
+    padding:30px;
+}
+
+.overlay h1{
+
+    font-size:4rem;
+
+    color:white;
+
+    text-shadow:
+    0 0 10px #00ff00,
+    0 0 20px #00ff00,
+    0 0 40px #00ff00;
+}
+
+.overlay p{
+
+    margin-top:15px;
+
+    font-size:1.4rem;
+
+    color:#ddd;
+}
+
+#yearSelector{
+
+    margin-top:30px;
+
+    width:320px;
+
+    max-width:90%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    font-size:1rem;
+
+    background:white;
+
+    cursor:pointer;
+}
+
+/* ==========================
+   MENU
+   ========================== */
+
+nav{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    background:#072007;
+
+    padding:20px;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:5000;
+
+    box-shadow:0 0 20px rgba(0,255,0,.3);
+}
+
+nav button{
+
+    padding:12px 20px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#0f6b0f;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+nav button:hover{
+
+    background:#00aa00;
+
+    transform:translateY(-3px);
+
+    box-shadow:0 0 15px lime;
+}
+
+/* ==========================
+   SECTIONS
+   ========================== */
+
+.content{
+
+    padding:50px 20px;
+
+    max-width:1400px;
+
+    margin:auto;
+}
+
+.hidden{
+    display:none;
+}
+
+.content h2{
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+    color:#00ff88;
+
+    text-shadow:0 0 15px #00ff88;
+}
+
+/* ==========================
+   INFO CARD
+   ========================== */
+
+.card{
+
+    background:#123912;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    box-shadow:
+    0 0 20px rgba(0,255,0,.25);
+
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.card h2{
+
+    margin-bottom:25px;
+}
+
+.info-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+
+    gap:20px;
+}
+
+.info-grid div{
+
+    background:#194619;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    transition:.3s;
+}
+
+.info-grid div:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 0 15px lime;
+}
+
+.info-grid h3{
+
+    color:#00ff88;
+
+    margin-bottom:10px;
+}
+
+/* ==========================
+   GROUPS
+   ========================== */
+
+#groupsContainer{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+
+    gap:20px;
+}
+
+.group{
+
+    background:#163f16;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    box-shadow:0 0 15px rgba(0,255,0,.2);
+}
+
+.group h3{
+
+    text-align:center;
+
+    margin-bottom:15px;
+
+    color:#00ff88;
+}
+
+.team{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:8px 0;
+
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.team img{
+
+    width:32px;
+
+    border-radius:3px;
+}
+
+/* ==========================
+   BRACKET
+   ========================== */
+
+#bracketContainer{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+    gap:20px;
+}
+
+.match{
+
+    background:#194619;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    box-shadow:0 0 15px rgba(0,255,0,.15);
+}
+
+.match h4{
+
+    color:#00ff88;
+
+    margin-bottom:10px;
+}
+
+.match p{
+
+    margin:5px 0;
+}
+
+/* ==========================
+   CHART
+   ========================== */
+
+#statsChart{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:15px;
+}
+
+/* ==========================
+   TIMELINE
+   ========================== */
+
+#timelineContainer{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+    gap:15px;
+}
+
+.timeline-item{
+
+    width:120px;
+
+    background:#194619;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.timeline-item:hover{
+
+    background:#00aa00;
+
+    transform:scale(1.05);
+
+    box-shadow:0 0 15px lime;
+}
+
+/* ==========================
+   FOOTER
+   ========================== */
+
+footer{
+
+    text-align:center;
+
+    padding:30px;
+
+    background:#051805;
+
+    color:#ccc;
+
+    margin-top:40px;
+}
+
+/* ==========================
+   SCROLLBAR
+   ========================== */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#051805;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#00aa00;
+    border-radius:10px;
+}
+
+/* ==========================
+   RESPONSIVE
+   ========================== */
+
+@media(max-width:1024px){
+
+    .overlay h1{
+        font-size:3rem;
+    }
+
+}
+
+@media(max-width:768px){
+
+    header{
+        background-attachment:scroll;
+    }
+
+    .overlay h1{
+        font-size:2.2rem;
+    }
+
+    .overlay p{
+        font-size:1rem;
+    }
+
+    nav{
+        gap:8px;
+    }
+
+    nav button{
+        width:100%;
+    }
+
+    .card{
+        padding:20px;
+    }
+
+}
+
+@media(max-width:480px){
+
+    .overlay h1{
+        font-size:1.8rem;
+    }
+
+    #yearSelector{
+        width:100%;
+    }
+
+}
