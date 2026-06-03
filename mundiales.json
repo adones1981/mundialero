@@ -1,0 +1,92 @@
+{
+  "2026": {
+    "host": "Norteamérica (EEUU, México, Canadá)",
+    "campeon": "Por disputarse",
+    "subcampeon": "Por disputarse",
+    "balon": "Adidas Conext 26",
+    "cancion": "Himno Oficial FIFA 2026",
+    "videoId": "fW6F_lK6Vsc",
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/2026_FIFA_World_Cup_Logo.svg/120px-2026_FIFA_World_Cup_Logo.svg.png",
+    "arbolEliminatorio": {
+      "faseInicial": [
+        { "local": "Por Definir 🏴", "visita": "Por Definir 🏴", "res": "- vs -" },
+        { "local": "Por Definir 🏴", "visita": "Por Definir 🏴", "res": "- vs -" }
+      ],
+      "semis": [
+        { "local": "Ganador C1 🏴", "visita": "Ganador C2 🏴", "res": "- vs -" }
+      ],
+      "final": { "local": "Finalista 1 🏴", "visita": "Finalista 2 🏴", "res": "Julio 2026", "campeon": "Por Disputarse 👑" }
+    },
+    "grupos": {
+      "Grupo A": [
+        { "pais": "México 🇲🇽", "pts": 0, "pj": 0, "pg": 0, "pe": 0, "pp": 0, "gf": 0, "gc": 0 },
+        { "pais": "Sudáfrica 🇿🇦", "pts": 0, "pj": 0, "pg": 0, "pe": 0, "pp": 0, "gf": 0, "gc": 0 },
+        { "pais": "Corea del Sur 🇰🇷", "pts": 0, "pj": 0, "pg": 0, "pe": 0, "pp": 0, "gf": 0, "gc": 0 },
+        { "pais": "Rep. Checa 🇨🇿", "pts": 0, "pj": 0, "pg": 0, "pe": 0, "pp": 0, "gf": 0, "gc": 0 }
+      ],
+      "Grupo B": [
+        { "pais": "Canadá 🇨🇦", "pts": 0, "pj": 0, "pg": 0, "pe": 0, "pp": 0, "gf": 0, "gc": 0 },
+        { "pais": "Bosnia y H. 🇧🇦", "pts": 0, "pj": 0, "pg": 0, "pe": 0, "pp": 0, "gf": 0, "gc": 0 },
+        { "pais": "Catar 🇶🇦", "pts": 0, "pj": 0, "pg": 0, "pe": 0, "pp": 0, "gf": 0, "gc": 0 },
+        { "pais": "Suiza 🇨🇭", "pts": 0, "pj": 0, "pg": 0, "pe": 0, "pp": 0, "gf": 0, "gc": 0 }
+      ]
+    }
+  },
+  "2022": {
+    "host": "Catar",
+    "campeon": "Argentina 🇦🇷",
+    "subcampeon": "Francia 🇫🇷",
+    "balon": "Al Rihla",
+    "cancion": "Hayya Hayya",
+    "videoId": "vyDxPvXvHk8",
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/2022_FIFA_World_Cup.svg/100px-2022_FIFA_World_Cup.svg.png",
+    "arbolEliminatorio": {
+      "faseInicial": [
+        { "local": "Croacia 🇭🇷", "visita": "Brasil 🇧🇷", "res": "1 (4) - 1 (2)" },
+        { "local": "Países Bajos 🇳🇱", "visita": "Argentina 🇦🇷", "res": "2 (3) - 2 (4)" },
+        { "local": "Marruecos 🇲🇦", "visita": "Portugal 🇵🇹", "res": "1 - 0" },
+        { "local": "Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿", "visita": "Francia 🇫🇷", "res": "1 - 2" }
+      ],
+      "semis": [
+        { "local": "Croacia 🇭🇷", "visita": "Argentina 🇦🇷", "res": "0 - 3" },
+        { "local": "Marruecos 🇲🇦", "visita": "Francia 🇫🇷", "res": "0 - 2" }
+      ],
+      "final": { "local": "Argentina 🇦🇷", "visita": "Francia 🇫🇷", "res": "3 (4) - 3 (2)", "campeon": "Argentina 🇦🇷 👑" }
+    },
+    "grupos": {
+      "Grupo C": [
+        { "pais": "Argentina 🇦🇷", "pts": 6, "pj": 3, "pg": 2, "pe": 0, "pp": 1, "gf": 5, "gc": 2 },
+        { "pais": "Polonia 🇵🇱", "pts": 4, "pj": 3, "pg": 1, "pe": 1, "pp": 1, "gf": 2, "gc": 2 },
+        { "pais": "México 🇲🇽", "pts": 4, "pj": 3, "pg": 1, "pe": 1, "pp": 1, "gf": 2, "gc": 3 },
+        { "pais": "Arabia S. 🇸🇦", "pts": 3, "pj": 3, "pg": 1, "pe": 0, "pp": 2, "gf": 3, "gc": 5 }
+      ]
+    }
+  },
+  "1930": {
+    "host": "Uruguay",
+    "campeon": "Uruguay 🇺🇾",
+    "subcampeon": "Argentina 🇦🇷",
+    "balon": "Modelo T / Tiento",
+    "cancion": "Marchas Populares",
+    "videoId": "vVkaGvP6H48",
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Uruguay_1930_World_Cup_logo.png/100px-Uruguay_1930_World_Cup_logo.png",
+    "arbolEliminatorio": {
+      "faseInicial": [
+        { "local": "Fase de Grupos Directa", "visita": "Sin Cuartos", "res": "Avanzan Líderes" }
+      ],
+      "semis": [
+        { "local": "Argentina 🇦🇷", "visita": "Estados Unidos 🇺🇸", "res": "6 - 1" },
+        { "local": "Uruguay 🇺🇾", "visita": "Yugoslavia 🇷🇸", "res": "6 - 1" }
+      ],
+      "final": { "local": "Uruguay 🇺🇾", "visita": "Argentina 🇦🇷", "res": "4 - 2", "campeon": "Uruguay 🇺🇾 👑" }
+    },
+    "grupos": {
+      "Grupo 1": [
+        { "pais": "Argentina 🇦🇷", "pts": 6, "pj": 3, "pg": 3, "pe": 0, "pp": 0, "gf": 10, "gc": 4 },
+        { "pais": "Chile 🇨🇱", "pts": 4, "pj": 3, "pg": 2, "pe": 0, "pp": 1, "gf": 5, "gc": 3 },
+        { "pais": "Francia 🇫🇷", "pts": 2, "pj": 3, "pg": 1, "pe": 0, "pp": 2, "gf": 4, "gc": 3 },
+        { "pais": "México 🇲🇽", "pts": 0, "pj": 3, "pg": 0, "pe": 0, "pp": 3, "gf": 4, "gc": 13}
+      ]
+    }
+  }
+}
