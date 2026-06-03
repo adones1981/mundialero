@@ -1,14 +1,3 @@
-Ese cartel amarillo de advertencia que ves en GitHub sobre el **"bidirectional or hidden Unicode text"** (texto Unicode bidireccional u oculto) es un clásico cuando se copia y pega código desde ciertas plataformas.
-
-Esto ocurre porque al copiar el bloque, a veces se arrastran caracteres invisibles de espaciado o de control de formato que las inteligencias artificiales o los editores web usan para estructurar el texto plano. Aunque tu navegador los ignora y la página funciona perfectamente, GitHub te avisa por seguridad (ya que en entornos de producción serios, esos caracteres ocultos se podrían usar para camuflar código malicioso).
-
-No rompe absolutamente nada de tu diseño verde estadio, pero para dejar tu archivo `index.html` 100% limpio y que ese molesto cartel desaparezca por completo, aquí tienes el código purificado.
-
----
-
-### Código Limpio y Sanitizado (`index.html`)
-
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -23,9 +12,7 @@ No rompe absolutamente nada de tu diseño verde estadio, pero para dejar tu arch
             50% { opacity: 1; }
             100% { transform: translate(-50%, -50%) rotate(1440deg) scale(1); opacity: 0; pointer-events: none; }
         }
-        .loader-ball {
-            animation: rodarMundo 3.5s ease-in-out forwards;
-        }
+        .loader-ball { animation: rodarMundo 3.5s ease-in-out forwards; }
         .cesped {
             background-color: #115e59;
             background-image: linear-gradient(rgba(255,255,255,0.05) 50%, transparent 50%),
@@ -46,202 +33,70 @@ No rompe absolutamente nada de tu diseño verde estadio, pero para dejar tu arch
         </div>
     </div>
 
-    <audio id="sonidoAmbiente" loop>
-        <source src="https://assets.mixkit.co/active_storage/sfx/2034/2034-84.wav" type="audio/wav">
-    </audio>
-    <audio id="sonidoPitazo">
-        <source src="https://assets.mixkit.co/active_storage/sfx/2019/2019-84.wav" type="audio/wav">
-    </audio>
+    <audio id="sonidoAmbiente" loop><source src="https://assets.mixkit.co/active_storage/sfx/2034/2034-84.wav" type="audio/wav"></audio>
+    <audio id="sonidoPitazo"><source src="https://assets.mixkit.co/active_storage/sfx/2019/2019-84.wav" type="audio/wav"></audio>
 
     <div class="min-h-screen flex flex-col">
-        
         <header class="bg-slate-900 border-b-4 border-emerald-500 p-4 shadow-2xl">
             <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-3">
                     <i class="fa-solid fa-stadium text-3xl text-emerald-400"></i>
                     <h1 class="text-xl md:text-3xl font-extrabold tracking-widest text-emerald-400 uppercase">Estadísticas de los Mundiales</h1>
                 </div>
-                <button onclick="alternarAudio()" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-2 px-5 rounded-full flex items-center gap-2 transition shadow-lg shadow-emerald-500/20">
+                <button onclick="alternarAudio()" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-2 px-5 rounded-full flex items-center gap-2 transition shadow-lg">
                     <i id="iconoAudio" class="fa-solid fa-volume-mute"></i> <span id="textoAudio">Activar Sonido Ambiente</span>
                 </button>
             </div>
         </header>
 
         <main class="cesped flex-grow p-4 md:p-8 relative">
-            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-11/12 h-8 border-b-2 border-x-2 border-white/10 pointer-events-none flex justify-center items-end">
-                <span class="text-[10px] text-white/20 tracking-widest mb-1"><i class="fa-solid fa-door-open"></i> PORTERÍA NORTE</span>
-            </div>
-
             <div class="container mx-auto max-w-7xl bg-slate-900/85 backdrop-blur-md rounded-3xl p-6 border-4 border-emerald-500/30 shadow-2xl mt-4">
                 
                 <div class="bg-emerald-950/40 p-4 rounded-xl border border-emerald-500/50 mb-6">
                     <label class="block text-sm font-bold uppercase mb-2 text-emerald-400"><i class="fa-solid fa-calendar-days mr-2"></i> Seleccionar Edición Histórica:</label>
-                    <select id="selectAnio" onchange="buscarMundial()" class="w-full bg-slate-800 text-white border-2 border-emerald-500 p-3 rounded-lg font-bold text-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-400">
-                        </select>
+                    <select id="selectAnio" onchange="buscarMundial()" class="w-full bg-slate-800 text-white border-2 border-emerald-500 p-3 rounded-lg font-bold text-lg cursor-pointer">
+                        <option value="">Cargando base de datos del estadio...</option>
+                    </select>
                 </div>
 
                 <div id="vistaContenido" class="min-h-[500px] transition-all duration-300"></div>
-
             </div>
         </main>
 
         <footer class="bg-slate-950 text-center p-4 border-t-4 border-emerald-700 text-slate-500 text-xs">
-            <p><i class="fa-solid fa-bullhorn text-emerald-500 mr-2"></i> © Estadio Virtual del Fútbol - Compendio de Grupos y Diagramas de Eliminación.</p>
+            <p><i class="fa-solid fa-bullhorn text-emerald-500 mr-2"></i> Enciclopedia Rigurosa del Fútbol Mundial.</p>
         </footer>
     </div>
 
     <script>
+        let mundialDB = null;
         let pestanaActiva = 'grupos';
 
-        const mundialDB = {
-            "2026": { 
-                host: "Norteamérica", equipos: 48, campeon: "Por disputarse", subcampeon: "Por disputarse", balon: "Adidas Conext 26", cancion: "Fifa World Cup Official Anthem", videoId: "fW6F_lK6Vsc", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/2026_FIFA_World_Cup_Logo.svg/120px-2026_FIFA_World_Cup_Logo.svg.png", 
-                nota: "Edición masiva con 48 selecciones. Clasifican los dos mejores de cada uno de los 12 grupos más los 8 mejores terceros a Dieciseisavos.",
-                arbolEliminatorio: {
-                    cuartos: [
-                        { local: "Por Definir 🏴", visita: "Por Definir 🏴", res: "- vs -" },
-                        { local: "Por Definir 🏴", visita: "Por Definir 🏴", res: "- vs -" },
-                        { local: "Por Definir 🏴", visita: "Por Definir 🏴", res: "- vs -" },
-                        { local: "Por Definir 🏴", visita: "Por Definir 🏴", res: "- vs -" }
-                    ],
-                    semis: [
-                        { local: "Ganador C1 🏴", visita: "Ganador C2 🏴", res: "- vs -" },
-                        { local: "Ganador C3 🏴", visita: "Ganador C4 🏴", res: "- vs -" }
-                    ],
-                    final: { local: "Finalista 1 🏴", visita: "Finalista 2 🏴", res: "🏆 Julio 2026", campeon: "Por Disputarse 👑" }
-                },
-                grupos: { 
-                    "Grupo A": [{pais:"México",pts:0,pj:0,pg:0},{pais:"Sudáfrica",pts:0,pj:0,pg:0},{pais:"Corea del Sur",pts:0,pj:0,pg:0},{pais:"Rep. Checa",pts:0,pj:0,pg:0}], 
-                    "Grupo B": [{pais:"Canadá",pts:0,pj:0,pg:0},{pais:"Bosnia y H.",pts:0,pj:0,pg:0},{pais:"Catar",pts:0,pj:0,pg:0},{pais:"Suiza",pts:0,pj:0,pg:0}], 
-                    "Grupo C": [{pais:"Brasil",pts:0,pj:0,pg:0},{pais:"Marruecos",pts:0,pj:0,pg:0},{pais:"Haití",pts:0,pj:0,pg:0},{pais:"Escocia",pts:0,pj:0,pg:0}], 
-                    "Grupo D": [{pais:"Estados Unidos",pts:0,pj:0,pg:0},{pais:"Paraguay",pts:0,pj:0,pg:0},{pais:"Australia",pts:0,pj:0,pg:0},{pais:"Turquía",pts:0,pj:0,pg:0}], 
-                    "Grupo E": [{pais:"Alemania",pts:0,pj:0,pg:0},{pais:"Curazao",pts:0,pj:0,pg:0},{pais:"Costa de Marfil",pts:0,pj:0,pg:0},{pais:"Ecuador",pts:0,pj:0,pg:0}], 
-                    "Grupo F": [{pais:"Países Bajos",pts:0,pj:0,pg:0},{pais:"Japón",pts:0,pj:0,pg:0},{pais:"Suecia",pts:0,pj:0,pg:0},{pais:"Túnez",pts:0,pj:0,pg:0}], 
-                    "Grupo G": [{pais:"Bélgica",pts:0,pj:0,pg:0},{pais:"Egipto",pts:0,pj:0,pg:0},{pais:"Irán",pts:0,pj:0,pg:0},{pais:"Nueva Zelanda",pts:0,pj:0,pg:0}], 
-                    "Grupo H": [{pais:"España",pts:0,pj:0,pg:0},{pais:"Cabo Verde",pts:0,pj:0,pg:0},{pais:"Arabia Saudita",pts:0,pj:0,pg:0},{pais:"Uruguay",pts:0,pj:0,pg:0}], 
-                    "Grupo I": [{pais:"Francia",pts:0,pj:0,pg:0},{pais:"Senegal",pts:0,pj:0,pg:0},{pais:"Irak",pts:0,pj:0,pg:0},{pais:"Noruega",pts:0,pj:0,pg:0}], 
-                    "Grupo J": [{pais:"Argentina",pts:0,pj:0,pg:0},{pais:"Argelia",pts:0,pj:0,pg:0},{pais:"Austria",pts:0,pj:0,pg:0},{pais:"Jordania",pts:0,pj:0,pg:0}], 
-                    "Grupo K": [{pais:"Portugal",pts:0,pj:0,pg:0},{pais:"RD Congo",pts:0,pj:0,pg:0},{pais:"Uzbekistán",pts:0,pj:0,pg:0},{pais:"Colombia",pts:0,pj:0,pg:0}], 
-                    "Grupo L": [{pais:"Inglaterra",pts:0,pj:0,pg:0},{pais:"Croacia",pts:0,pj:0,pg:0},{pais:"Ghana",pts:0,pj:0,pg:0},{pais:"Panamá",pts:0,pj:0,pg:0}] 
-                } 
-            },
-            "2022": { 
-                host: "Catar", equipos: 32, campeon: "Argentina", subcampeon: "Francia", balon: "Al Rihla", cancion: "Hayya Hayya", videoId: "vyDxPvXvHk8", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/2022_FIFA_World_Cup.svg/100px-2022_FIFA_World_Cup.svg.png", 
-                arbolEliminatorio: {
-                    cuartos: [
-                        { local: "Croacia 🇭🇷", visita: "Brasil 🇧🇷", res: "1 (4) - 1 (2)" },
-                        { local: "Países Bajos 🇳🇱", visita: "Argentina 🇦🇷", res: "2 (3) - 2 (4)" },
-                        { local: "Marruecos 🇲🇦", visita: "Portugal 🇵🇹", res: "1 - 0" },
-                        { local: "Inglaterra 🏴%" + "A5" + "BC", visita: "Francia 🇫🇷", res: "1 - 2" }
-                    ],
-                    semis: [
-                        { local: "Croacia 🇭🇷", visita: "Argentina 🇦🇷", res: "0 - 3" },
-                        { local: "Marruecos 🇲🇦", visita: "Francia 🇫🇷", res: "0 - 2" }
-                    ],
-                    final: { local: "Argentina 🇦🇷", visita: "Francia 🇫🇷", res: "3 (4) - 3 (2)", campeon: "Argentina 🇦🇷 👑" }
-                },
-                grupos: { 
-                    "Grupo A": [{pais:"Países Bajos",pts:7,pj:3,pg:2},{pais:"Senegal",pts:6,pj:3,pg:2},{pais:"Ecuador",pts:4,pj:3,pg:1},{pais:"Catar",pts:0,pj:3,pg:0}],
-                    "Grupo C": [{pais:"Argentina",pts:6,pj:3,pg:2},{pais:"Polonia",pts:4,pj:3,pg:1},{pais:"México",pts:4,pj:3,pg:1},{pais:"Arabia Saudita",pts:3,pj:3,pg:1}], 
-                    "Grupo D": [{pais:"Francia",pts:6,pj:3,pg:2},{pais:"Australia",pts:6,pj:3,pg:2},{pais:"Túnez",pts:4,pj:3,pg:1},{pais:"Dinamarca",pts:1,pj:3,pg:0}] 
-                } 
-            },
-            "2018": { 
-                host: "Rusia", equipos: 32, campeon: "Francia", subcampeon: "Croacia", balon: "Telstar 18", cancion: "Live It Up", videoId: "V15BYn7I6ZM", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/2018_FIFA_World_Cup_Logo.svg/100px-2018_FIFA_World_Cup_Logo.svg.png", 
-                arbolEliminatorio: {
-                    cuartos: [
-                        { local: "Uruguay 🇺🇾", visita: "Francia 🇫🇷", res: "0 - 2" },
-                        { local: "Brasil 🇧🇷", visita: "Bélgica 🇧🇪", res: "1 - 2" },
-                        { local: "Suecia 🇸🇪", visita: "Inglaterra 🏴%" + "A5" + "BC", res: "0 - 2" },
-                        { local: "Rusia 🇷🇺", visita: "Croacia 🇭🇷", res: "2 (3) - 2 (4)" }
-                    ],
-                    semis: [
-                        { local: "Francia 🇫🇷", visita: "Bélgica 🇧🇪", res: "1 - 0" },
-                        { local: "Croacia 🇭🇷", visita: "Inglaterra 🏴%" + "A5" + "BC", res: "2 - 1" }
-                    ],
-                    final: { local: "Francia 🇫🇷", visita: "Croacia 🇭🇷", res: "4 - 2", campeon: "Francia 🇫🇷 👑" }
-                },
-                grupos: { "Grupo C": [{pais:"Francia",pts:7,pj:3,pg:2},{pais:"Dinamarca",pts:5,pj:3,pg:1},{pais:"Perú",pts:3,pj:3,pg:1}], "Grupo D": [{pais:"Croacia",pts:9,pj:3,pg:3},{pais:"Argentina",pts:4,pj:3,pg:1},{pais:"Nigeria",pts:3,pj:3,pg:1}] } 
-            },
-            "2014": { 
-                host: "Brasil", equipos: 32, campeon: "Alemania", subcampeon: "Argentina", balon: "Brazuca", cancion: "We Are One", videoId: "TGtWWb9emYI", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/2014_FIFA_World_Cup_Logo.svg/100px-2014_FIFA_World_Cup_Logo.svg.png", 
-                arbolEliminatorio: {
-                    cuartos: [
-                        { local: "Francia 🇫🇷", visita: "Alemania 🇩🇪", res: "0 - 1" },
-                        { local: "Brasil 🇧🇷", visita: "Colombia 🇨🇴", res: "2 - 1" },
-                        { local: "Argentina 🇦🇷", visita: "Bélgica 🇧🇪", res: "1 - 0" },
-                        { local: "Países Bajos 🇳🇱", visita: "Costa Rica 🇨🇷", res: "0 (4) - 0 (3)" }
-                    ],
-                    semis: [
-                        { local: "Brasil 🇧🇷", visita: "Alemania 🇩🇪", res: "1 - 7" },
-                        { local: "Argentina 🇦🇷", visita: "Países Bajos 🇳🇱", res: "0 (4) - 0 (2)" }
-                    ],
-                    final: { local: "Alemania 🇩🇪", visita: "Argentina 🇦🇷", res: "1 - 0", campeon: "Alemania 🇩🇪 👑" }
-                },
-                grupos: { "Grupo G": [{pais:"Alemania",pts:7,pj:3,pg:2},{pais:"EE.UU.",pts:4,pj:3,pg:1},{pais:"Portugal",pts:4,pj:3,pg:1}] } 
-            },
-            "2010": { 
-                host: "Sudáfrica", equipos: 32, campeon: "España", subcampeon: "Países Bajos", balon: "Jabulani", cancion: "Waka Waka", videoId: "pRpeEdMmmQ0", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/2010_FIFA_World_Cup_Logo.svg/100px-2010_FIFA_World_Cup_Logo.svg.png", 
-                arbolEliminatorio: {
-                    cuartos: [
-                        { local: "Países Bajos 🇳🇱", visita: "Brasil 🇧🇷", res: "2 - 1" },
-                        { local: "Uruguay 🇺🇾", visita: "Ghana 🇬🇭", res: "1 (4) - 1 (3)" },
-                        { local: "Argentina 🇦🇷", visita: "Alemania 🇩🇪", res: "0 - 4" },
-                        { local: "Paraguay 🇵🇾", visita: "España 🇪🇸", res: "0 - 1" }
-                    ],
-                    semis: [
-                        { local: "Países Bajos 🇳🇱", visita: "Uruguay 🇺🇾", res: "3 - 2" },
-                        { local: "Alemania 🇩🇪", visita: "España 🇪🇸", res: "0 - 1" }
-                    ],
-                    final: { local: "España 🇪🇸", visita: "Países Bajos 🇳🇱", res: "1 - 0", campeon: "España 🇪🇸 👑" }
-                },
-                grupos: { "Grupo H": [{pais:"España",pts:6,pj:3,pg:2},{pais:"Chile",pts:6,pj:3,pg:2},{pais:"Suiza",pts:4,pj:3,pg:1}] } 
-            },
-            "1990": { 
-                host: "Italia", equipos: 24, campeon: "Alemania Fed.", subcampeon: "Argentina", balon: "Etrusco Unico", cancion: "Un'estate italiana", videoId: "dTbMwJMqilI", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Logo_Italia_90.png/120px-Logo_Italia_90.png", 
-                arbolEliminatorio: {
-                    cuartos: [
-                        { local: "Argentina 🇦🇷", visita: "Yugoslavia 🇷🇸", res: "0 (3) - 0 (2)" },
-                        { local: "Italia 🇮🇹", visita: "Irlanda 🇮🇪", res: "1 - 0" },
-                        { local: "Alemania Fed. 🇩🇪", visita: "Checoslovaquia 🇨🇿", res: "1 - 0" },
-                        { local: "Inglaterra 🏴%" + "A5" + "BC", visita: "Camerún 🇨🇲", res: "3 - 2" }
-                    ],
-                    semis: [
-                        { local: "Argentina 🇦🇷", visita: "Italia 🇮🇹", res: "1 (4) - 1 (3)" },
-                        { local: "Alemania Fed. 🇩🇪", visita: "Inglaterra 🏴%" + "A5" + "BC", res: "1 (4) - 1 (3)" }
-                    ],
-                    final: { local: "Alemania Fed. 🇩🇪", visita: "Argentina 🇦🇷", res: "1 - 0", campeon: "Alemania Federal 🇩🇪 👑" }
-                },
-                grupos: { "Grupo B": [{pais:"Camerún",pts:4,pj:3,pg:2},{pais:"Rumania",pts:3,pj:3,pg:1},{pais:"Argentina",pts:3,pj:3,pg:1}] } 
-            },
-            "1930": { 
-                host: "Uruguay", equipos: 13, campeon: "Uruguay", subcampeon: "Argentina", balon: "Modelo T", cancion: "Himno del Centenario", videoId: "vVkaGvP6H48", imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Uruguay_1930_World_Cup_logo.png/100px-Uruguay_1930_World_Cup_logo.png", 
-                arbolEliminatorio: {
-                    cuartos: [
-                        { local: "No Hubo", visita: "Fase Previa", res: "Directo a Semis" }
-                    ],
-                    semis: [
-                        { local: "Argentina 🇦🇷", visita: "EE.UU. 🇺🇸", res: "6 - 1" },
-                        { local: "Uruguay 🇺🇾", visita: "Yugoslavia 🇷🇸", res: "6 - 1" }
-                    ],
-                    final: { local: "Uruguay 🇺🇾", visita: "Argentina 🇦🇷", res: "4 - 2", campeon: "Uruguay 🇺🇾 👑" }
-                },
-                grupos: { "Grupo 1": [{pais:"Argentina",pts:6,pj:3,pg:3},{pais:"Chile",pts:4,pj:3,pg:2}], "Grupo 2": [{pais:"Yugoslavia",pts:4,pj:2,pg:2},{pais:"Brasil",pts:2,pj:2,pg:1}] } 
+        // Cargar Base de Datos Externa JSON
+        async function cargarBaseDeDatos() {
+            try {
+                const respuesta = await fetch('mundiales.json');
+                mundialDB = await respuesta.json();
+                
+                const select = document.getElementById('selectAnio');
+                select.innerHTML = '';
+                
+                Object.keys(mundialDB).forEach(anio => {
+                    const option = document.createElement('option');
+                    option.value = anio;
+                    option.textContent = `${anio} ${anio === "2026" ? "(Edición en Curso)" : `(${mundialDB[anio].host})`}`;
+                    select.appendChild(option);
+                });
+
+                select.value = "2026";
+                buscarMundial();
+            } catch (error) {
+                document.getElementById('vistaContenido').innerHTML = `<p class="text-red-500 font-bold text-center">Error al conectar con mundiales.json. Verifica que el archivo exista en tu repositorio.</p>`;
             }
-        };
-
-        const select = document.getElementById('selectAnio');
-        Object.keys(mundialDB).forEach(anio => {
-            const option = document.createElement('option');
-            option.value = anio;
-            option.textContent = `${anio} ${anio === "2026" ? "(Mundial en Curso)" : `(${mundialDB[anio].host})`}`;
-            select.appendChild(option);
-        });
-
-        document.getElementById('selectAnio').value = "2026";
+        }
 
         window.addEventListener('DOMContentLoaded', () => {
-            buscarMundial();
+            cargarBaseDeDatos();
             setTimeout(() => {
                 const loader = document.getElementById('loader');
                 if (loader) {
@@ -253,20 +108,17 @@ No rompe absolutamente nada de tu diseño verde estadio, pero para dejar tu arch
         });
 
         let audioActivo = false;
-        const sonidoAmbiente = document.getElementById('sonidoAmbiente');
-        const iconoAudio = document.getElementById('iconoAudio');
-        const textoAudio = document.getElementById('textoAudio');
-
         function alternarAudio() {
+            const sonido = document.getElementById('sonidoAmbiente');
             if (!audioActivo) {
-                sonidoAmbiente.play().catch(() => {});
-                iconoAudio.className = "fa-solid fa-volume-high text-emerald-400 animate-pulse";
-                textoAudio.innerText = "Mutear Estadio";
+                sonis.play().catch(() => {});
+                document.getElementById('iconoAudio').className = "fa-solid fa-volume-high text-emerald-400 animate-pulse";
+                document.getElementById('textoAudio').innerText = "Mutear Estadio";
                 audioActivo = true;
             } else {
-                sonidoAmbiente.pause();
-                iconoAudio.className = "fa-solid fa-volume-mute";
-                textoAudio.innerText = "Activar Sonido Ambiente";
+                sonido.pause();
+                document.getElementById('iconoAudio').className = "fa-solid fa-volume-mute";
+                document.getElementById('textoAudio').innerText = "Activar Sonido Ambiente";
                 audioActivo = false;
             }
         }
@@ -276,42 +128,36 @@ No rompe absolutamente nada de tu diseño verde estadio, pero para dejar tu arch
             buscarMundial();
         }
 
-        function verVideoExterno(id) {
-            window.open(`https://www.youtube.com/watch?v=${id}`, '_blank');
-        }
+        function verVideo(id) { window.open(`https://www.youtube.com/watch?v=${id}`, '_blank'); }
 
         function buscarMundial() {
+            if (!mundialDB) return;
             const anio = document.getElementById('selectAnio').value;
             const contenedor = document.getElementById('vistaContenido');
-            
-            if (!anio || !mundialDB[anio]) return;
             const data = mundialDB[anio];
 
             let htmlGrupos = '';
             for (const [grupo, equipos] of Object.entries(data.grupos || {})) {
                 htmlGrupos += `
-                    <div class="bg-slate-800/90 p-4 rounded-xl border border-emerald-500/30 shadow-md">
-                        <h4 class="font-black text-emerald-400 border-b border-slate-700 pb-2 mb-3 uppercase tracking-wide flex items-center gap-2 text-sm">
-                            <i class="fa-solid fa-list-ol"></i> ${grupo}
-                        </h4>
+                    <div class="bg-slate-800/90 p-4 rounded-xl border border-emerald-500/30">
+                        <h4 class="font-black text-emerald-400 border-b border-slate-700 pb-2 mb-3 text-sm uppercase"><i class="fa-solid fa-list-ol"></i> ${grupo}</h4>
                         <table class="w-full text-left text-xs border-collapse">
                             <thead>
                                 <tr class="text-slate-400 border-b border-slate-700 uppercase">
-                                    <th class="pb-1">Selección</th>
-                                    <th class="pb-1 text-center">Pts</th>
-                                    <th class="pb-1 text-center">PJ</th>
-                                    <th class="pb-1 text-center">PG</th>
+                                    <th>País</th><th class="text-center">Pts</th><th class="text-center">PJ</th><th class="text-center">PG</th><th class="text-center">PE</th><th class="text-center">PP</th><th class="text-center">GF</th><th class="text-center">GC</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                ${equipos.map((e, index) => `
+                                ${equipos.map((e, i) => `
                                     <tr class="border-b border-slate-900/60 hover:bg-slate-700/30">
-                                        <td class="font-bold py-2 text-white flex items-center gap-1">
-                                            <span class="text-slate-500 font-mono w-4">${index + 1}.</span> ${e.pais}
-                                        </td>
-                                        <td class="text-emerald-400 font-black text-center text-sm">${e.pts}</td>
-                                        <td class="text-center text-slate-300">${e.pj}</td>
-                                        <td class="text-center text-slate-300">${e.pg}</td>
+                                        <td class="font-bold py-2"><span class="text-slate-500 font-mono">${i+1}.</span> ${e.pais}</td>
+                                        <td class="text-emerald-400 font-black text-center">${e.pts}</td>
+                                        <td class="text-center">${e.pj}</td>
+                                        <td class="text-center">${e.pg}</td>
+                                        <td class="text-center">${e.pe}</td>
+                                        <td class="text-center">${e.pp}</td>
+                                        <td class="text-center text-slate-400">${e.gf}</td>
+                                        <td class="text-center text-slate-400">${e.gc}</td>
                                     </tr>
                                 `).join('')}
                             </tbody>
@@ -324,49 +170,40 @@ No rompe absolutamente nada de tu diseño verde estadio, pero para dejar tu arch
             if (data.arbolEliminatorio) {
                 const arb = data.arbolEliminatorio;
                 htmlArbol = `
-                    <div class="bg-slate-950 p-6 rounded-2xl border-2 border-emerald-500/40 space-y-8 relative overflow-hidden">
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10">
-                            
-                            <div class="space-y-4">
-                                <h5 class="text-xs font-black tracking-widest text-emerald-400 uppercase border-b border-slate-800 pb-1 text-center"><i class="fa-solid fa-diagram-project"></i> Cuartos de Final</h5>
-                                ${arb.cuartos.map(c => `
-                                    <div class="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800 space-y-1 text-xs">
-                                        <div class="flex justify-between font-bold"><span>${c.local}</span></div>
-                                        <div class="bg-emerald-950/60 text-emerald-400 font-mono font-black py-0.5 text-center rounded border border-emerald-800/40">${c.res}</div>
-                                        <div class="flex justify-between font-bold"><span>${c.visita}</span></div>
-                                    </div>
-                                `).join('')}
-                            </div>
-
-                            <div class="space-y-4 lg:pt-12">
-                                <h5 class="text-xs font-black tracking-widest text-emerald-400 uppercase border-b border-slate-800 pb-1 text-center"><i class="fa-solid fa-arrows-split-up-and-left"></i> Semifinales</h5>
-                                ${arb.semis.map(s => `
-                                    <div class="bg-slate-900/90 p-3 rounded-lg border border-emerald-500/30 space-y-1 text-xs shadow-md shadow-emerald-950/20">
-                                        <div class="font-bold text-slate-200">${s.local}</div>
-                                        <div class="bg-slate-950 text-center py-1 font-mono text-emerald-400 font-bold rounded border border-slate-800">${s.res}</div>
-                                        <div class="font-bold text-slate-200">${s.visita}</div>
-                                    </div>
-                                `).join('')}
-                            </div>
-
-                            <div class="flex flex-col justify-center items-center space-y-4 lg:pt-6">
-                                <h5 class="text-xs font-black tracking-widest text-emerald-400 uppercase border-b border-slate-800 pb-1 w-full text-center"><i class="fa-solid fa-trophy"></i> Gran Final</h5>
-                                <div class="w-full bg-gradient-to-b from-slate-900 to-slate-950 p-4 rounded-xl border-2 border-emerald-400 shadow-xl text-center space-y-2">
-                                    <p class="text-xs font-mono text-slate-400 uppercase">Marcador del Título</p>
-                                    <div class="text-xs font-bold text-white space-y-1">
-                                        <p>${arb.final.local}</p>
-                                        <p class="text-sm font-black text-emerald-400 my-1 bg-emerald-950/60 py-1 rounded border border-emerald-500/20">${arb.final.res}</p>
-                                        <p>${arb.final.visita}</p>
-                                    </div>
-                                    <div class="pt-3 border-t border-slate-800 mt-2">
-                                        <span class="text-[10px] text-slate-400 block font-bold tracking-wider uppercase">Campeón del Mundo</span>
-                                        <div class="text-base font-black text-emerald-400 uppercase drop-shadow-[0_0_8px_rgba(52,211,153,0.3)] mt-1">
-                                            ${arb.final.campeon}
-                                        </div>
-                                    </div>
+                    <div class="bg-slate-950 p-6 rounded-2xl border-2 border-emerald-500/40 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="space-y-4">
+                            <h5 class="text-xs font-black tracking-widest text-emerald-400 uppercase border-b border-slate-800 pb-1 text-center">Fase de Llaves</h5>
+                            ${arb.faseInicial.map(c => `
+                                <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800 space-y-1 text-xs">
+                                    <div class="font-bold">${c.local}</div>
+                                    <div class="bg-emerald-950/60 text-emerald-400 font-mono font-black py-0.5 text-center rounded border border-emerald-800/40">${c.res}</div>
+                                    <div class="font-bold">${c.visita}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="space-y-4 lg:pt-12">
+                            <h5 class="text-xs font-black tracking-widest text-emerald-400 uppercase border-b border-slate-800 pb-1 text-center">Semifinales</h5>
+                            ${arb.semis.map(s => `
+                                <div class="bg-slate-900 p-3 rounded-lg border border-emerald-500/30 space-y-1 text-xs">
+                                    <div class="font-bold text-slate-200">${s.local}</div>
+                                    <div class="bg-slate-950 text-center py-1 font-mono text-emerald-400 font-bold rounded">${s.res}</div>
+                                    <div class="font-bold text-slate-200">${s.visita}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="flex flex-col justify-center items-center space-y-4">
+                            <h5 class="text-xs font-black tracking-widest text-emerald-400 uppercase border-b border-slate-800 pb-1 w-full text-center">Gran Final</h5>
+                            <div class="w-full bg-slate-900 p-4 rounded-xl border-2 border-emerald-400 shadow-xl text-center space-y-2">
+                                <div class="text-xs font-bold space-y-1">
+                                    <p>${arb.final.local}</p>
+                                    <p class="text-sm font-black text-emerald-400 my-1 bg-emerald-950/60 py-1 rounded">${arb.final.res}</p>
+                                    <p>${arb.final.visita}</p>
+                                </div>
+                                <div class="pt-3 border-t border-slate-800 mt-2">
+                                    <span class="text-[10px] text-slate-400 block uppercase font-bold">Campeón del Mundo</span>
+                                    <div class="text-base font-black text-emerald-400 uppercase mt-1">${arb.final.campeon}</div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 `;
@@ -374,16 +211,15 @@ No rompe absolutamente nada de tu diseño verde estadio, pero para dejar tu arch
 
             contenedor.innerHTML = `
                 <div class="space-y-6">
-                    
-                    <div class="bg-gradient-to-r from-emerald-800 to-teal-950 text-white p-5 rounded-2xl shadow-xl border-2 border-emerald-500 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div class="bg-gradient-to-r from-emerald-800 to-teal-950 p-5 rounded-2xl shadow-xl border-2 border-emerald-500 flex flex-col md:flex-row justify-between items-center gap-4">
                         <div class="flex items-center gap-4">
-                            <img src="${data.imagen}" class="w-16 h-16 object-contain bg-slate-900/60 p-1 rounded-xl border border-emerald-400/40 shadow-md" alt="Logo FIFA" onerror="this.src='https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=150&auto=format&fit=crop&q=60'">
+                            <img src="${data.imagen}" class="w-16 h-16 object-contain bg-slate-900/60 p-1 rounded-xl border border-emerald-400/40" alt="Logo FIFA" onerror="this.src='https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=150'">
                             <div>
-                                <h3 class="text-2xl font-black tracking-tighter uppercase text-emerald-400"><i class="fa-solid fa-trophy mr-1"></i> MUNDIAL ${anio}</h3>
-                                <p class="text-xs uppercase tracking-widest font-bold text-slate-300"><i class="fa-solid fa-map-location-dot"></i> Sede: ${data.host}</p>
+                                <h3 class="text-2xl font-black text-emerald-400 uppercase">MUNDIAL ${anio}</h3>
+                                <p class="text-xs text-slate-300 font-bold">Sede: ${data.host}</p>
                             </div>
                         </div>
-                        <div class="bg-slate-950 text-emerald-400 px-5 py-3 rounded-xl border border-emerald-500/50 font-mono text-xs shadow-inner min-w-[250px]">
+                        <div class="bg-slate-950 text-emerald-400 px-5 py-3 rounded-xl border border-emerald-500/50 font-mono text-xs min-w-[250px]">
                             <p class="flex justify-between"><span>🥇 CAMPEÓN:</span> <span class="text-white font-bold">${data.campeon}</span></p>
                             <p class="flex justify-between mt-1"><span>🥈 SUB-CAMPEÓN:</span> <span class="text-slate-300">${data.subcampeon}</span></p>
                         </div>
@@ -391,55 +227,38 @@ No rompe absolutamente nada de tu diseño verde estadio, pero para dejar tu arch
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center gap-4 shadow">
-                            <div class="bg-emerald-500/10 p-3 rounded-full text-emerald-400 text-2xl">
-                                <i class="fa-solid fa-soccer-ball"></i>
-                            </div>
+                            <div class="bg-emerald-500/10 p-3 rounded-full text-emerald-400 text-2xl"><i class="fa-solid fa-soccer-ball"></i></div>
                             <div>
-                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Balón Oficial</p>
+                                <p class="text-[10px] text-slate-400 uppercase font-bold">Balón Oficial</p>
                                 <p class="text-base font-black text-white">${data.balon}</p>
                             </div>
                         </div>
                         
-                        <button onclick="verVideoExterno('${data.videoId}')" class="bg-slate-900 hover:bg-slate-850 border border-slate-800 p-3 rounded-xl md:col-span-2 flex flex-col sm:flex-row justify-between items-center gap-3 w-full text-left transition group">
+                        <button onclick="verVideo('${data.videoId}')" class="bg-slate-900 hover:bg-slate-850 border border-slate-800 p-3 rounded-xl md:col-span-2 flex flex-col sm:flex-row justify-between items-center gap-3 w-full text-left transition group">
                             <div class="flex items-center gap-3">
                                 <div class="bg-emerald-500/10 p-2.5 rounded-full text-emerald-400 text-xl"><i class="fa-solid fa-music"></i></div>
                                 <div>
-                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Canción del Mundial</p>
+                                    <p class="text-[10px] text-slate-400 uppercase font-bold">Canción del Mundial</p>
                                     <p class="text-xs font-black text-white">${data.cancion}</p>
-                                    <p class="text-[10px] text-emerald-400 mt-0.5"><i class="fa-brands fa-youtube mr-1"></i> Ver video en pestaña externa</p>
+                                    <p class="text-[10px] text-emerald-400 mt-0.5"><i class="fa-brands fa-youtube mr-1"></i> Ver video de forma segura</p>
                                 </div>
                             </div>
                             <div class="relative w-full sm:w-28 h-16 rounded overflow-hidden border border-slate-700 bg-black flex-shrink-0">
-                                <img src="https://img.youtube.com/vi/${data.videoId}/hqdefault.jpg" class="w-full h-full object-cover group-hover:scale-105 transition" alt="Thumbnail">
-                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-                                    <i class="fa-solid fa-play text-white text-lg"></i>
-                                </div>
+                                <img src="https://img.youtube.com/vi/${data.videoId}/hqdefault.jpg" class="w-full h-full object-cover" alt="Thumbnail">
+                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center"><i class="fa-solid fa-play text-white text-lg"></i></div>
                             </div>
                         </button>
                     </div>
 
                     <div class="flex border-b-2 border-slate-800 gap-2">
-                        <button onclick="cambiarPestana('grupos')" class="py-2 px-5 font-black text-xs uppercase tracking-widest rounded-t-lg transition border-t-2 border-x-2 ${pestanaActiva === 'grupos' ? 'bg-slate-800 text-emerald-400 border-emerald-500' : 'bg-transparent text-slate-500 border-transparent hover:text-slate-300'}">
-                            <i class="fa-solid fa-table-cells mr-1"></i> Fase de Grupos
-                        </button>
-                        <button onclick="cambiarPestana('eliminatoria')" class="py-2 px-5 font-black text-xs uppercase tracking-widest rounded-t-lg transition border-t-2 border-x-2 ${pestanaActiva === 'eliminatoria' ? 'bg-slate-800 text-emerald-400 border-emerald-500' : 'bg-transparent text-slate-500 border-transparent hover:text-slate-300'}">
-                            <i class="fa-solid fa-diagram-project mr-1"></i> Árbol Eliminatorio (Diagrama)
-                        </button>
+                        <button onclick="cambiarPestana('grupos')" class="py-2 px-5 font-black text-xs uppercase tracking-widest rounded-t-lg border-t-2 border-x-2 ${pestanaActiva === 'grupos' ? 'bg-slate-800 text-emerald-400 border-emerald-500' : 'bg-transparent text-slate-500 border-transparent hover:text-slate-300'}">Fase de Grupos</button>
+                        <button onclick="cambiarPestana('eliminatoria')" class="py-2 px-5 font-black text-xs uppercase tracking-widest rounded-t-lg border-t-2 border-x-2 ${pestanaActiva === 'eliminatoria' ? 'bg-slate-800 text-emerald-400 border-emerald-500' : 'bg-transparent text-slate-500 border-transparent hover:text-slate-300'}">Camino Eliminatorio</button>
                     </div>
 
-                    <div id="seccionDinamicaPestana">
-                        ${pestanaActiva === 'grupos' ? `
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">${htmlGrupos}</div>
-                        ` : `
-                            <div>${htmlArbol}</div>
-                        `}
-                    </div>
-
+                    <div>${pestanaActiva === 'grupos' ? `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">${htmlGrupos}</div>` : `<div>${htmlArbol}</div>`}</div>
                 </div>
             `;
         }
     </script>
 </body>
 </html>
-
-```
