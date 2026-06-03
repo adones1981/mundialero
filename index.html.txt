@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mundial Stats - El Estadio de la Historia</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Animación de la pelota rodando como el mundo */
+        @keyframes rodarMundo {
+            0% { transform: translate(-50%, -50%) rotate(0deg) scale(0.2); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translate(-50%, -50%) rotate(1440deg) scale(1); opacity: 0; pointer-events: none; }
+        }
+        .loader-ball {
+            animation: rodarMundo 3.5s ease-in-out forwards;
+        }
+        /* Textura de césped para el fondo del estadio */
+        .cesped {
+            background-color: #15803d;
+            background-image: linear-gradient(rgba(255,255,255,0.1) 50%, transparent 50%),
+                              linear-gradient(90deg, rgba(255,255,255,0.1) 50%, transparent 50%);
+            background-size: 80px 80px;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white font-sans overflow-x-hidden">
+
+    <div id="loader" class="fixed inset-0 bg-black z-50 flex items-center justify-center transition-opacity duration-1000">
+        <div class="text-center">
+            <div class="relative w-64 h-64 mx-auto">
+                <i class="fa-solid fa-soccer-ball text-8xl text-white absolute top-1/2 left-1/2 loader-ball"></i>
+            </div>
+            <h1 class="text-3xl font-bold mt-8 tracking-wider animate-pulse">INGRESANDO AL ESTADIO...</h1>
+            <p class="text-green-400 mt-2"><i class="fa-solid fa-whistle mr-2"></i> Prepárate para el pitazo inicial</p>
+        </div>
+    </div>
+
+    <audio id="sonidoAmbiente" loop>
+        <source src="https://assets.mixkit.co/active_storage/sfx/2034/2034-84.wav" type="audio/wav">
+    </audio>
+    <audio id="sonidoPitazo">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2019/2019-84.wav" type="audio/wav">
+    </audio>
+
+    <div class="min-h-screen flex flex-col">
+        
+        <header class="bg-black border-b-4 border-yellow-500 p-4 shadow-2xl">
+            <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-gavel text-3xl text-yellow-500"></i> <h1 class="text-2xl md:text-4xl font-extrabold tracking-widest text-yellow-400 uppercase">Estadísticas del Mundial</h1>
+                </div>
+                <button onclick="alternarAudio()" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-full flex items-center gap-2 transition">
+                    <i id="iconoAudio" class="fa-solid fa-volume-mute"></i> <span id="textoAudio">Activar Ambiente</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="cesped flex-grow p-4 md:p-8 relative">
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-11/12 h-6 border-b-2 border-x-2 border-white/20 pointer-events-none flex justify-center">
+                <span class="text-xs text-white/30"><i class="fa-solid fa-door-open"></i> PORTERÍA NORTE</span>
+            </div>
+
+            <div class="container mx-auto max-w-6xl bg-black/70 backdrop-blur-md rounded-3xl p-6 border-4 border-white/50 shadow-inner">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 bg-green-900/50 p-4 rounded-xl border border-green-500">
+                    <div>
+                        <label class="block text-sm font-bold uppercase mb-2 text-yellow-400"><i class="fa-solid fa-calendar-days mr-2"></i> Buscar por Año:</label>
+                        <select id="selectAnio" onchange="buscarPorAnio()" class="w-full bg-gray-800 text-white border-2 border-white p-2 rounded-lg font-bold">
+                            <option value="">-- Selecciona un Año --</option>
+                            <option value="1930">1930 (Uruguay)</option>
+                            <option value="1970">1970 (México)</option>
+                            <option value="2022">2022 (Catar)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold uppercase mb-2 text-yellow-400"><i class="fa-solid fa-flag mr-2"></i> Buscar por Selección:</label>
+                        <select id="selectEquipo" onchange="buscarPorEquipo()" class="w-full bg-gray-800 text-white border-2 border-white p-2 rounded-lg font-bold">
+                            <option value="">-- Selecciona un País --</option>
+                            <option value="Argentina">Argentina</option>
+                            <option value="Uruguay">Uruguay</option>
+                            <option value="Brasil">Brasil</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="vistaContenido" class="min-h-[400px]">
+                    <div class="text-center py-20">
+                        <i class="fa-solid fa-futbol text-6xl text-gray-400 animate-spin mb-4" style="animation-duration: 10s;"></i>
+                        <h2 class="text-2xl font-bold">¡Selecciona un año o un equipo en el marcador superior!</h2>
+                        <p class="text-gray-400 mt-2">Explora los grupos, planteles, goleadores e historias de las copas del mundo.</p>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <footer class="bg-black text-center p-4 border-t-4 border-green-600 text-gray-400 text-sm">
+            <p><i class="fa-solid fa-bullhorn text-green-500 mr-2"></i> © 2026 - Estadio Virtual de Estadísticas Históricas. Desarrollado para fanáticos del fútbol.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Simulación de Base de Datos (Puedes expandir esta estructura con más años)
+        const mundialDB = {
+            anios: {
+                "1930": {
+                    campeon: "Uruguay",
+                    subcampeon: "Argentina",
+                    goleador: "Guillermo Stábile (Argentina) - 8 goles",
+                    grupos: {
+                        "Grupo 1": [
+                            { pais: "Argentina", pts: 6, pj: 3, pg: 3, pe: 0, pp: 0 },
+                            { pais: "Chile", pts: 4, pj: 3, pg: 2, pe: 0, pp: 1 },
+                            { pais: "Francia", pts: 2, pj: 3, pg: 1, pe: 0, pp: 2 },
+                            { pais: "México", pts: 0, pj: 3, pg: 0, pe: 0, pp: 3 }
+                        ],
+                        "Grupo 2": [
+                            { pais: "Yugoslavia", pts: 4, pj: 2, pg: 2, pe: 0, pp: 0 },
+                            { pais: "Brasil", pts: 2, pj: 2, pg: 1, pe: 0, pp: 1 },
+                            { pais: "Bolivia", pts: 0, pj: 2, pg: 0, pe: 0, pp: 2 }
+                        ]
+                    }
+                },
+                "2022": {
+                    campeon: "Argentina",
+                    subcampeon: "Francia",
+                    goleador: "Kylian Mbappé (Francia) - 8 goles",
+                    grupos: {
+                        "Grupo C": [
+                            { pais: "Argentina", pts: 6, pj: 3, pg: 2, pe: 0, pp: 1 },
+                            { pais: "Polonia", pts: 4, pj: 3, pg: 1, pe: 1, pp: 1 },
+                            { pais: "México", pts: 4, pj: 3, pg: 1, pe: 1, pp: 1 },
+                            { pais: "Arabia Saudita", pts: 3, pj: 3, pg: 1, pe: 0, pp: 2 }
+                        ]
+                    }
+                }
+            },
+            equipos: {
+                "Argentina": {
+                    asistencias: 18,
+                    titulos: "3 (1978, 1986, 2022)",
+                    mundialesData: {
+                        "1930": {
+                            goles: 18,
+                            plantel: ["Guillermo Stábile", "Luis Monti", "Manuel Ferreira", "Francisco Varallo"]
+                        },
+                        "2022": {
+                            goles: 15,
+                            plantel: ["Lionel Messi", "Emiliano Martínez", "Ángel Di María", "Rodrigo De Paul", "Julián Álvarez"]
+                        }
+                    }
+                },
+                "Uruguay": {
+                    asistencias: 14,
+                    titulos: "2 (1930, 1950)",
+                    mundialesData: {
+                        "1930": {
+                            goles: 15,
+                            plantel: ["José Nasazzi", "Héctor Castro", "Pedro Cea", "Peregrino Anselmo"]
+                        }
+                    }
+                }
+            }
+        };
+
+        // Quitar la pantalla de carga (Loader) a los 3.5 segundos e iniciar sonido
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                document.getElementById('sonidoPitazo').play().catch(e => console.log("Audio bloqueado por navegador"));
+                setTimeout(() => loader.remove(), 1000);
+            }, 3500);
+        });
+
+        // Control del Audio Ambiente del Estadio
+        let audioActivo = false;
+        const sonidoAmbiente = document.getElementById('sonidoAmbiente');
+        const iconoAudio = document.getElementById('iconoAudio');
+        const textoAudio = document.getElementById('textoAudio');
+
+        function alternarAudio() {
+            if (!audioActivo) {
+                sonidoAmbiente.play().catch(e => alert("Interactúa con la página primero para reproducir sonido"));
+                iconoAudio.className = "fa-solid fa-volume-high text-green-400";
+                textoAudio.innerText = "Mutear Estadio";
+                audioActivo = true;
+            } else {
+                sonidoAmbiente.pause();
+                iconoAudio.className = "fa-solid fa-volume-mute";
+                textoAudio.innerText = "Activar Ambiente";
+                audioActivo = false;
+            }
+        }
+
+        // BÚSQUEDA POR AÑO
+        function buscarPorAnio() {
+            const anio = document.getElementById('selectAnio').value;
+            const contenedor = document.getElementById('vistaContenido');
+            if (!anio || !mundialDB.anios[anio]) {
+                contenedor.innerHTML = `<p class="text-center text-red-400 py-10">Datos no disponibles para este año todavía.</p>`;
+                return;
+            }
+
+            const data = mundialDB.anios[anio];
+            let htmlGrupos = '';
+
+            for (const [grupo, equipos] of Object.entries(data.grupos)) {
+                htmlGrupos += `
+                    <div class="bg-gray-800 p-4 rounded-xl border-2 border-green-600 shadow-lg">
+                        <h4 class="font-bold text-yellow-400 border-b border-gray-600 pb-2 mb-2"><i class="fa-solid fa-list-ol mr-2"></i>${grupo}</h4>
+                        <table class="w-full text-left text-sm">
+                            <thead>
+                                <tr class="text-gray-400">
+                                    <th>País</th><th>Pts</th><th>PJ</th><th>PG</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${equipos.map(e => `
+                                    <tr class="border-b border-gray-700/50">
+                                        <td class="font-bold py-1">${e.pais}</td>
+                                        <td class="text-green-400 font-bold">${e.pts}</td>
+                                        <td>${e.pj}</td>
+                                        <td>${e.pg}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+
+            contenedor.innerHTML = `
+                <div class="animate-fade-in">
+                    <div class="flex flex-col md:flex-row justify-between items-center bg-yellow-500 text-black p-4 rounded-xl mb-6">
+                        <h3 class="text-3xl font-black"><i class="fa-solid fa-trophy mr-2"></i> MUNDIAL ${anio}</h3>
+                        <div class="text-right font-bold text-sm md:text-base mt-2 md:mt-0">
+                            <p>🏆 Campeón: ${data.campeon}</p>
+                            <p>🥈 Subcampeón: ${data.subcampeon}</p>
+                            <p>⚽ Goleador: ${data.goleador}</p>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 uppercase text-white"><i class="fa-solid fa-people-group mr-2"></i> Fase de Grupos y Puntajes</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">${htmlGrupos}</div>
+                </div>
+            `;
+        }
+
+        // BÚSQUEDA POR EQUIPO / SELECCIÓN
+        function buscarPorEquipo() {
+            const pais = document.getElementById('selectEquipo').value;
+            const contenedor = document.getElementById('vistaContenido');
+            if (!pais || !mundialDB.equipos[pais]) {
+                contenedor.innerHTML = `<p class="text-center text-red-400 py-10">Datos no disponibles para esta selección todavía.</p>`;
+                return;
+            }
+
+            const data = mundialDB.equipos[pais];
+            let htmlMundiales = '';
+
+            for (const [anio, info] of Object.entries(data.mundialesData)) {
+                htmlMundiales += `
+                    <div class="bg-gray-800/80 p-4 rounded-xl border border-gray-700 relative overflow-hidden">
+                        <i class="fa-solid fa-door-open absolute right-4 bottom-4 text-6xl text-gray-700/20 pointer-events-none"></i>
+                        
+                        <h4 class="text-lg font-bold text-yellow-400 mb-2"><i class="fa-solid fa-futbol mr-2"></i> Edición Mundial ${anio}</h4>
+                        <p class="text-sm text-gray-300 mb-3">Goles anotados en el torneo: <span class="text-white font-bold">${info.goles}</span></p>
+                        <h5 class="text-xs font-bold uppercase tracking-wider text-green-400 mb-2">Plantel / Jugadores:</h5>
+                        <ul class="grid grid-cols-2 gap-1 text-sm bg-black/40 p-2 rounded">
+                            ${info.plantel.map(jugador => `<li class="text-gray-300"><i class="fa-solid fa-user text-xs mr-1 text-gray-500"></i> ${jugador}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            contenedor.innerHTML = `
+                <div class="animate-fade-in">
+                    <div class="bg-green-700 p-6 rounded-xl mb-6 shadow-md border-2 border-white/20">
+                        <h3 class="text-3xl font-black uppercase tracking-wide flex items-center gap-3">
+                            <i class="fa-solid fa-flag"></i> ${pais}
+                        </h3>
+                        <div class="grid grid-cols-2 gap-4 mt-4 text-sm bg-black/30 p-3 rounded-lg">
+                            <p>🏟️ Mundiales Asistidos: <span class="font-bold text-yellow-400 text-lg">${data.asistencias}</span></p>
+                            <p>⭐ Títulos Mundiales: <span class="font-bold text-yellow-400 text-lg">${data.titulos}</span></p>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 uppercase text-white"><i class="fa-solid fa-history mr-2"></i> Historial de Planteles y Stats por Año</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">${htmlMundiales}</div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
