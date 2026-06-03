@@ -1,0 +1,49 @@
+[
+  {
+    "year": 2022,
+    "host": "Qatar",
+    "champion": "Argentina",
+    "runnerup": "Francia",
+    "ball": "Al Rihla",
+    "song": "Hayya Hayya",
+    "teams": 32,
+
+    "stats": {
+      "goals": 172,
+      "matches": 64,
+      "attendance": 3404252
+    },
+
+    "groups": [
+      {
+        "name": "Grupo A",
+        "teams": [
+          {
+            "country": "Qatar",
+            "code": "qa"
+          },
+          {
+            "country": "Ecuador",
+            "code": "ec"
+          },
+          {
+            "country": "Senegal",
+            "code": "sn"
+          },
+          {
+            "country": "Países Bajos",
+            "code": "nl"
+          }
+        ]
+      }
+    ],
+
+    "knockout": [
+      {
+        "round": "Final",
+        "home": "Argentina",
+        "away": "Francia"
+      }
+    ]
+  }
+]
