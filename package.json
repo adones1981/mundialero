@@ -1,0 +1,14 @@
+{
+  "name": "mundial-stats-backend",
+  "version": "1.0.0",
+  "description": "Backend para gestionar estadísticas históricas de los Mundiales, incluyendo el Mundial 2026 en curso.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "author": "Antigravity AI",
+  "license": "ISC"
+}
