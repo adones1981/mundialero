@@ -1,4 +1,4 @@
-[
+window.WORLDCUPS_DATA = [
   {
     "year": 1930,
     "host": "Uruguay",

@@ -22,7 +22,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root {
             --color-primary: #10b981;
@@ -45,11 +45,51 @@
         }
         /* Textura de césped para el fondo del estadio */
         .cesped {
-            background-color: #072e27;
+            background-color: #226b30; /* Un verde más claro y vivo simulando césped real */
             background-image: 
-                linear-gradient(rgba(255,255,255,0.02) 50%, transparent 50%),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 50%, transparent 50%);
-            background-size: 60px 60px;
+                /* Círculo central */
+                radial-gradient(circle at 50% 50%, transparent 150px, rgba(255,255,255,0.2) 150px, rgba(255,255,255,0.2) 154px, transparent 154px),
+                /* Punto central */
+                radial-gradient(circle at 50% 50%, rgba(255,255,255,0.25) 5px, transparent 6px),
+                /* Línea central vertical */
+                linear-gradient(90deg, transparent calc(50% - 2px), rgba(255,255,255,0.2) calc(50% - 2px), rgba(255,255,255,0.2) calc(50% + 2px), transparent calc(50% + 2px)),
+                /* Franjas horizontales de césped (claro/oscuro alternado) */
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 60px,
+                    rgba(0, 0, 0, 0.08) 60px,
+                    rgba(0, 0, 0, 0.08) 120px
+                );
+            background-attachment: fixed;
+            background-position: center;
+        }
+        /* CRT Effect for Videos */
+        .crt-video-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            background-color: #000;
+            box-shadow: 0 0 15px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,1);
+        }
+        .crt-video-container::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+        .crt-video-container::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.4) 100%);
+            z-index: 3;
+            pointer-events: none;
         }
         /* Efecto de luces de estadio en el fondo */
         .foco-izq {
@@ -117,7 +157,74 @@
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px var(--color-primary-glow);
             border-color: var(--color-primary) !important;
         }
+
+        /* ============================
+           ARCADE / RETRO FLAG STYLES
+           ============================ */
+        @keyframes flagWave {
+            0%,100% { transform: skewX(0deg) scaleX(1); }
+            20% { transform: skewX(4deg) scaleX(1.04); }
+            60% { transform: skewX(-4deg) scaleX(0.96); }
+        }
+        @keyframes scanlines {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 4px; }
+        }
+        @keyframes crtFlicker {
+            0%,100% { opacity:1; } 92% { opacity:0.97; } 94% { opacity:0.9; } 96% { opacity:0.97; }
+        }
+        @keyframes pixelBlink {
+            0%,49% { opacity:1; } 50%,100% { opacity:0; }
+        }
+        @keyframes liveGlow {
+            0%,100% { box-shadow:0 0 6px #ef4444,0 0 12px #ef4444; }
+            50% { box-shadow:0 0 18px #ef4444,0 0 36px #ef4444,0 0 54px rgba(239,68,68,0.3); }
+        }
+        @keyframes scoreFlash {
+            0%,100% { color: var(--color-primary); text-shadow: 0 0 10px var(--color-primary); }
+            50% { color: #fff; text-shadow: 0 0 20px #fff; }
+        }
+        .arcade-flag-emoji {
+            font-size: 72px; display: block;
+            animation: flagWave 2.5s ease-in-out infinite;
+            transform-origin: left center;
+            filter: drop-shadow(0 4px 16px rgba(255,255,255,0.25));
+            line-height: 1;
+        }
+        .crt-overlay {
+            position:absolute; inset:0; pointer-events:none; z-index:1; border-radius:inherit;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+            animation: scanlines 0.4s linear infinite;
+        }
+        .crt-screen { position:relative; overflow:hidden; animation: crtFlicker 7s ease-in-out infinite; }
+        .arcade-font { font-family:'Press Start 2P', monospace !important; letter-spacing:0.05em; }
+        .live-badge {
+            animation: liveGlow 1.2s ease-in-out infinite;
+            background:#ef4444; color:#fff; font-weight:900;
+            font-size:9px; padding:2px 8px; border-radius:4px; text-transform:uppercase;
+        }
+        .blink-text { animation: pixelBlink 1s step-end infinite; }
+        .arcade-score {
+            font-family:'Press Start 2P', monospace;
+            background:#000; border:2px solid var(--color-primary);
+            box-shadow: 0 0 12px var(--color-primary-glow), inset 0 0 16px rgba(0,0,0,0.6);
+            padding:6px 14px; border-radius:4px; font-size:18px;
+            color:var(--color-primary); text-shadow:0 0 10px currentColor;
+            min-width:70px; text-align:center;
+        }
+        .match-live-card {
+            border-color:#ef4444 !important;
+            box-shadow:0 0 14px rgba(239,68,68,0.18);
+        }
+        .score-live { animation: scoreFlash 1.8s ease-in-out infinite; }
+        .flag-pixel-frame {
+            border:3px solid var(--color-primary);
+            box-shadow: 0 0 0 3px #000, 0 0 0 5px var(--color-primary), 0 0 30px var(--color-primary-glow);
+            border-radius:8px; padding:12px 16px; background:#000;
+        }
     </style>
+    <!-- Script para cargar datos localmente sin servidor -->
+    <script src="data.js"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col overflow-x-hidden">
 
@@ -165,6 +272,10 @@
                     <button onclick="abrirPronostico()" id="btn-pronostico" title="Mi Pronóstico 2026" class="bg-slate-800 hover:bg-primary-dyn hover:text-slate-950 border border-primary-subtle-dyn text-primary-dyn font-bold py-2 px-4 rounded-full flex items-center gap-2 transition-all duration-300 shadow-lg cursor-pointer text-xs">
                         <i class="fa-solid fa-trophy"></i>
                         <span class="hidden sm:inline uppercase tracking-wider">Pronóstico</span>
+                    </button>
+                    <button onclick="abrirFixture2026()" id="btn-fixture2026" title="Mundial 2026 — En Vivo" class="bg-gradient-to-r from-red-700 to-red-500 hover:from-red-600 hover:to-red-400 text-white font-bold py-2 px-4 rounded-full flex items-center gap-2 transition-all duration-300 shadow-lg cursor-pointer text-xs" style="box-shadow:0 0 16px rgba(239,68,68,0.4);">
+                        <i class="fa-solid fa-circle" style="color:#ff4444;animation:liveGlow 1.2s ease-in-out infinite;font-size:8px;"></i>
+                        <span class="uppercase tracking-wider">2026 EN VIVO</span>
                     </button>
                 </div>
             </div>
@@ -545,12 +656,18 @@
         }
 
 
-        // Cargar los datos desde el servidor
+        // Cargar los datos desde el servidor o de la variable global si estamos offline (sin servidor)
         async function cargarDatosMundiales() {
             try {
-                const res = await fetch('./worldcups.json');
-                if (!res.ok) throw new Error("Error leyendo base de datos");
-                WORLDCUPS = await res.json();
+                if (window.WORLDCUPS_DATA) {
+                    // Datos inyectados vía data.js (doble clic en archivo local)
+                    WORLDCUPS = window.WORLDCUPS_DATA;
+                } else {
+                    // Petición fetch normal
+                    const res = await fetch('./worldcups.json');
+                    if (!res.ok) throw new Error("Error leyendo base de datos");
+                    WORLDCUPS = await res.json();
+                }
                 normalizarDatos();
                 actualizarSelector();
             } catch (err) {
@@ -616,8 +733,9 @@
             const btnGrupos = document.getElementById('btn-tab-grupos');
             const btnPartidos = document.getElementById('btn-tab-partidos-grupo');
             const btnKnockout = document.getElementById('btn-tab-knockout');
+            const btnHistoria = document.getElementById('btn-tab-historia');
             
-            [btnGrupos, btnPartidos, btnKnockout].forEach(btn => {
+            [btnGrupos, btnPartidos, btnKnockout, btnHistoria].forEach(btn => {
                 if (btn) {
                     btn.classList.remove('border-primary-dyn', 'text-primary-dyn');
                     btn.classList.add('border-transparent', 'text-slate-400');
@@ -633,6 +751,9 @@
             } else if (pestana === 'knockout' && btnKnockout) {
                 btnKnockout.classList.add('border-primary-dyn', 'text-primary-dyn');
                 btnKnockout.classList.remove('border-transparent', 'text-slate-400');
+            } else if (pestana === 'historia' && btnHistoria) {
+                btnHistoria.classList.add('border-primary-dyn', 'text-primary-dyn');
+                btnHistoria.classList.remove('border-transparent', 'text-slate-400');
             }
             
             renderTabContent();
@@ -654,13 +775,14 @@
                 // Activar el rotador de trivias para este Mundial
                 iniciarTrivia(mundialSeleccionado.trivias);
 
-                // Si la edición no tiene fase de grupos (ej: 1934, 1938), activar por defecto la fase de eliminación
-                if (mundialSeleccionado.groups.length === 0) {
-                    pestanaActiva = 'knockout';
-                } else if (pestanaActiva === 'grupos' || pestanaActiva === 'partidos_grupo') {
-                    // Mantener pestaña de grupos o partidos si el mundial los tiene
-                } else {
-                    pestanaActiva = 'grupos';
+                // Inicializar pestaña por defecto si no es válida
+                if (!['historia', 'grupos', 'partidos_grupo', 'knockout'].includes(pestanaActiva)) {
+                    pestanaActiva = 'historia';
+                }
+                
+                // Si la edición no tiene fase de grupos (ej: 1934, 1938) y está en tab de grupos, cambiar a historia o knockout
+                if (mundialSeleccionado.groups.length === 0 && (pestanaActiva === 'grupos' || pestanaActiva === 'partidos_grupo')) {
+                    pestanaActiva = 'historia';
                 }
 
                 const topScorerName = (mundialSeleccionado.top_scorer && mundialSeleccionado.top_scorer.name) || "Por definir";
@@ -729,6 +851,9 @@
 
                     <!-- PESTAÑAS DE CONTENIDO -->
                     <div class="flex justify-center border-b border-slate-800 mb-6 flex-wrap gap-2">
+                        <button onclick="cambiarPestana('historia')" id="btn-tab-historia" class="px-5 py-3 font-bold text-sm md:text-base border-b-4 ${pestanaActiva === 'historia' ? 'border-primary-dyn text-primary-dyn' : 'border-transparent text-slate-400'} hover:text-primary-dyn focus:outline-none transition duration-300 cursor-pointer">
+                            <i class="fa-solid fa-landmark mr-2"></i> Sede e Historia
+                        </button>
                         ${mundialSeleccionado.groups.length > 0 ? `
                         <button onclick="cambiarPestana('grupos')" id="btn-tab-grupos" class="px-5 py-3 font-bold text-sm md:text-base border-b-4 ${pestanaActiva === 'grupos' ? 'border-primary-dyn text-primary-dyn' : 'border-transparent text-slate-400'} hover:text-primary-dyn focus:outline-none transition duration-300 cursor-pointer">
                             <i class="fa-solid fa-list-ol mr-2"></i> Clasificación
@@ -761,7 +886,10 @@
             tabContent.style.opacity = '0';
  
             setTimeout(() => {
-                if (pestanaActiva === 'grupos') {
+                if (pestanaActiva === 'historia') {
+                    // Cargar Sede e Historia
+                    tabContent.innerHTML = renderHistoria(mundialSeleccionado);
+                } else if (pestanaActiva === 'grupos') {
                     // Cargar Fase de Grupos
                     let html = `<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">`;
                     
@@ -1022,6 +1150,96 @@
             "Por definir": { primary: "#10b981", hover: "#059669", glow: "rgba(16, 185, 129, 0.15)", border: "rgba(16, 185, 129, 0.3)", bg: "rgba(16, 185, 129, 0.1)" }
         };
 
+        function renderHistoria(wc) {
+            if (!wc.culture) return `<div class="text-center text-slate-500 py-8">No hay datos culturales disponibles para este torneo.</div>`;
+            
+            const introHtml = wc.culture.gameplay_youtube_id ? `
+                <div class="col-span-1 lg:col-span-2 bg-slate-900/50 border border-slate-800 rounded-2xl p-5 shadow-lg">
+                    <h3 class="text-lg font-black text-primary-dyn border-b border-slate-800 pb-2 mb-4 flex items-center justify-between">
+                        <span>Videojuego Oficial / Intro</span>
+                        <i class="fa-solid fa-gamepad text-slate-400"></i>
+                    </h3>
+                    <div class="flex items-center justify-between bg-slate-950/50 p-4 rounded-xl border border-slate-800 flex-wrap gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-play text-primary-dyn text-xl"></i>
+                            </div>
+                            <p class="text-slate-200 font-medium">Intro Oficial del Videojuego</p>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=${wc.culture.gameplay_youtube_id}" target="_blank" class="inline-flex items-center gap-2 px-6 py-2 bg-red-600/90 hover:bg-red-600 text-white rounded-lg text-sm font-semibold transition shadow-lg shadow-red-900/20 hover:-translate-y-0.5">
+                            <i class="fa-brands fa-youtube text-lg"></i> Ver en YouTube
+                        </a>
+                    </div>
+                </div>
+            ` : '';
+
+            const songHtml = wc.culture.song ? `
+                <div class="col-span-1 lg:col-span-2 bg-slate-900/50 border border-slate-800 rounded-2xl p-5 shadow-lg">
+                    <h3 class="text-lg font-black text-primary-dyn border-b border-slate-800 pb-2 mb-4 flex items-center justify-between">
+                        <span>Canción Oficial</span>
+                        <i class="fa-solid fa-music text-slate-400"></i>
+                    </h3>
+                    <div class="flex items-center justify-between bg-slate-950/50 p-4 rounded-xl border border-slate-800 flex-wrap gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-compact-disc text-primary-dyn text-xl"></i>
+                            </div>
+                            <p class="text-slate-200 font-medium">${wc.culture.song}</p>
+                        </div>
+                        ${wc.culture.youtube_id ? `
+                        <a href="https://www.youtube.com/watch?v=${wc.culture.youtube_id}" target="_blank" class="inline-flex items-center gap-2 px-6 py-2 bg-red-600/90 hover:bg-red-600 text-white rounded-lg text-sm font-semibold transition shadow-lg shadow-red-900/20 hover:-translate-y-0.5">
+                            <i class="fa-brands fa-youtube text-lg"></i> Escuchar en YouTube
+                        </a>
+                        ` : ''}
+                    </div>
+                </div>
+            ` : '';
+
+            return `
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in-up">
+                    
+                    <!-- Balón Oficial -->
+                    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 shadow-lg">
+                        <h3 class="text-lg font-black text-primary-dyn border-b border-slate-800 pb-2 mb-4 flex items-center justify-between">
+                            <span>Balón Oficial</span>
+                            <i class="fa-regular fa-futbol text-slate-400"></i>
+                        </h3>
+                        <p class="text-slate-300 font-medium text-lg text-center my-6"><i class="fa-solid fa-futbol text-primary-dyn mr-2"></i> ${wc.culture.ball || 'Desconocido'}</p>
+                    </div>
+
+                    <!-- Sedes y Estadios -->
+                    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 shadow-lg">
+                        <h3 class="text-lg font-black text-primary-dyn border-b border-slate-800 pb-2 mb-4 flex items-center justify-between">
+                            <span>Sede del Torneo</span>
+                            <i class="fa-solid fa-location-dot text-slate-400"></i>
+                        </h3>
+                        <div class="flex items-center gap-4 mt-2">
+                            <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-building text-xl text-primary-dyn"></i>
+                            </div>
+                            <p class="text-slate-300 font-medium">${wc.culture.stadiums || 'Información no disponible'}</p>
+                        </div>
+                    </div>
+
+                    <!-- Dato Curioso -->
+                    <div class="col-span-1 lg:col-span-2 bg-gradient-to-r from-primary-dyn/10 to-transparent border border-primary-dyn/30 rounded-2xl p-5 shadow-lg">
+                        <h3 class="text-lg font-black text-primary-dyn border-b border-primary-dyn/20 pb-2 mb-4 flex items-center justify-between">
+                            <span>¿Sabías qué?</span>
+                            <i class="fa-solid fa-lightbulb text-yellow-400"></i>
+                        </h3>
+                        <p class="text-slate-200 text-lg leading-relaxed italic border-l-4 border-primary-dyn pl-4 py-2">${wc.culture.fun_fact || 'Sin datos curiosos.'}</p>
+                    </div>
+
+                    <!-- Canción Oficial -->
+                    ${songHtml}
+
+                    <!-- Videojuego Oficial / Intro Link -->
+                    ${introHtml}
+
+                </div>
+            `;
+        }
+
         function aplicarTema(anfitrion) {
             const theme = THEMES[anfitrion] || THEMES["Por definir"];
             const root = document.documentElement;
@@ -1146,12 +1364,17 @@
             
             matches.forEach(key => {
                 const item = countryMap[key];
+                const flag = FLAGS[item.originalName] || '🌍';
                 html += `
-                    <div class="p-3 border-b border-slate-800/60 hover:bg-slate-800/40 transition">
-                        <div class="text-xs font-bold text-white uppercase">${item.originalName}</div>
+                    <div class="p-3 border-b border-slate-800/60 hover:bg-slate-800/40 transition cursor-pointer" onclick="mostrarPerfilPais('${item.originalName.replace(/'/g, "\\'")}')">                        
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl">${flag}</span>
+                            <div class="text-xs font-bold text-white uppercase">${item.originalName}</div>
+                            <span class="ml-auto text-[9px] text-primary-dyn font-semibold">${item.years.length} mundial${item.years.length !== 1 ? 'es' : ''} →</span>
+                        </div>
                         <div class="flex flex-wrap gap-1 mt-1.5 font-bold">
                             ${item.years.map(y => `
-                                <button onclick="seleccionarAnioDesdeBusqueda(${y})" class="bg-primary-bg-dyn hover:bg-primary-dyn hover:text-slate-950 text-[10px] text-primary-dyn font-bold px-2 py-0.5 rounded transition cursor-pointer">
+                                <button onclick="event.stopPropagation(); seleccionarAnioDesdeBusqueda(${y})" class="bg-primary-bg-dyn hover:bg-primary-dyn hover:text-slate-950 text-[10px] text-primary-dyn font-bold px-2 py-0.5 rounded transition cursor-pointer">
                                     ${y}
                                 </button>
                             `).join('')}
@@ -1702,6 +1925,81 @@
                     <i class="fa-solid fa-paper-plane"></i> Enviar Sugerencia
                 </button>
             </form>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MODAL PERFIL SELECCIÓN NACIONAL (ARCADE)     -->
+    <!-- ============================================ -->
+    <div id="modalPerfilPais" class="fixed inset-0 bg-black/95 backdrop-blur-md z-50 flex items-start justify-center hidden overflow-y-auto p-4">
+        <div class="bg-slate-900 border border-primary-subtle-dyn rounded-3xl w-full max-w-4xl shadow-2xl relative my-4 overflow-hidden crt-screen">
+            <div class="crt-overlay"></div>
+            <div class="relative z-10 p-6">
+                <button onclick="cerrarModal('modalPerfilPais')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl cursor-pointer z-20 bg-slate-800 rounded-full w-9 h-9 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div id="perfil-pais-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MODAL MUNDIAL 2026 EN VIVO / FIXTURE         -->
+    <!-- ============================================ -->
+    <div id="modal2026" class="fixed inset-0 bg-black/96 backdrop-blur-md z-50 flex items-start justify-center hidden overflow-y-auto p-4">
+        <div class="bg-slate-900 border-2 border-red-500/40 rounded-3xl w-full max-w-5xl shadow-2xl relative my-4 overflow-hidden">
+            <!-- Fondo pixelado arcade -->
+            <div class="absolute inset-0 pointer-events-none opacity-5" style="background-image:linear-gradient(rgba(255,255,255,0.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.1) 1px,transparent 1px);background-size:32px 32px;"></div>
+            <div class="relative z-10 p-6">
+                <button onclick="cerrarFixture2026()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl cursor-pointer z-20 bg-slate-800 rounded-full w-9 h-9 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <!-- Header arcade -->
+                <div class="flex items-center gap-4 mb-6 border-b border-red-500/30 pb-5">
+                    <div class="bg-red-500/10 p-3 rounded-xl border border-red-500/30">
+                        <i class="fa-solid fa-futbol text-3xl text-red-400"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="arcade-font text-red-400 text-xs mb-1 blink-text">◉ EN CURSO</div>
+                        <h2 class="text-2xl md:text-3xl font-black text-white uppercase">Mundial 2026</h2>
+                        <p class="text-slate-400 text-xs mt-0.5">Canadá · EE.UU. · México — Hora Chile (UTC-4)</p>
+                    </div>
+                    <div class="text-right hidden md:block">
+                        <div id="live-countdown" class="hidden"></div>
+                    </div>
+                </div>
+                <!-- Pestañas -->
+                <div class="flex gap-1 border-b border-slate-800 mb-5 flex-wrap">
+                    <button onclick="cambiarTab2026('fixture')" id="tab2026-fixture" class="px-4 py-2.5 text-xs font-bold border-b-2 border-red-400 text-red-400 cursor-pointer transition">
+                        <i class="fa-solid fa-calendar-alt mr-1"></i>Fixture
+                    </button>
+                    <button onclick="cambiarTab2026('grupos')" id="tab2026-grupos" class="px-4 py-2.5 text-xs font-bold border-b-2 border-transparent text-slate-400 hover:text-white cursor-pointer transition">
+                        <i class="fa-solid fa-list-ol mr-1"></i>Grupos
+                    </button>
+                    <button onclick="cambiarTab2026('eliminacion')" id="tab2026-eliminacion" class="px-4 py-2.5 text-xs font-bold border-b-2 border-transparent text-slate-400 hover:text-white cursor-pointer transition">
+                        <i class="fa-solid fa-trophy mr-1"></i>Eliminación
+                    </button>
+                </div>
+                <!-- Configuración API Key -->
+                <div id="api-key-alert" class="hidden bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-3 mb-4 flex items-start gap-3">
+                    <i class="fa-solid fa-key text-yellow-400 mt-0.5 shrink-0"></i>
+                    <div class="flex-1">
+                        <div class="text-xs font-bold text-yellow-400 mb-1">⚽ Configura tu API Key para marcadores en vivo</div>
+                        <div class="text-[11px] text-slate-400">Regístrate gratis en <a href="https://www.football-data.org/client/register" target="_blank" class="text-yellow-400 underline">football-data.org</a> y pega tu API key:</div>
+                        <div class="flex gap-2 mt-2">
+                            <input type="text" id="inp-api-key" placeholder="Tu API Key de football-data.org" class="flex-1 bg-slate-950 border border-yellow-500/30 rounded-lg px-3 py-1.5 text-xs text-white focus:border-yellow-400 focus:outline-none">
+                            <button onclick="guardarApiKey()" class="bg-yellow-500 hover:bg-yellow-400 text-black font-black px-3 py-1.5 rounded-lg text-xs cursor-pointer transition">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Contenido dinámico -->
+                <div id="content2026">
+                    <div class="text-center py-12 text-slate-500">
+                        <i class="fa-solid fa-spinner fa-spin text-3xl mb-3"></i>
+                        <p class="text-sm">Cargando fixture...</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -2396,6 +2694,397 @@
             };
         }
     });
+    </script>
+
+    <script>
+    // ============================================================
+    // MAPA DE BANDERAS
+    // ============================================================
+    const FLAGS = {
+        'Argentina':'🇦🇷','Brasil':'🇧🇷','Uruguay':'🇺🇾','Chile':'🇨🇱','México':'🇲🇽',
+        'Estados Unidos':'🇺🇸','Canadá':'🇨🇦','Colombia':'🇨🇴','Perú':'🇵🇪','Ecuador':'🇪🇨',
+        'Paraguay':'🇵🇾','Bolivia':'🇧🇴','Venezuela':'🇻🇪','Costa Rica':'🇨🇷','Honduras':'🇭🇳',
+        'El Salvador':'🇸🇻','Jamaica':'🇯🇲','Haití':'🇭🇹','Cuba':'🇨🇺','Trinidad y Tobago':'🇹🇹',
+        'Alemania':'🇩🇪','Alemania Occidental':'🇩🇪','Italia':'🇮🇹','Francia':'🇫🇷','España':'🇪🇸',
+        'Inglaterra':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Portugal':'🇵🇹','Países Bajos':'🇳🇱','Bélgica':'🇧🇪',
+        'Suecia':'🇸🇪','Dinamarca':'🇩🇰','Noruega':'🇳🇴','Suiza':'🇨🇭','Austria':'🇦🇹',
+        'Polonia':'🇵🇱','Rusia':'🇷🇺','Unión Soviética':'🇷🇺','Ucrania':'🇺🇦','Turquía':'🇹🇷',
+        'Grecia':'🇬🇷','Croacia':'🇭🇷','Escocia':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','Irlanda':'🇮🇪','Rumania':'🇷🇴',
+        'Hungría':'🇭🇺','Checoslovaquia':'🇨🇿','Yugoslavia':'🇾🇺','Bulgaria':'🇧🇬',
+        'Eslovaquia':'🇸🇰','República Checa':'🇨🇿','Serbia':'🇷🇸','Bosnia':'🇧🇦',
+        'Marruecos':'🇲🇦','Argelia':'🇩🇿','Túnez':'🇹🇳','Egipto':'🇪🇬','Senegal':'🇸🇳',
+        'Ghana':'🇬🇭','Nigeria':'🇳🇬','Camerún':'🇨🇲','Costa de Marfil':'🇨🇮','Sudáfrica':'🇿🇦',
+        'Angola':'🇦🇴','Togo':'🇹🇬','Japón':'🇯🇵','Corea del Sur':'🇰🇷','Corea del Norte':'🇰🇵',
+        'Arabia Saudita':'🇸🇦','Irán':'🇮🇷','Irak':'🇮🇶','Australia':'🇦🇺','China':'🇨🇳',
+        'Qatar':'🇶🇦','Emiratos Árabes Unidos':'🇦🇪','Kuwait':'🇰🇼','Indonesia':'🇮🇩',
+        'Nueva Zelanda':'🇳🇿','Por definir':'🌍',
+    };
+
+    // Calcula la mejor posición de un país en un Mundial
+    function calcularPosicion(wc, pais) {
+        const p = pais.toLowerCase();
+        if ((wc.champion||'').toLowerCase() === p) return { rank:1, label:'🥇 Campeón', color:'text-yellow-400' };
+        if ((wc.runner_up||'').toLowerCase() === p) return { rank:2, label:'🥈 Subcampeón', color:'text-slate-300' };
+        if ((wc.third||'').toLowerCase() === p) return { rank:3, label:'🥉 3.er Lugar', color:'text-amber-500' };
+        // Buscar en knockout
+        const roundRank = { 'final':4,'tercer lugar':4,'semifinales':5,'cuartos de final':6,'octavos de final':7,'dieciseisavos de final':8,'ronda de 32':8,'fase de grupos':9 };
+        let best = 99;
+        let bestLabel = 'Fase de Grupos';
+        let bestColor = 'text-slate-400';
+        wc.knockout.forEach(r => {
+            const rn = (r.round||'').toLowerCase();
+            const inMatch = r.matches.some(m => (m.home||'').toLowerCase()===p||(m.away||'').toLowerCase()===p);
+            if (inMatch) {
+                const rr = Object.keys(roundRank).find(k => rn.includes(k));
+                if (rr && roundRank[rr] < best) {
+                    best = roundRank[rr];
+                    if (rr.includes('semifinal')) { bestLabel='🏅 Semifinal'; bestColor='text-emerald-400'; }
+                    else if (rr.includes('cuartos')) { bestLabel='Cuartos de Final'; bestColor='text-emerald-600'; }
+                    else if (rr.includes('octavos')) { bestLabel='Octavos de Final'; bestColor='text-slate-300'; }
+                    else { bestLabel='Fase Elim.'; bestColor='text-slate-400'; }
+                }
+            }
+        });
+        // En grupos
+        const inGroups = wc.groups.some(g => g.teams && g.teams.some(t => (t.name||'').toLowerCase()===p));
+        if (inGroups && best===99) return { rank:9, label:'Fase de Grupos', color:'text-slate-500' };
+        if (best < 99) return { rank:best, label:bestLabel, color:bestColor };
+        return null;
+    }
+
+    function mostrarPerfilPais(pais) {
+        const flag = FLAGS[pais] || '🌍';
+        const historial = [];
+        WORLDCUPS.forEach(wc => {
+            const pos = calcularPosicion(wc, pais);
+            if (pos) historial.push({ year: wc.year, host: wc.host, ...pos });
+        });
+        if (!historial.length) return;
+
+        historial.sort((a,b) => a.year - b.year);
+        const titles = historial.filter(h => h.rank===1);
+        const best = historial.reduce((b,h) => h.rank < b.rank ? h : b, historial[0]);
+        const lastYear = historial[historial.length-1].year;
+        const ausencia = lastYear < 2026 ? (2026 - lastYear) : 0;
+        const countryTheme = THEMES ? (THEMES[pais] || THEMES['Por definir']) : null;
+        const themeColor = countryTheme ? countryTheme.primary : '#10b981';
+
+        let html = `
+        <div class="relative">
+            <!-- Header con bandera arcade -->
+            <div class="flex flex-col sm:flex-row items-center gap-6 mb-8 p-5 rounded-2xl" style="background:linear-gradient(135deg,rgba(0,0,0,0.8),rgba(15,23,42,0.9));border:2px solid ${themeColor}40;box-shadow:0 0 40px ${themeColor}20;">
+                <div class="flag-pixel-frame text-center shrink-0" style="border-color:${themeColor};box-shadow:0 0 0 3px #000,0 0 0 5px ${themeColor},0 0 30px ${themeColor}40;">
+                    <span class="arcade-flag-emoji">${flag}</span>
+                </div>
+                <div class="text-center sm:text-left">
+                    <div class="arcade-font text-xs mb-2" style="color:${themeColor}">⚽ SELECCIÓN NACIONAL</div>
+                    <h2 class="text-3xl sm:text-4xl font-black text-white uppercase tracking-wide">${pais}</h2>
+                    <div class="flex flex-wrap gap-3 mt-3 justify-center sm:justify-start">
+                        <span class="bg-slate-800 border border-slate-700 px-3 py-1 rounded-full text-xs font-bold text-slate-300">
+                            <i class="fa-solid fa-calendar mr-1"></i>${historial.length} Mundiales
+                        </span>
+                        ${titles.length ? `<span class="bg-yellow-500/20 border border-yellow-500/40 px-3 py-1 rounded-full text-xs font-bold text-yellow-400"><i class="fa-solid fa-trophy mr-1"></i>${titles.length} Título${titles.length>1?'s':''}</span>` : ''}
+                        ${ausencia > 0 ? `<span class="bg-red-500/20 border border-red-500/40 px-3 py-1 rounded-full text-xs font-bold text-red-400"><i class="fa-solid fa-clock mr-1"></i>${ausencia} años sin ir</span>` : '<span class="bg-green-500/20 border border-green-500/40 px-3 py-1 rounded-full text-xs font-bold text-green-400"><i class="fa-solid fa-check mr-1"></i>Presente en 2026</span>'}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mejor participación -->
+            <div class="mb-6 p-4 rounded-2xl border" style="background:linear-gradient(135deg,${themeColor}15,transparent);border-color:${themeColor}30;">
+                <div class="text-xs font-bold uppercase tracking-wider mb-3" style="color:${themeColor}"><i class="fa-solid fa-star mr-2"></i>Mejor Participación</div>
+                <div class="flex items-center gap-4">
+                    <div class="text-4xl">${best.rank===1?'🏆':best.rank===2?'🥈':best.rank===3?'🥉':'⭐'}</div>
+                    <div>
+                        <div class="text-lg font-black text-white ${best.color}">${best.label}</div>
+                        <div class="text-sm text-slate-400">${best.host} ${best.year}</div>
+                    </div>
+                </div>
+            </div>
+
+            ${titles.length ? `
+            <!-- Trofeos -->
+            <div class="mb-6 p-4 rounded-2xl bg-yellow-500/5 border border-yellow-500/20">
+                <div class="text-xs font-bold text-yellow-400 uppercase tracking-wider mb-3"><i class="fa-solid fa-trophy mr-2"></i>Trofeos Copa del Mundo</div>
+                <div class="flex flex-wrap gap-3">
+                    ${titles.map(t => `
+                    <div class="flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 px-3 py-2 rounded-xl">
+                        <span class="text-2xl">🏆</span>
+                        <div>
+                            <div class="text-sm font-black text-yellow-400">${t.year}</div>
+                            <div class="text-[10px] text-slate-400">${t.host}</div>
+                        </div>
+                    </div>`).join('')}
+                </div>
+            </div>` : ''}
+
+            <!-- Historial completo -->
+            <div>
+                <div class="text-xs font-bold text-primary-dyn uppercase tracking-wider mb-3"><i class="fa-solid fa-list mr-2"></i>Historial Mundialista</div>
+                <div class="space-y-1.5 max-h-64 overflow-y-auto pr-1">
+                    ${historial.slice().reverse().map(h => `
+                    <div class="flex items-center justify-between bg-slate-950/50 border border-slate-800/60 px-4 py-2.5 rounded-xl hover:border-slate-700 transition">
+                        <div class="flex items-center gap-3">
+                            <span class="arcade-font text-xs text-primary-dyn w-12">${h.year}</span>
+                            <span class="text-xs text-slate-400">${h.host}</span>
+                        </div>
+                        <span class="text-xs font-bold ${h.color}">${h.label}</span>
+                    </div>`).join('')}
+                </div>
+            </div>
+        </div>`;
+
+        document.getElementById('perfil-pais-content').innerHTML = html;
+        abrirModal('modalPerfilPais');
+        document.getElementById('resultadosBusqueda').classList.add('hidden');
+        document.getElementById('inputBuscarPais').value = '';
+    }
+
+    // ============================================================
+    // MUNDIAL 2026 — FIXTURE Y RESULTADOS EN VIVO
+    // ============================================================
+    const FD_DEFAULT_KEY = '1c2607df89da4755b2a0917c49a408a0';
+    let apiKey2026 = localStorage.getItem('fdApiKey') || FD_DEFAULT_KEY;
+    let liveInterval = null;
+    let countdownInterval = null;
+    let tab2026Activa = 'fixture';
+    let liveData = [];
+
+    function guardarApiKey() {
+        apiKey2026 = document.getElementById('inp-api-key').value.trim();
+        localStorage.setItem('fdApiKey', apiKey2026);
+        document.getElementById('api-key-alert').classList.add('hidden');
+        cargarFixture2026();
+    }
+
+    function abrirFixture2026() {
+        abrirModal('modal2026');
+        tab2026Activa = 'fixture';
+        const keyAlertEl = document.getElementById('api-key-alert');
+        // Solo mostrar alerta si el usuario borró la key manualmente Y no hay default
+        if (!apiKey2026 && keyAlertEl) keyAlertEl.classList.remove('hidden');
+        else if (keyAlertEl) keyAlertEl.classList.add('hidden');
+        cargarFixture2026();
+        iniciarLiveUpdate();
+    }
+
+    function cerrarFixture2026() {
+        cerrarModal('modal2026');
+        if (liveInterval) clearInterval(liveInterval);
+        if (countdownInterval) clearInterval(countdownInterval);
+        liveInterval = null; countdownInterval = null;
+    }
+
+    function cambiarTab2026(tab) {
+        tab2026Activa = tab;
+        ['fixture','grupos','eliminacion'].forEach(t => {
+            const btn = document.getElementById('tab2026-'+t);
+            if (btn) { btn.className = 'px-4 py-2.5 text-xs font-bold border-b-2 cursor-pointer transition ' + (t===tab ? 'border-red-400 text-red-400' : 'border-transparent text-slate-400 hover:text-white'); }
+        });
+        renderContent2026();
+    }
+
+    function toChileTime(utcStr) {
+        if (!utcStr) return '';
+        try {
+            const d = new Date(utcStr);
+            return d.toLocaleString('es-CL', { timeZone: 'America/Santiago', hour:'2-digit', minute:'2-digit', day:'2-digit', month:'short' });
+        } catch(e) { return utcStr; }
+    }
+
+    function toChileTimeHour(utcStr) {
+        if (!utcStr) return '';
+        try {
+            const d = new Date(utcStr);
+            return d.toLocaleString('es-CL', { timeZone: 'America/Santiago', hour:'2-digit', minute:'2-digit' });
+        } catch(e) { return ''; }
+    }
+
+    function toChileDateKey(utcStr) {
+        if (!utcStr) return '';
+        try {
+            const d = new Date(utcStr);
+            return d.toLocaleDateString('es-CL', { timeZone: 'America/Santiago', weekday:'long', day:'numeric', month:'long' });
+        } catch(e) { return ''; }
+    }
+
+    async function cargarFixture2026() {
+        const wc2026 = WORLDCUPS.find(w => w.year === 2026);
+        if (!wc2026) return;
+
+        let apiMatches = [];
+        if (apiKey2026) {
+            try {
+                const r = await fetch('https://api.football-data.org/v4/competitions/2000/matches?season=2026', {
+                    headers: { 'X-Auth-Token': apiKey2026 }
+                });
+                if (r.ok) {
+                    const d = await r.json();
+                    apiMatches = (d.matches || []).sort((a,b) => new Date(a.utcDate)-new Date(b.utcDate));
+                    liveData = apiMatches;
+                }
+            } catch(e) { console.warn('API error:', e); }
+        }
+        renderContent2026(apiMatches);
+    }
+
+    function renderContent2026(apiMatches) {
+        if (tab2026Activa === 'fixture') renderFixture(apiMatches || liveData);
+        else if (tab2026Activa === 'grupos') renderGrupos2026();
+        else renderEliminacion2026();
+    }
+
+    function renderFixture(apiMatches) {
+        const wc2026 = WORLDCUPS.find(w => w.year === 2026);
+        const container = document.getElementById('content2026');
+
+        let matchesToRender = apiMatches;
+
+        // Si NO tenemos datos de la API, formateamos los datos offline (JSON) para usar la misma interfaz visual
+        if (!matchesToRender || matchesToRender.length === 0) {
+            matchesToRender = [];
+            // Fecha ficticia inicial para el fixture offline (11 de Junio 2026, inicio del Mundial)
+            let fakeDate = new Date('2026-06-11T16:00:00Z');
+            if (wc2026) {
+                wc2026.groups.forEach(g => {
+                    (g.matches||[]).forEach(m => {
+                        const isFinished = /^\d+-\d+$/.test(m.score);
+                        let sHome = '';
+                        let sAway = '';
+                        if (isFinished) {
+                            const p = m.score.split('-');
+                            sHome = p[0]; sAway = p[1];
+                        }
+                        matchesToRender.push({
+                            homeTeam: { name: m.home },
+                            awayTeam: { name: m.away },
+                            score: { fullTime: { home: sHome, away: sAway }, halfTime: { home: '', away: '' } },
+                            status: isFinished ? 'FINISHED' : 'SCHEDULED',
+                            utcDate: new Date(fakeDate).toISOString(),
+                            minute: null
+                        });
+                        // Avanzar 4 horas para el siguiente partido ficticio
+                        fakeDate.setHours(fakeDate.getHours() + 4);
+                    });
+                });
+            }
+        }
+
+        if (matchesToRender && matchesToRender.length > 0) {
+            const byDay = {};
+            matchesToRender.forEach(m => {
+                const dk = toChileDateKey(m.utcDate);
+                if (!byDay[dk]) byDay[dk] = [];
+                byDay[dk].push(m);
+            });
+
+            let html = '';
+            Object.entries(byDay).forEach(([day, matches]) => {
+                html += `<div class="mb-6">
+                    <div class="text-xs font-black text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                        <div class="h-px flex-1 bg-slate-800"></div>
+                        <span class="capitalize">${day}</span>
+                        <div class="h-px flex-1 bg-slate-800"></div>
+                    </div>
+                    <div class="space-y-2">`;
+                matches.forEach(m => {
+                    const status = m.status;
+                    const isLive = status === 'IN_PLAY' || status === 'PAUSED';
+                    const isDone = status === 'FINISHED';
+                    const homeName = m.homeTeam?.shortName || m.homeTeam?.name || '?';
+                    const awayName = m.awayTeam?.shortName || m.awayTeam?.name || '?';
+                    const hora = toChileTimeHour(m.utcDate);
+                    const homeScore = m.score?.fullTime?.home ?? (m.score?.halfTime?.home ?? '');
+                    const awayScore = m.score?.fullTime?.away ?? (m.score?.halfTime?.away ?? '');
+                    const scoreStr = (homeScore !== '' && awayScore !== '') ? `${homeScore} - ${awayScore}` : hora;
+                    const minute = m.minute ? `${m.minute}'` : '';
+                    const cardClass = isLive ? 'match-live-card' : '';
+                    const scoreClass = isLive ? 'score-live arcade-score' : (isDone ? 'arcade-score' : 'text-slate-400 font-bold text-sm');
+
+                    html += `
+                    <div class="flex items-center justify-between bg-slate-950/60 border border-slate-800/60 p-3 rounded-xl hover:border-slate-700 transition ${cardClass} ${isDone ? '' : 'opacity-80'}">
+                        <div class="flex items-center gap-2 w-5/12 justify-end">
+                            <span class="text-xs font-bold text-slate-200 text-right truncate">${homeName}</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1 px-3 shrink-0">
+                            <div class="${scoreClass}">${isLive || isDone ? scoreStr : hora}</div>
+                            ${isLive ? `<span class="live-badge">EN VIVO ${minute}</span>` : ''}
+                            ${isDone ? '<span class="text-[9px] text-slate-500 font-bold uppercase">FIN</span>' : ''}
+                            ${!isLive && !isDone ? '<span class="text-[9px] text-slate-600 uppercase tracking-wider">Por Jugar</span>' : ''}
+                        </div>
+                        <div class="flex items-center gap-2 w-5/12">
+                            <span class="text-xs font-bold text-slate-200 text-left truncate">${awayName}</span>
+                        </div>
+                    </div>`;
+                });
+                html += `</div></div>`;
+            });
+            container.innerHTML = html;
+        } else {
+            container.innerHTML = '<p class="text-slate-500 text-center py-8">No hay partidos disponibles aún.</p>';
+        }
+    }
+
+    function renderGrupos2026() {
+        const wc2026 = WORLDCUPS.find(w => w.year === 2026);
+        const container = document.getElementById('content2026');
+        if (!wc2026 || !wc2026.groups.length) { container.innerHTML = '<p class="text-slate-500 text-center py-8">Sin datos de grupos.</p>'; return; }
+        let html = '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">';
+        wc2026.groups.forEach(g => {
+            const sorted = (g.teams||[]).slice().sort((a,b) => b.pts-a.pts || (b.gf-b.ga)-(a.gf-a.ga));
+            html += `<div class="bg-slate-950/60 border border-slate-800 rounded-2xl p-4">
+                <h3 class="text-xs font-black text-primary-dyn uppercase mb-3 border-b border-slate-800 pb-2">${g.name}</h3>
+                <table class="w-full text-[11px]"><thead><tr class="text-slate-500 border-b border-slate-800/60"><th class="text-left py-1">Equipo</th><th class="w-6 text-center">PTS</th><th class="w-6 text-center">PJ</th><th class="w-6 text-center">GF</th><th class="w-6 text-center">GC</th></tr></thead><tbody>`;
+            sorted.forEach((t,i) => {
+                const flag = FLAGS[t.name]||'';
+                html += `<tr class="border-b border-slate-900/40 ${i<2?'text-white':'text-slate-400'}">
+                    <td class="py-1.5 flex items-center gap-1.5"><span class="font-bold ${i<2?'text-primary-dyn':'text-slate-600'} w-3">${i+1}</span><span class="text-base">${flag}</span><span class="truncate">${t.name}</span>${i<2?'<span class="w-1.5 h-1.5 rounded-full bg-primary-dyn ml-1 shrink-0"></span>':''}</td>
+                    <td class="py-1.5 text-center font-bold ${i<2?'text-primary-dyn':''}">${t.pts}</td>
+                    <td class="py-1.5 text-center">${t.w+t.d+t.l}</td>
+                    <td class="py-1.5 text-center">${t.gf}</td>
+                    <td class="py-1.5 text-center">${t.ga}</td>
+                </tr>`;
+            });
+            html += `</tbody></table></div>`;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    function renderEliminacion2026() {
+        const wc2026 = WORLDCUPS.find(w => w.year === 2026);
+        const container = document.getElementById('content2026');
+        if (!wc2026) return;
+        let html = '<div class="flex gap-3 overflow-x-auto pb-4 items-start">';
+        wc2026.knockout.forEach(r => {
+            html += `<div class="shrink-0 w-44 bg-slate-900/60 border border-slate-800 rounded-2xl p-3">
+                <h3 class="text-[9px] font-black text-primary-dyn uppercase tracking-wider mb-2 border-b border-slate-800 pb-1.5 text-center">${r.round}</h3>
+                <div class="space-y-1.5">`;
+            r.matches.forEach(m => {
+                const fin = /^\d+-\d+$/.test(m.score);
+                const [s1,s2] = fin ? m.score.split('-').map(Number) : [null,null];
+                html += `<div class="bg-slate-950 rounded-lg p-1.5 text-[10px]">
+                    <div class="flex justify-between ${fin&&s1>s2?'text-white font-bold':'text-slate-400'} py-0.5">
+                        <span class="truncate">${FLAGS[m.home]||''} ${m.home}</span>
+                        <span class="font-bold ml-1">${s1!==null?s1:''}</span>
+                    </div>
+                    <div class="flex justify-between ${fin&&s2>s1?'text-white font-bold':'text-slate-400'} py-0.5">
+                        <span class="truncate">${FLAGS[m.away]||''} ${m.away}</span>
+                        <span class="font-bold ml-1">${s2!==null?s2:''}</span>
+                    </div>
+                </div>`;
+            });
+            html += `</div></div>`;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    function iniciarLiveUpdate() {
+        if (liveInterval) clearInterval(liveInterval);
+        if (countdownInterval) clearInterval(countdownInterval);
+        // Actualización silenciosa cada 10 segundos
+        liveInterval = setInterval(cargarFixture2026, 10000);
+    }
     </script>
 </body>
 </html>
