@@ -247,6 +247,7 @@
         <div class="absolute top-0 left-0 w-96 h-96 foco-izq pointer-events-none"></div>
         <div class="absolute top-20 right-0 w-[500px] h-[500px] foco-der pointer-events-none"></div>
 
+
         <!-- Marcador Principal / Header con luces LED temáticas -->
         <header class="bg-slate-900/90 backdrop-blur-md border-b-4 border-primary-dyn p-4 shadow-2xl sticky top-0 z-40">
             <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -261,6 +262,7 @@
                 </div>
                 <!-- Botones de herramientas extra -->
                 <div class="flex items-center gap-2 flex-wrap justify-center">
+
                     <button onclick="abrirEstadisticas()" id="btn-estadisticas" title="Estadísticas Globales" class="bg-slate-800 hover:bg-primary-dyn hover:text-slate-950 border border-primary-subtle-dyn text-primary-dyn font-bold py-2 px-4 rounded-full flex items-center gap-2 transition-all duration-300 shadow-lg cursor-pointer text-xs">
                         <i class="fa-solid fa-chart-bar"></i>
                         <span class="hidden sm:inline uppercase tracking-wider">Estadísticas</span>
@@ -279,17 +281,7 @@
                     </button>
                 </div>
             </div>
-            <!-- Banner de instalación PWA -->
-            <div id="pwa-install-banner" class="hidden mt-3 bg-primary-bg-dyn border border-primary-subtle-dyn rounded-xl px-4 py-2 flex items-center justify-between gap-3 text-xs max-w-lg mx-auto">
-                <div class="flex items-center gap-2 text-primary-dyn font-semibold">
-                    <i class="fa-solid fa-mobile-screen-button"></i>
-                    <span>Instala la app para acceso rápido y modo offline</span>
-                </div>
-                <div class="flex gap-2">
-                    <button id="pwa-install-btn" onclick="instalarPWA()" class="bg-primary-dyn text-slate-950 font-black px-3 py-1 rounded-lg cursor-pointer hover:opacity-90 transition">Instalar</button>
-                    <button onclick="document.getElementById('pwa-install-banner').classList.add('hidden')" class="text-slate-400 hover:text-white cursor-pointer px-2"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-            </div>
+
         </header>
 
         <!-- Cancha / Contenedor de la Tribuna -->
@@ -1159,16 +1151,18 @@
                         <span>Videojuego Oficial / Intro</span>
                         <i class="fa-solid fa-gamepad text-slate-400"></i>
                     </h3>
-                    <div class="flex items-center justify-between bg-slate-950/50 p-4 rounded-xl border border-slate-800 flex-wrap gap-4">
+                    <div class="flex flex-col bg-slate-950/50 p-4 rounded-xl border border-slate-800 gap-4">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-play text-primary-dyn text-xl"></i>
                             </div>
                             <p class="text-slate-200 font-medium">Intro Oficial del Videojuego</p>
                         </div>
-                        <a href="https://www.youtube.com/watch?v=${wc.culture.gameplay_youtube_id}" target="_blank" class="inline-flex items-center gap-2 px-6 py-2 bg-red-600/90 hover:bg-red-600 text-white rounded-lg text-sm font-semibold transition shadow-lg shadow-red-900/20 hover:-translate-y-0.5">
-                            <i class="fa-brands fa-youtube text-lg"></i> Ver en YouTube
-                        </a>
+                        <div class="w-full crt-video-container mt-2">
+                            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px;">
+                                <iframe src="https://www.youtube.com/embed/${wc.culture.gameplay_youtube_id}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
                     </div>
                 </div>
             ` : '';
@@ -1179,7 +1173,7 @@
                         <span>Canción Oficial</span>
                         <i class="fa-solid fa-music text-slate-400"></i>
                     </h3>
-                    <div class="flex items-center justify-between bg-slate-950/50 p-4 rounded-xl border border-slate-800 flex-wrap gap-4">
+                    <div class="flex flex-col bg-slate-950/50 p-4 rounded-xl border border-slate-800 gap-4">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-compact-disc text-primary-dyn text-xl"></i>
@@ -1187,9 +1181,11 @@
                             <p class="text-slate-200 font-medium">${wc.culture.song}</p>
                         </div>
                         ${wc.culture.youtube_id ? `
-                        <a href="https://www.youtube.com/watch?v=${wc.culture.youtube_id}" target="_blank" class="inline-flex items-center gap-2 px-6 py-2 bg-red-600/90 hover:bg-red-600 text-white rounded-lg text-sm font-semibold transition shadow-lg shadow-red-900/20 hover:-translate-y-0.5">
-                            <i class="fa-brands fa-youtube text-lg"></i> Escuchar en YouTube
-                        </a>
+                        <div class="w-full crt-video-container mt-2">
+                            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px;">
+                                <iframe src="https://www.youtube.com/embed/${wc.culture.youtube_id}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        </div>
                         ` : ''}
                     </div>
                 </div>
@@ -1253,12 +1249,26 @@
         function lanzarConfeti(anfitrion) {
             const theme = THEMES[anfitrion] || THEMES["Por definir"];
             if (typeof confetti === 'function') {
-                confetti({
-                    particleCount: 120,
-                    spread: 80,
-                    origin: { y: 0.65 },
-                    colors: [theme.primary, theme.hover, '#ffffff']
-                });
+                const duration = 3000;
+                const end = Date.now() + duration;
+                const colors = [theme.primary, theme.hover, '#ffffff'];
+
+                (function frame() {
+                    confetti({
+                        particleCount: 5,
+                        angle: 270,
+                        spread: 120,
+                        origin: { x: Math.random(), y: -0.1 },
+                        colors: colors,
+                        startVelocity: 25,
+                        gravity: 0.6,
+                        ticks: 300
+                    });
+
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
             }
         }
 
@@ -1775,10 +1785,18 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-slate-950/60 rounded-2xl p-4 border border-slate-800">
-                <h3 class="text-xs font-bold text-primary-dyn uppercase tracking-wider mb-3"><i class="fa-solid fa-earth-americas mr-2"></i>Mundiales Organizados por País</h3>
-                <div style="position: relative; height: 160px; max-height: 160px; width: 100%;">
-                    <canvas id="chartOrganizadores" style="max-height: 160px !important;"></canvas>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+                <div class="bg-slate-950/60 rounded-2xl p-4 border border-slate-800 flex flex-col">
+                    <h3 class="text-xs font-bold text-primary-dyn uppercase tracking-wider mb-3"><i class="fa-solid fa-earth-americas mr-2"></i>Ranking Anfitriones</h3>
+                    <div id="ranking-organizadores" class="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-2 max-h-[160px]">
+                        <!-- Relleno dinámico -->
+                    </div>
+                </div>
+                <div class="bg-slate-950/60 rounded-2xl p-4 border border-slate-800 flex flex-col">
+                    <h3 class="text-xs font-bold text-primary-dyn uppercase tracking-wider mb-3"><i class="fa-solid fa-medal mr-2"></i>Ranking de Campeones</h3>
+                    <div id="ranking-campeones" class="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-2 max-h-[160px]">
+                        <!-- Relleno dinámico -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -2003,17 +2021,13 @@
         </div>
     </div>
 
-    <!-- Botón flotante de sugerencias -->
-    <button onclick="abrirSugerencia()" title="Enviar sugerencia o reportar error"
-        class="fixed bottom-6 right-6 z-40 bg-primary-dyn text-slate-950 w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-xl hover:scale-110 transition-all duration-300 cursor-pointer"
-        style="box-shadow: 0 0 20px var(--color-primary-glow);">
-        <i class="fa-solid fa-comment-dots"></i>
-    </button>
 
     <!-- ============================================ -->
     <!-- JAVASCRIPT — NUEVAS CARACTERÍSTICAS          -->
     <!-- ============================================ -->
     <script>
+
+
     // ---- Helpers de Modal ----
     function cerrarModal(id) {
         document.getElementById(id).classList.add('hidden');
@@ -2108,7 +2122,11 @@
         const campeones = {};
         wcHistoricos.forEach(wc => {
             if (wc.champion && wc.champion !== 'Por definir') {
-                campeones[wc.champion] = (campeones[wc.champion] || 0) + 1;
+                let champ = wc.champion;
+                if (champ === 'Alemania Occidental') champ = 'Alemania';
+                if (!campeones[champ]) campeones[champ] = { count: 0, years: [] };
+                campeones[champ].count++;
+                campeones[champ].years.push(wc.year);
             }
         });
 
@@ -2116,8 +2134,25 @@
         const orgs = {};
         WORLDCUPS.forEach(wc => {
             const hosts = wc.host.split(/,|y /).map(h => h.trim()).filter(Boolean);
-            hosts.forEach(h => { orgs[h] = (orgs[h] || 0) + 1; });
+            hosts.forEach(h => { 
+                let org = h;
+                if (org === 'Alemania Occidental') org = 'Alemania';
+                orgs[org] = (orgs[org] || 0) + 1; 
+            });
         });
+
+        // Colores de países ganadores/importantes
+        const pColors = {
+            'Brasil': '#facc15', // yellow-400
+            'Alemania': '#f8fafc', // slate-50
+            'Italia': '#3b82f6', // blue-500
+            'Argentina': '#7dd3fc', // sky-300
+            'Francia': '#1e3a8a', // blue-900
+            'Uruguay': '#38bdf8', // sky-400
+            'Inglaterra': '#ef4444', // red-500
+            'España': '#dc2626' // red-600
+        };
+        const defaultColor = '#94a3b8';
 
         // Render KPIs
         const kpiData = [
@@ -2177,8 +2212,28 @@
         });
 
         // ---- Gráfico Campeonatos por País ----
-        const sortedCamp = Object.entries(campeones).sort((a, b) => b[1] - a[1]);
-        const campColors = ['#eab308','#94a3b8','#d97706','#10b981','#3b82f6','#8b5cf6','#ef4444','#f97316'];
+        const sortedCamp = Object.entries(campeones).sort((a, b) => b[1].count - a[1].count);
+        const campColors = sortedCamp.map(e => pColors[e[0]] || defaultColor);
+
+        // Actualizar Ranking Visual HTML
+        const rankingHtml = sortedCamp.map((e, idx) => `
+            <div class="flex flex-col bg-slate-900 border border-slate-800 rounded-lg overflow-hidden group cursor-pointer transition mb-2" onclick="this.querySelector('.years-panel').classList.toggle('hidden')">
+                <div class="flex items-center justify-between p-2 hover:bg-slate-800/50">
+                    <div class="flex items-center gap-3">
+                        <div class="w-1 h-6 rounded-full" style="background-color: ${pColors[e[0]] || defaultColor}"></div>
+                        <div class="font-bold text-white text-sm">${idx + 1}. ${e[0]}</div>
+                    </div>
+                    <div class="bg-amber-500/10 text-amber-500 font-black text-xs px-2 py-1 rounded border border-amber-500/20 shadow-sm flex items-center gap-1">
+                        ${e[1].count} <i class="fa-solid fa-trophy text-[10px] text-amber-400"></i>
+                    </div>
+                </div>
+                <div class="years-panel hidden bg-slate-950 px-3 py-2 text-xs border-t border-slate-800 flex flex-wrap gap-1">
+                    ${e[1].years.sort((a,b)=>a-b).map(y => `<span class="bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold">${y}</span>`).join('')}
+                </div>
+            </div>
+        `).join('');
+        const rankContainer = document.getElementById('ranking-campeones');
+        if (rankContainer) rankContainer.innerHTML = rankingHtml;
 
         const canvCamp = document.getElementById('chartCampeonatos');
         canvCamp.width = canvCamp.parentElement.offsetWidth || 400;
@@ -2189,8 +2244,8 @@
             data: {
                 labels: sortedCamp.map(e => e[0]),
                 datasets: [{
-                    data: sortedCamp.map(e => e[1]),
-                    backgroundColor: campColors.slice(0, sortedCamp.length),
+                    data: sortedCamp.map(e => e[1].count),
+                    backgroundColor: campColors,
                     borderColor: '#0f172a',
                     borderWidth: 3
                 }]
@@ -2205,36 +2260,21 @@
             }
         });
 
-        // ---- Gráfico Organizadores ----
+        // ---- Ranking Organizadores ----
         const sortedOrgs = Object.entries(orgs).sort((a, b) => b[1] - a[1]);
-        const canvOrg = document.getElementById('chartOrganizadores');
-        canvOrg.width = canvOrg.parentElement.offsetWidth || 800;
-        canvOrg.height = 160;
-        if (chartOrgInst) chartOrgInst.destroy();
-        chartOrgInst = new Chart(canvOrg, {
-            type: 'bar',
-            data: {
-                labels: sortedOrgs.map(e => e[0]),
-                datasets: [{
-                    label: 'Veces organizador',
-                    data: sortedOrgs.map(e => e[1]),
-                    backgroundColor: '#3b82f688',
-                    borderColor: '#3b82f6',
-                    borderWidth: 2,
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { stepSize: 1, font: { size: 9 } } },
-                    y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { font: { size: 9 } } }
-                }
-            }
-        });
+        const rankingOrgsHtml = sortedOrgs.map((e, idx) => `
+            <div class="flex items-center justify-between bg-slate-900 border border-slate-800 p-2 rounded-lg mb-2">
+                <div class="flex items-center gap-3">
+                    <div class="w-1 h-6 rounded-full" style="background-color: ${pColors[e[0]] || defaultColor}"></div>
+                    <div class="font-bold text-white text-sm">${idx + 1}. ${e[0]}</div>
+                </div>
+                <div class="bg-slate-800 text-slate-300 font-black text-xs px-2 py-1 rounded">
+                    ${e[1]} <i class="fa-solid fa-earth-americas ml-1 text-[10px]"></i>
+                </div>
+            </div>
+        `).join('');
+        const rankOrgContainer = document.getElementById('ranking-organizadores');
+        if (rankOrgContainer) rankOrgContainer.innerHTML = rankingOrgsHtml;
     }
 
     // ====================================================
@@ -2417,22 +2457,10 @@
     function inicializarBracket() {
         const wc2026 = WORLDCUPS.find(w => w.year === 2026);
         if (!wc2026) return [];
-
-        // Tomar la Ronda de 32 del JSON (32 equipos = 16 partidos)
-        // Formato 2026: 24 (1°/2° de grupos) + 8 mejores terceros = 32 clasificados
-        const ronda32 = wc2026.knockout[0]; // Ronda de 32 (Dieciseisavos en el JSON)
         const state = [];
 
-        // Ronda de 32: 16 partidos con slots del sorteo oficial
-        const r1Matches = ronda32.matches.map(m => ({
-            home: m.home, away: m.away, score: 'vs', winner: null
-        }));
-        state.push({ round: '🌐 Ronda de 32 (32 equipos)', matches: r1Matches });
-
-        // Rondas siguientes vacías
         const siguientes = [
-            { round: 'Octavos de Final (16)', count: 8 },
-            { round: 'Cuartos de Final', count: 4 },
+            { round: 'Cuartos de Final (8 mejores)', count: 4 },
             { round: 'Semifinales', count: 2 },
             { round: 'Gran Final', count: 1 }
         ];
@@ -2445,6 +2473,45 @@
         return state;
     }
 
+    function obtenerOpcionesEquipos(seleccionado) {
+        const wc2026 = WORLDCUPS.find(w => w.year === 2026);
+        let equipos = [];
+        if (wc2026 && wc2026.groups) {
+            wc2026.groups.forEach(g => g.teams.forEach(t => equipos.push(t.name)));
+        }
+        equipos.sort();
+        let html = `<option value="?" ${seleccionado === '?' ? 'selected' : ''}>Seleccionar...</option>`;
+        equipos.forEach(e => {
+            html += `<option value="${e}" ${seleccionado === e ? 'selected' : ''}>${e}</option>`;
+        });
+        return html;
+    }
+
+    function cambiarEquipoPronostico(rIdx, mIdx, side, value) {
+        const match = bracketState[rIdx].matches[mIdx];
+        match[side] = value;
+        if (match.winner) {
+            match.winner = null;
+            const nextRondaIdx = rIdx + 1;
+            if (nextRondaIdx < bracketState.length) {
+                const nextMatchIdx = Math.floor(mIdx / 2);
+                const isHome = mIdx % 2 === 0;
+                const nextMatch = bracketState[nextRondaIdx].matches[nextMatchIdx];
+                if (isHome) {
+                    if (nextMatch.winner === nextMatch.home) nextMatch.winner = null;
+                    nextMatch.home = '?';
+                    limpiarCascada(nextRondaIdx, nextMatchIdx, 'home');
+                } else {
+                    if (nextMatch.winner === nextMatch.away) nextMatch.winner = null;
+                    nextMatch.away = '?';
+                    limpiarCascada(nextRondaIdx, nextMatchIdx, 'away');
+                }
+            }
+        }
+        localStorage.setItem('pronostico2026', JSON.stringify(bracketState));
+        renderBracket();
+    }
+
     function renderBracket() {
         if (!bracketState || bracketState.length === 0) {
             bracketState = inicializarBracket();
@@ -2453,29 +2520,37 @@
         const container = document.getElementById('bracket-pronostico');
         if (!container) return;
 
-        let html = '';
+        let html = '<div class="flex gap-4 overflow-x-auto pb-4 pt-10 px-4 items-stretch min-h-[500px] bracket-container relative w-full justify-start md:justify-center">';
         bracketState.forEach((ronda, rIdx) => {
             html += `
-                <div class="flex flex-col shrink-0 w-44 md:w-48 bg-slate-900/30 border border-slate-800/60 rounded-2xl p-3 shadow-lg">
-                    <h3 class="text-[10px] font-black uppercase text-primary-dyn tracking-wider mb-2 text-center border-b border-slate-800 pb-2">${ronda.round}</h3>
-                    <div class="flex flex-col justify-around gap-2 flex-grow">
+                <div class="flex flex-col justify-around shrink-0 w-40 md:w-48 bg-transparent relative">
+                    <h3 class="text-[9px] md:text-[10px] font-black uppercase text-primary-dyn tracking-wider mb-2 text-center border-b border-slate-800 pb-1.5 absolute -top-8 w-full left-0">${ronda.round}</h3>
+                    <div class="flex flex-col justify-around h-full gap-2">
             `;
             ronda.matches.forEach((match, mIdx) => {
                 const homeIsWinner = match.winner === match.home && match.home !== '?';
                 const awayIsWinner = match.winner === match.away && match.away !== '?';
                 const canClick = match.home !== '?' && match.away !== '?';
 
+                let homeHtml = `<span class="truncate font-semibold ${homeIsWinner ? 'text-white' : 'text-slate-400'} pointer-events-none">${match.home}</span>`;
+                let awayHtml = `<span class="truncate font-semibold ${awayIsWinner ? 'text-white' : 'text-slate-400'} pointer-events-none">${match.away}</span>`;
+                
+                if (rIdx === 0) {
+                    homeHtml = `<select onchange="cambiarEquipoPronostico(${rIdx}, ${mIdx}, 'home', this.value)" class="bg-slate-950 text-white text-[10px] p-1 rounded border border-slate-700 w-full focus:border-primary-dyn focus:outline-none" onclick="event.stopPropagation()">${obtenerOpcionesEquipos(match.home)}</select>`;
+                    awayHtml = `<select onchange="cambiarEquipoPronostico(${rIdx}, ${mIdx}, 'away', this.value)" class="bg-slate-950 text-white text-[10px] p-1 rounded border border-slate-700 w-full focus:border-primary-dyn focus:outline-none" onclick="event.stopPropagation()">${obtenerOpcionesEquipos(match.away)}</select>`;
+                }
+
                 html += `
                     <div class="bg-slate-900 border border-slate-800 rounded-xl p-1.5 shadow-sm text-[11px] space-y-1">
                         <div onclick="${canClick ? `seleccionarGanador(${rIdx}, ${mIdx}, 'home')` : ''}"
                              class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg transition-all duration-200 ${canClick ? 'cursor-pointer hover:bg-primary-bg-dyn' : 'opacity-40 cursor-default'} ${homeIsWinner ? 'bg-primary-bg-dyn ring-1 ring-primary-dyn' : ''}">
                             ${homeIsWinner ? '<i class="fa-solid fa-check text-primary-dyn text-[9px] shrink-0"></i>' : `<span class="w-3 h-3 rounded-full border border-slate-700 shrink-0 ${canClick ? 'group-hover:border-primary-dyn' : ''}"></span>`}
-                            <span class="truncate font-semibold ${homeIsWinner ? 'text-white' : 'text-slate-400'}">${match.home}</span>
+                            ${homeHtml}
                         </div>
                         <div onclick="${canClick ? `seleccionarGanador(${rIdx}, ${mIdx}, 'away')` : ''}"
                              class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg transition-all duration-200 ${canClick ? 'cursor-pointer hover:bg-primary-bg-dyn' : 'opacity-40 cursor-default'} ${awayIsWinner ? 'bg-primary-bg-dyn ring-1 ring-primary-dyn' : ''}">
                             ${awayIsWinner ? '<i class="fa-solid fa-check text-primary-dyn text-[9px] shrink-0"></i>' : `<span class="w-3 h-3 rounded-full border border-slate-700 shrink-0"></span>`}
-                            <span class="truncate font-semibold ${awayIsWinner ? 'text-white' : 'text-slate-400'}">${match.away}</span>
+                            ${awayHtml}
                         </div>
                     </div>
                 `;
@@ -2487,14 +2562,19 @@
         const finalMatch = bracketState[bracketState.length - 1]?.matches[0];
         const campeon = finalMatch?.winner || 'Por definir';
         html += `
-            <div class="flex flex-col justify-center items-center shrink-0 w-44 md:w-48 bg-gradient-to-b from-slate-900 to-slate-950 border-2 border-yellow-500/30 rounded-2xl p-4 text-center self-center shadow-2xl h-[200px] hover:border-yellow-500/50 transition-all duration-300">
-                <div class="w-14 h-14 bg-yellow-500/10 rounded-full flex items-center justify-center border border-yellow-500/20 mb-3 hover:scale-110 transition">
-                    <i class="fa-solid fa-trophy text-2xl text-yellow-400 ${campeon !== 'Por definir' ? 'animate-pulse' : ''}"></i>
+            <div class="flex flex-col justify-center shrink-0 w-40 md:w-48 bg-transparent relative">
+                <h3 class="text-[9px] md:text-[10px] font-black uppercase text-yellow-500 tracking-wider mb-2 text-center border-b border-slate-800 pb-1.5 absolute -top-8 w-full left-0">Campeón</h3>
+                <div class="flex flex-col justify-center h-full">
+                    <div class="flex flex-col justify-center items-center bg-gradient-to-b from-slate-900 to-slate-950 border-2 border-yellow-500/30 rounded-2xl p-4 text-center shadow-2xl h-[160px] hover:border-yellow-500/50 transition-all duration-300 z-10">
+                        <div class="w-14 h-14 bg-yellow-500/10 rounded-full flex items-center justify-center border border-yellow-500/20 mb-3 hover:scale-110 transition">
+                            <i class="fa-solid fa-trophy text-2xl text-yellow-400 ${campeon !== 'Por definir' ? 'animate-pulse' : ''}"></i>
+                        </div>
+                        <span class="bg-yellow-950/70 text-yellow-400 border border-yellow-500/30 font-extrabold px-2 py-0.5 rounded-full text-[8px] uppercase tracking-widest mb-2">Mi Campeón</span>
+                        <h3 class="text-sm font-black text-white leading-tight tracking-wide uppercase truncate max-w-full">${campeon}</h3>
+                    </div>
                 </div>
-                <span class="bg-yellow-950/70 text-yellow-400 border border-yellow-500/30 font-extrabold px-2 py-0.5 rounded-full text-[8px] uppercase tracking-widest mb-2">Mi Campeón</span>
-                <h3 class="text-sm font-black text-white leading-tight tracking-wide uppercase truncate max-w-full">${campeon}</h3>
             </div>
-        `;
+        </div>`;
 
         container.innerHTML = html;
     }
@@ -2534,7 +2614,7 @@
 
         // Confeti si se elige el campeón final
         if (rondaIdx === bracketState.length - 1 && typeof confetti === 'function') {
-            confetti({ particleCount: 80, spread: 70, origin: { y: 0.5 } });
+            lanzarConfeti(mundialSeleccionado ? mundialSeleccionado.host : "Por definir");
         }
     }
 
@@ -2842,7 +2922,7 @@
     // ============================================================
     // MUNDIAL 2026 — FIXTURE Y RESULTADOS EN VIVO
     // ============================================================
-    const FD_DEFAULT_KEY = '1c2607df89da4755b2a0917c49a408a0';
+    const FD_DEFAULT_KEY = 'd17aca3e54a64d77be9d5fc23572f12f';
     let apiKey2026 = localStorage.getItem('fdApiKey') || FD_DEFAULT_KEY;
     let liveInterval = null;
     let countdownInterval = null;
@@ -2942,31 +3022,79 @@
         // Si NO tenemos datos de la API, formateamos los datos offline (JSON) para usar la misma interfaz visual
         if (!matchesToRender || matchesToRender.length === 0) {
             matchesToRender = [];
-            // Fecha ficticia inicial para el fixture offline (11 de Junio 2026, inicio del Mundial)
-            let fakeDate = new Date('2026-06-11T16:00:00Z');
             if (wc2026) {
-                wc2026.groups.forEach(g => {
-                    (g.matches||[]).forEach(m => {
-                        const isFinished = /^\d+-\d+$/.test(m.score);
-                        let sHome = '';
-                        let sAway = '';
-                        if (isFinished) {
-                            const p = m.score.split('-');
-                            sHome = p[0]; sAway = p[1];
-                        }
-                        matchesToRender.push({
-                            homeTeam: { name: m.home },
-                            awayTeam: { name: m.away },
-                            score: { fullTime: { home: sHome, away: sAway }, halfTime: { home: '', away: '' } },
-                            status: isFinished ? 'FINISHED' : 'SCHEDULED',
-                            utcDate: new Date(fakeDate).toISOString(),
-                            minute: null
+                let matchCount = 0;
+                const totalMatchdays = 3;
+                const now = new Date();
+                
+                for (let md = 0; md < totalMatchdays; md++) {
+                    wc2026.groups.forEach(g => {
+                        const groupMatches = g.matches || [];
+                        const m1 = groupMatches[md * 2];
+                        const m2 = groupMatches[md * 2 + 1];
+                        
+                        [m1, m2].forEach(m => {
+                            if (!m) return;
+                            const isFinished = /^\d+-\d+$/.test(m.score);
+                            let sHome = ''; let sAway = '';
+                            if (isFinished) {
+                                const p = m.score.split('-');
+                                sHome = parseInt(p[0]); sAway = parseInt(p[1]);
+                            } else {
+                                sHome = 0; sAway = 0;
+                            }
+                            
+                            // DETERMINAR LA FECHA EXACTA
+                            let mDate;
+                            if (matchCount === 0) {
+                                mDate = new Date('2026-06-11T19:00:00Z'); // 15:00 Chile (Inauguración México)
+                            } else if (matchCount === 1) {
+                                mDate = new Date('2026-06-11T22:00:00Z'); // 18:00 Chile
+                            } else {
+                                let d = new Date('2026-06-12T16:00:00Z');
+                                d.setUTCHours(d.getUTCHours() + (matchCount - 2) * 3);
+                                mDate = d;
+                            }
+                            
+                            let mStatus = isFinished ? 'FINISHED' : 'SCHEDULED';
+                            let mMin = null;
+                            
+                            // Lógica de simulación IN_PLAY en tiempo real
+                            if (!isFinished) {
+                                const diffMs = now.getTime() - mDate.getTime();
+                                const diffMin = Math.floor(diffMs / 60000);
+                                if (diffMin >= 0 && diffMin <= 110) {
+                                    mStatus = 'IN_PLAY';
+                                    mMin = diffMin > 45 && diffMin < 60 ? 'MT' : (diffMin >= 60 ? diffMin - 15 : diffMin);
+                                    
+                                    // SIMULACIÓN CANCELADA A PETICIÓN DEL USUARIO
+                                    sHome = ''; 
+                                    sAway = ''; 
+                                } else if (diffMin > 110) {
+                                    mStatus = 'FINISHED';
+                                    sHome = '';
+                                    sAway = ''; // ESPERANDO RESULTADO EXACTO MANUAL
+                                } else {
+                                    sHome = ''; sAway = ''; // Aún no empieza
+                                }
+                            }
+
+                            matchesToRender.push({
+                                homeTeam: { name: m.home },
+                                awayTeam: { name: m.away },
+                                score: { fullTime: { home: sHome, away: sAway }, halfTime: { home: '', away: '' } },
+                                status: mStatus,
+                                utcDate: mDate.toISOString(),
+                                minute: mMin,
+                                groupName: g.name
+                            });
+                            
+                            matchCount++;
                         });
-                        // Avanzar 4 horas para el siguiente partido ficticio
-                        fakeDate.setHours(fakeDate.getHours() + 4);
                     });
-                });
+                }
             }
+            liveData = matchesToRender; // Habilitar la data para contador y tablas
         }
 
         if (matchesToRender && matchesToRender.length > 0) {
@@ -2990,30 +3118,43 @@
                     const status = m.status;
                     const isLive = status === 'IN_PLAY' || status === 'PAUSED';
                     const isDone = status === 'FINISHED';
-                    const homeName = m.homeTeam?.shortName || m.homeTeam?.name || '?';
-                    const awayName = m.awayTeam?.shortName || m.awayTeam?.name || '?';
+                    const homeName = m.homeTeam?.name || m.homeTeam?.shortName || '?';
+                    const awayName = m.awayTeam?.name || m.awayTeam?.shortName || '?';
                     const hora = toChileTimeHour(m.utcDate);
                     const homeScore = m.score?.fullTime?.home ?? (m.score?.halfTime?.home ?? '');
                     const awayScore = m.score?.fullTime?.away ?? (m.score?.halfTime?.away ?? '');
-                    const scoreStr = (homeScore !== '' && awayScore !== '') ? `${homeScore} - ${awayScore}` : hora;
+                    let scoreStr = (homeScore !== '' && awayScore !== '') ? `${homeScore} - ${awayScore}` : hora;
+                    if (isLive && (homeScore === '' || awayScore === '')) scoreStr = 'vs';
                     const minute = m.minute ? `${m.minute}'` : '';
                     const cardClass = isLive ? 'match-live-card' : '';
                     const scoreClass = isLive ? 'score-live arcade-score' : (isDone ? 'arcade-score' : 'text-slate-400 font-bold text-sm');
 
+                    // Escape de comillas para los nombres
+                    const safeHome = homeName.replace(/'/g, "\\'");
+                    const safeAway = awayName.replace(/'/g, "\\'");
+                    
+                    const apiGroup = m.group ? m.group.replace('GROUP_', 'Grupo ') : '';
+                    const groupStr = m.groupName ? (m.groupName.toLowerCase().startsWith('grupo') ? m.groupName : `Grupo ${m.groupName}`) : apiGroup;
+                    const groupBadge = groupStr ? `<div class="text-[9px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">${groupStr}</div>` : '';
+
                     html += `
-                    <div class="flex items-center justify-between bg-slate-950/60 border border-slate-800/60 p-3 rounded-xl hover:border-slate-700 transition ${cardClass} ${isDone ? '' : 'opacity-80'}">
-                        <div class="flex items-center gap-2 w-5/12 justify-end">
-                            <span class="text-xs font-bold text-slate-200 text-right truncate">${homeName}</span>
+                    <div onclick="toggleProbabilidades(this, '${safeHome}', '${safeAway}')" class="flex flex-col bg-slate-950/60 border border-slate-800/60 p-3 rounded-xl hover:border-slate-700 transition ${cardClass} cursor-pointer relative overflow-hidden group">
+                        <div class="flex items-center justify-between w-full ${isDone ? '' : 'opacity-80'}">
+                            <div class="flex items-center gap-2 w-5/12 justify-end">
+                                <span class="text-xs font-bold text-slate-200 text-right truncate group-hover:text-primary-dyn transition">${homeName}</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-1 px-3 shrink-0">
+                                <div class="${scoreClass}">${isLive || isDone ? scoreStr : hora}</div>
+                                ${groupBadge}
+                                ${isLive ? `<span class="live-badge">EN VIVO ${minute}</span>` : ''}
+                                ${isDone ? '<span class="text-[9px] text-slate-500 font-bold uppercase">FIN</span>' : ''}
+                                ${!isLive && !isDone ? '<span class="text-[9px] text-slate-600 uppercase tracking-wider">Por Jugar</span>' : ''}
+                            </div>
+                            <div class="flex items-center gap-2 w-5/12">
+                                <span class="text-xs font-bold text-slate-200 text-left truncate group-hover:text-primary-dyn transition">${awayName}</span>
+                            </div>
                         </div>
-                        <div class="flex flex-col items-center gap-1 px-3 shrink-0">
-                            <div class="${scoreClass}">${isLive || isDone ? scoreStr : hora}</div>
-                            ${isLive ? `<span class="live-badge">EN VIVO ${minute}</span>` : ''}
-                            ${isDone ? '<span class="text-[9px] text-slate-500 font-bold uppercase">FIN</span>' : ''}
-                            ${!isLive && !isDone ? '<span class="text-[9px] text-slate-600 uppercase tracking-wider">Por Jugar</span>' : ''}
-                        </div>
-                        <div class="flex items-center gap-2 w-5/12">
-                            <span class="text-xs font-bold text-slate-200 text-left truncate">${awayName}</span>
-                        </div>
+                        <div class="probabilidades-container hidden mt-3 pt-3 border-t border-slate-800 w-full"></div>
                     </div>`;
                 });
                 html += `</div></div>`;
@@ -3024,10 +3165,145 @@
         }
     }
 
+    function toggleProbabilidades(element, t1, t2) {
+        const container = element.querySelector('.probabilidades-container');
+        if (!container.classList.contains('hidden')) {
+            container.classList.add('hidden');
+            return;
+        }
+
+        const t1l = normalizarNombre(t1).toLowerCase();
+        const t2l = normalizarNombre(t2).toLowerCase();
+        
+        let matchesFound = [];
+
+        WORLDCUPS.forEach(wc => {
+            if (wc.groups) {
+                wc.groups.forEach(gr => {
+                    if (gr.matches) {
+                        gr.matches.forEach(m => {
+                            const hl = normalizarNombre(m.home || '').toLowerCase();
+                            const al = normalizarNombre(m.away || '').toLowerCase();
+                            if ((hl === t1l && al === t2l) || (hl === t2l && al === t1l)) {
+                                matchesFound.push({
+                                    year: wc.year,
+                                    stage: 'Fase de Grupos',
+                                    home: m.home,
+                                    away: m.away,
+                                    score: m.score
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            if (wc.knockout) {
+                wc.knockout.forEach(r => {
+                    if (r.matches) {
+                        r.matches.forEach(m => {
+                            const hl = normalizarNombre(m.home || '').toLowerCase();
+                            const al = normalizarNombre(m.away || '').toLowerCase();
+                            if ((hl === t1l && al === t2l) || (hl === t2l && al === t1l)) {
+                                matchesFound.push({
+                                    year: wc.year,
+                                    stage: r.round || 'Fase Final',
+                                    home: m.home,
+                                    away: m.away,
+                                    score: m.score
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        let html = '';
+        if (matchesFound.length > 0) {
+            html += `<div class="text-[9px] text-slate-500 font-bold uppercase tracking-widest text-center mb-3">Historial en Mundiales (Oficiales)</div>`;
+            html += `<div class="space-y-2 max-h-32 overflow-y-auto pr-1 custom-scrollbar">`;
+            
+            matchesFound.sort((a,b) => b.year - a.year);
+            
+            matchesFound.forEach(m => {
+                html += `
+                    <div class="flex items-center justify-between bg-slate-900 border border-slate-700/50 rounded p-1.5 hover:border-slate-500 transition">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] text-primary-dyn font-black w-8 text-center">${m.year}</span>
+                            <span class="text-[9px] text-slate-400 uppercase w-20 truncate">${m.stage}</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-1 justify-end">
+                            <span class="text-[10px] text-slate-300 font-bold truncate max-w-[60px] text-right">${m.home}</span>
+                            <span class="text-[10px] font-black text-white bg-slate-800 px-1.5 py-0.5 rounded shadow-inner">${m.score}</span>
+                            <span class="text-[10px] text-slate-300 font-bold truncate max-w-[60px] text-left">${m.away}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+        } else {
+            html += `
+                <div class="flex flex-col items-center justify-center py-2 opacity-60">
+                    <i class="fa-solid fa-handshake-slash text-slate-500 text-lg mb-1"></i>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase text-center mt-1">Estos equipos nunca se han enfrentado en un Mundial</p>
+                </div>
+            `;
+        }
+
+        container.innerHTML = html;
+        container.classList.remove('hidden');
+    }
+
+    function recalcularGruposEnVivo(wc2026) {
+        if (!liveData || liveData.length === 0) return;
+        
+        wc2026.groups.forEach(g => {
+            g.teams.forEach(t => { t.pts = 0; t.w = 0; t.d = 0; t.l = 0; t.gf = 0; t.ga = 0; });
+        });
+        
+        liveData.forEach(m => {
+            if (m.status !== 'FINISHED') return; // SOLO OTORGAR PUNTOS SI ESTÁ TERMINADO
+            const hName = m.homeTeam?.name || m.homeTeam?.shortName;
+            const aName = m.awayTeam?.name || m.awayTeam?.shortName;
+            let hScore = m.score?.fullTime?.home ?? m.score?.halfTime?.home;
+            let aScore = m.score?.fullTime?.away ?? m.score?.halfTime?.away;
+            
+            if (hScore === undefined || hScore === null || hScore === '') return;
+            if (aScore === undefined || aScore === null || aScore === '') return;
+            
+            hScore = parseInt(hScore);
+            aScore = parseInt(aScore);
+            
+            wc2026.groups.forEach(g => {
+                const tHome = g.teams.find(t => t.name === hName);
+                const tAway = g.teams.find(t => t.name === aName);
+                if (tHome && tAway) {
+                    tHome.gf += hScore; tHome.ga += aScore;
+                    tAway.gf += aScore; tAway.ga += hScore;
+                    if (hScore > aScore) { tHome.w++; tHome.pts += 3; tAway.l++; }
+                    else if (aScore > hScore) { tAway.w++; tAway.pts += 3; tHome.l++; }
+                    else { tHome.d++; tAway.d++; tHome.pts++; tAway.pts++; }
+                }
+            });
+        });
+    }
+
     function renderGrupos2026() {
         const wc2026 = WORLDCUPS.find(w => w.year === 2026);
         const container = document.getElementById('content2026');
         if (!wc2026 || !wc2026.groups.length) { container.innerHTML = '<p class="text-slate-500 text-center py-8">Sin datos de grupos.</p>'; return; }
+        
+        recalcularGruposEnVivo(wc2026);
+        const liveTeams = new Set();
+        if (liveData) {
+            liveData.forEach(m => {
+                if (m.status === 'IN_PLAY' || m.status === 'PAUSED') {
+                    if (m.homeTeam) liveTeams.add(m.homeTeam.name || m.homeTeam.shortName);
+                    if (m.awayTeam) liveTeams.add(m.awayTeam.name || m.awayTeam.shortName);
+                }
+            });
+        }
+        
         let html = '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">';
         wc2026.groups.forEach(g => {
             const sorted = (g.teams||[]).slice().sort((a,b) => b.pts-a.pts || (b.gf-b.ga)-(a.gf-a.ga));
@@ -3035,9 +3311,12 @@
                 <h3 class="text-xs font-black text-primary-dyn uppercase mb-3 border-b border-slate-800 pb-2">${g.name}</h3>
                 <table class="w-full text-[11px]"><thead><tr class="text-slate-500 border-b border-slate-800/60"><th class="text-left py-1">Equipo</th><th class="w-6 text-center">PTS</th><th class="w-6 text-center">PJ</th><th class="w-6 text-center">GF</th><th class="w-6 text-center">GC</th></tr></thead><tbody>`;
             sorted.forEach((t,i) => {
-                const flag = FLAGS[t.name]||'';
+                const isPlaying = liveTeams.has(t.name);
+                const blinkHtml = isPlaying ? `<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0 shadow-[0_0_8px_rgba(34,197,94,0.8)]" title="Jugando en vivo"></span>` : '';
+                const classifHtml = i<2 ? `<span class="w-1.5 h-1.5 rounded-full bg-primary-dyn shrink-0" title="Zona de Clasificación"></span>` : '';
+                
                 html += `<tr class="border-b border-slate-900/40 ${i<2?'text-white':'text-slate-400'}">
-                    <td class="py-1.5 flex items-center gap-1.5"><span class="font-bold ${i<2?'text-primary-dyn':'text-slate-600'} w-3">${i+1}</span><span class="text-base">${flag}</span><span class="truncate">${t.name}</span>${i<2?'<span class="w-1.5 h-1.5 rounded-full bg-primary-dyn ml-1 shrink-0"></span>':''}</td>
+                    <td class="py-1.5 flex items-center gap-1.5"><span class="font-bold ${i<2?'text-primary-dyn':'text-slate-600'} w-3">${i+1}</span><span class="truncate">${t.name}</span><div class="ml-1 flex items-center gap-1">${classifHtml}${blinkHtml}</div></td>
                     <td class="py-1.5 text-center font-bold ${i<2?'text-primary-dyn':''}">${t.pts}</td>
                     <td class="py-1.5 text-center">${t.w+t.d+t.l}</td>
                     <td class="py-1.5 text-center">${t.gf}</td>
@@ -3054,21 +3333,56 @@
         const wc2026 = WORLDCUPS.find(w => w.year === 2026);
         const container = document.getElementById('content2026');
         if (!wc2026) return;
-        let html = '<div class="flex gap-3 overflow-x-auto pb-4 items-start">';
-        wc2026.knockout.forEach(r => {
-            html += `<div class="shrink-0 w-44 bg-slate-900/60 border border-slate-800 rounded-2xl p-3">
-                <h3 class="text-[9px] font-black text-primary-dyn uppercase tracking-wider mb-2 border-b border-slate-800 pb-1.5 text-center">${r.round}</h3>
-                <div class="space-y-1.5">`;
+        
+        recalcularGruposEnVivo(wc2026);
+        const posiciones = {};
+        const terceros = [];
+        wc2026.groups.forEach(g => {
+            const sorted = (g.teams||[]).slice().sort((a,b) => b.pts-a.pts || (b.gf-b.ga)-(a.gf-a.ga));
+            const letra = g.name.replace('Grupo ', '').trim();
+            if (sorted[0] && (sorted[0].w+sorted[0].d+sorted[0].l > 0)) posiciones[`1º Grupo ${letra}`] = sorted[0].name;
+            if (sorted[1] && (sorted[1].w+sorted[1].d+sorted[1].l > 0)) posiciones[`2º Grupo ${letra}`] = sorted[1].name;
+            if (sorted[2] && (sorted[2].w+sorted[2].d+sorted[2].l > 0)) terceros.push({ ...sorted[2], grupo: letra });
+        });
+
+        terceros.sort((a,b) => b.pts-a.pts || (b.gf-b.ga)-(a.gf-a.ga));
+        const mejoresTerceros = terceros.slice(0, 8);
+        
+        const resolverTercero = (str) => {
+            if (str.startsWith('3º Grupo ')) {
+                const letras = str.replace('3º Grupo ', '').trim();
+                const posibles = letras.split('/');
+                for (let l of posibles) {
+                    const t = mejoresTerceros.find(t => t.grupo === l && !t.usado);
+                    if (t) {
+                        t.usado = true;
+                        return t.name;
+                    }
+                }
+            }
+            return str;
+        };
+
+        let html = '<div class="flex gap-4 overflow-x-auto pb-4 pt-10 px-4 items-stretch min-h-[850px] md:min-h-[700px] bracket-container relative">';
+        wc2026.knockout.forEach((r, rIdx) => {
+            // En móviles, la primera ronda (16 partidos) es más estrecha para caber mejor, luego se ensancha
+            const colWidth = rIdx === 0 ? 'w-32 md:w-44' : 'w-40 md:w-48';
+            
+            html += `<div class="flex flex-col justify-around shrink-0 ${colWidth} bg-transparent relative">
+                <h3 class="text-[9px] md:text-[10px] font-black text-primary-dyn uppercase tracking-wider mb-2 border-b border-slate-800 pb-1.5 text-center absolute -top-8 w-full left-0">${r.round}</h3>
+                <div class="flex flex-col justify-around h-full gap-2">`;
             r.matches.forEach(m => {
                 const fin = /^\d+-\d+$/.test(m.score);
                 const [s1,s2] = fin ? m.score.split('-').map(Number) : [null,null];
-                html += `<div class="bg-slate-950 rounded-lg p-1.5 text-[10px]">
+                let homeTeam = posiciones[m.home] || resolverTercero(m.home) || m.home;
+                let awayTeam = posiciones[m.away] || resolverTercero(m.away) || m.away;
+                html += `<div class="bg-slate-950/90 border border-slate-800/80 rounded-lg p-1.5 text-[9px] md:text-[10px] shadow-sm relative z-10 hover:border-primary-dyn transition-colors">
                     <div class="flex justify-between ${fin&&s1>s2?'text-white font-bold':'text-slate-400'} py-0.5">
-                        <span class="truncate">${FLAGS[m.home]||''} ${m.home}</span>
+                        <span class="truncate">${homeTeam}</span>
                         <span class="font-bold ml-1">${s1!==null?s1:''}</span>
                     </div>
                     <div class="flex justify-between ${fin&&s2>s1?'text-white font-bold':'text-slate-400'} py-0.5">
-                        <span class="truncate">${FLAGS[m.away]||''} ${m.away}</span>
+                        <span class="truncate">${awayTeam}</span>
                         <span class="font-bold ml-1">${s2!==null?s2:''}</span>
                     </div>
                 </div>`;
@@ -3077,13 +3391,87 @@
         });
         html += '</div>';
         container.innerHTML = html;
+        
+        // Auto-scroll al final o medio dependiendo del progreso (Ronda de 16 en celulares)
+        setTimeout(() => {
+            const scrollContainer = container.querySelector('.bracket-container');
+            if (scrollContainer && window.innerWidth < 768) {
+                // Si la ronda 1 (Ronda de 16) tiene partidos, hacer scroll
+                // Por defecto, centrar un poco el scroll
+                scrollContainer.scrollLeft = 80;
+            }
+        }, 100);
     }
 
     function iniciarLiveUpdate() {
         if (liveInterval) clearInterval(liveInterval);
         if (countdownInterval) clearInterval(countdownInterval);
+        
         // Actualización silenciosa cada 10 segundos
         liveInterval = setInterval(cargarFixture2026, 10000);
+        
+        // Contador en vivo
+        countdownInterval = setInterval(actualizarContador, 1000);
+        actualizarContador();
+    }
+
+    function actualizarContador() {
+        const c = document.getElementById('live-countdown');
+        if (!c) return;
+        
+        // liveData contiene los partidos del Fixture (reales o simulados)
+        if (!liveData || liveData.length === 0) {
+            c.classList.add('hidden');
+            return;
+        }
+
+        const now = new Date();
+        const proximos = liveData.filter(m => m.status === 'SCHEDULED' && new Date(m.utcDate) > now);
+        const enJuego = liveData.filter(m => m.status === 'IN_PLAY' || m.status === 'PAUSED');
+
+        c.classList.remove('hidden');
+
+        if (enJuego.length > 0) {
+            c.innerHTML = `
+                <div class="text-[10px] text-red-400 font-bold uppercase blink-text mb-0.5">Mundial en Curso</div>
+                <div class="flex items-center gap-2 justify-end">
+                    <span class="bg-red-500/20 border border-red-500/30 text-red-400 font-black px-2 py-1 rounded text-xs">
+                        <i class="fa-solid fa-circle text-[8px] mr-1 animate-pulse"></i> ${enJuego.length} PARTIDO${enJuego.length > 1 ? 'S' : ''} EN VIVO
+                    </span>
+                </div>
+            `;
+            return;
+        }
+
+        if (proximos.length > 0) {
+            const nextMatch = proximos[0]; // Ya viene ordenado por utcDate
+            const nextTime = new Date(nextMatch.utcDate).getTime();
+            const diff = nextTime - now.getTime();
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            let timeStr = '';
+            if (days > 0) timeStr += `${days} día${days > 1 ? 's' : ''} `;
+            if (hours > 0 || days > 0) timeStr += `${hours} hr${hours !== 1 ? 's' : ''} `;
+            timeStr += `${minutes} min `;
+            timeStr += `${seconds} seg`;
+
+            c.innerHTML = `
+                <div class="text-[9px] text-slate-400 font-bold uppercase mb-1 tracking-wider text-right">Próximo Partido en:</div>
+                <div class="flex items-center gap-2 justify-end">
+                    <span class="bg-slate-900 border border-slate-700/50 text-slate-200 font-black px-2 py-1.5 rounded text-xs shadow-inner">
+                        <i class="fa-solid fa-clock text-[10px] mr-1 text-primary-dyn"></i> ${timeStr.trim()}
+                    </span>
+                </div>
+            `;
+        } else {
+            c.innerHTML = `
+                <div class="text-[10px] text-slate-500 font-bold uppercase">Sin partidos programados</div>
+            `;
+        }
     }
     </script>
 </body>
