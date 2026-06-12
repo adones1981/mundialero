@@ -3437,8 +3437,8 @@
         wc2026.groups.forEach(g => {
             const sorted = (g.teams||[]).slice().sort((a,b) => b.pts-a.pts || (b.gf-b.ga)-(a.gf-a.ga));
             const letra = g.name.replace('Grupo ', '').trim();
-            if (sorted[0] && (sorted[0].w+sorted[0].d+sorted[0].l > 0)) posiciones[`1º Grupo ${letra}`] = sorted[0].name;
-            if (sorted[1] && (sorted[1].w+sorted[1].d+sorted[1].l > 0)) posiciones[`2º Grupo ${letra}`] = sorted[1].name;
+            if (sorted[0] && (sorted[0].w+sorted[0].d+sorted[0].l > 0)) posiciones[`1° Grupo ${letra}`] = sorted[0].name;
+            if (sorted[1] && (sorted[1].w+sorted[1].d+sorted[1].l > 0)) posiciones[`2° Grupo ${letra}`] = sorted[1].name;
             if (sorted[2] && (sorted[2].w+sorted[2].d+sorted[2].l > 0)) terceros.push({ ...sorted[2], grupo: letra });
         });
 
@@ -3446,8 +3446,8 @@
         const mejoresTerceros = terceros.slice(0, 8);
         
         const resolverTercero = (str) => {
-            if (str.startsWith('3º Grupo ')) {
-                const letras = str.replace('3º Grupo ', '').trim();
+            if (str.startsWith('3° Grupo ')) {
+                const letras = str.replace('3° Grupo ', '').trim();
                 const posibles = letras.split('/');
                 for (let l of posibles) {
                     const t = mejoresTerceros.find(t => t.grupo === l && !t.usado);
@@ -3468,11 +3468,46 @@
             html += `<div class="flex flex-col justify-around shrink-0 ${colWidth} bg-transparent relative">
                 <h3 class="text-[9px] md:text-[10px] font-black text-primary-dyn uppercase tracking-wider mb-2 border-b border-slate-800 pb-1.5 text-center absolute -top-8 w-full left-0">${r.round}</h3>
                 <div class="flex flex-col justify-around h-full gap-2">`;
-            r.matches.forEach(m => {
-                const fin = /^\d+-\d+$/.test(m.score);
-                const [s1,s2] = fin ? m.score.split('-').map(Number) : [null,null];
+            r.matches.forEach((m, mIdx) => {
+                const matchScoreStr = m.score;
+                let s1 = null, s2 = null, fin = false;
+                if (matchScoreStr && matchScoreStr !== 'vs') {
+                    // Puede ser "2-1" o "1-1 (5-4)"
+                    const parts = matchScoreStr.split('-');
+                    if (parts.length >= 2) {
+                        s1 = parseInt(parts[0]);
+                        s2 = parseInt(parts[1]);
+                        fin = !isNaN(s1) && !isNaN(s2);
+                    }
+                }
+                
                 let homeTeam = posiciones[m.home] || resolverTercero(m.home) || m.home;
                 let awayTeam = posiciones[m.away] || resolverTercero(m.away) || m.away;
+                
+                if (fin) {
+                    let winner = null;
+                    if (s1 > s2) winner = homeTeam;
+                    else if (s2 > s1) winner = awayTeam;
+                    else {
+                        // En caso de empate (penales)
+                        if (matchScoreStr.includes('(')) {
+                            const penParts = matchScoreStr.split('(')[1].split(')')[0].split('-');
+                            if (penParts.length === 2) {
+                                const p1 = parseInt(penParts[0]);
+                                const p2 = parseInt(penParts[1]);
+                                if (p1 > p2) winner = homeTeam;
+                                else winner = awayTeam;
+                            }
+                        }
+                    }
+                    if (winner) {
+                        if (rIdx === 0) posiciones[`Ganador Partido ${mIdx + 1}`] = winner;
+                        else if (rIdx === 1) posiciones[`Ganador Octavos ${mIdx + 1}`] = winner;
+                        else if (rIdx === 2) posiciones[`Ganador Cuartos ${mIdx + 1}`] = winner;
+                        else if (rIdx === 3) posiciones[`Ganador Semifinal ${mIdx + 1}`] = winner;
+                    }
+                }
+
                 html += `<div class="bg-slate-950/90 border border-slate-800/80 rounded-lg p-1.5 text-[9px] md:text-[10px] shadow-sm relative z-10 hover:border-primary-dyn transition-colors">
                     <div class="flex justify-between ${fin&&s1>s2?'text-white font-bold':'text-slate-400'} py-0.5">
                         <span class="truncate">${homeTeam}</span>
