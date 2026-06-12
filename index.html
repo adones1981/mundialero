@@ -351,6 +351,7 @@
                 </p>
                 <p class="text-[10px] uppercase tracking-wider text-primary-dyn/60 font-semibold">
                     Basado en registros oficiales de Copas Mundiales de la FIFA.
+                    <button onclick="abrirModal('adminModal')" title="Acceso Admin" class="ml-3 hover:text-emerald-400 cursor-pointer transition"><i class="fa-solid fa-gear"></i></button>
                 </p>
             </div>
         </footer>
@@ -651,14 +652,24 @@
         // Cargar los datos desde el servidor o de la variable global si estamos offline (sin servidor)
         async function cargarDatosMundiales() {
             try {
-                if (window.WORLDCUPS_DATA) {
-                    // Datos inyectados vía data.js (doble clic en archivo local)
-                    WORLDCUPS = window.WORLDCUPS_DATA;
-                } else {
-                    // Petición fetch normal
-                    const res = await fetch('./worldcups.json');
-                    if (!res.ok) throw new Error("Error leyendo base de datos");
+                try {
+                    const res = await fetch('/api/worldcups');
+                    if (!res.ok) throw new Error("API no disponible");
                     WORLDCUPS = await res.json();
+                } catch(apiErr) {
+                    try {
+                        // Petición fetch normal para GitHub Pages
+                        const res = await fetch('./worldcups.json');
+                        if (!res.ok) throw new Error("Error leyendo base de datos local");
+                        WORLDCUPS = await res.json();
+                    } catch(jsonErr) {
+                        if (window.WORLDCUPS_DATA) {
+                            // Datos inyectados vía data.js (doble clic en archivo local sin servidor)
+                            WORLDCUPS = JSON.parse(JSON.stringify(window.WORLDCUPS_DATA));
+                        } else {
+                            throw new Error("No se pudo cargar de ninguna fuente");
+                        }
+                    }
                 }
                 normalizarDatos();
                 actualizarSelector();
@@ -2063,12 +2074,13 @@
         });
     }
 
-    // Registrar Service Worker
+    // Eliminar temporalmente el Service Worker para evitar problemas de caché en desarrollo
     if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js').then(reg => {
-                console.log('[PWA] Service Worker registrado:', reg.scope);
-            }).catch(err => console.warn('[PWA] SW registro fallido:', err));
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister();
+                console.log('[PWA] Service Worker eliminado para ver cambios frescos.');
+            }
         });
     }
 
@@ -3095,7 +3107,9 @@
                                 status: mStatus,
                                 utcDate: mDate.toISOString(),
                                 minute: mMin,
-                                groupName: g.name
+                                groupName: g.name,
+                                originalGroupIndex: wc2026.groups.indexOf(g),
+                                originalMatchIndex: md * 2 + g.matches.indexOf(m)
                             });
                             
                             matchCount++;
@@ -3113,6 +3127,8 @@
                 if (!byDay[dk]) byDay[dk] = [];
                 byDay[dk].push(m);
             });
+
+            const isAdmin = sessionStorage.getItem('adminToken') === 'fifa-admin-token-2026';
 
             let html = '';
             Object.entries(byDay).forEach(([day, matches]) => {
@@ -3133,10 +3149,10 @@
                     const homeScore = m.score?.fullTime?.home ?? (m.score?.halfTime?.home ?? '');
                     const awayScore = m.score?.fullTime?.away ?? (m.score?.halfTime?.away ?? '');
                     let scoreStr = (homeScore !== '' && awayScore !== '') ? `${homeScore} - ${awayScore}` : hora;
-                    if (isLive && (homeScore === '' || awayScore === '')) scoreStr = 'vs';
+                    if ((isLive || isDone) && (homeScore === '' || awayScore === '')) scoreStr = 'vs';
                     const minute = m.minute ? `${m.minute}'` : '';
                     const cardClass = isLive ? 'match-live-card' : '';
-                    const scoreClass = isLive ? 'score-live arcade-score' : (isDone ? 'arcade-score' : 'text-slate-400 font-bold text-sm');
+                    const scoreClass = 'text-slate-200 font-bold text-base px-2';
 
                     // Escape de comillas para los nombres
                     const safeHome = homeName.replace(/'/g, "\\'");
@@ -3146,23 +3162,35 @@
                     const groupStr = m.groupName ? (m.groupName.toLowerCase().startsWith('grupo') ? m.groupName : `Grupo ${m.groupName}`) : apiGroup;
                     const groupBadge = groupStr ? `<div class="text-[9px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">${groupStr}</div>` : '';
 
+                    let adminControls = '';
+                    if (isAdmin && m.originalGroupIndex !== undefined) {
+                        adminControls = `
+                            <div class="mt-2 w-full text-center" onclick="event.stopPropagation()">
+                                <button onclick="habilitarEdicionEnVivo(this, ${m.originalGroupIndex}, ${m.originalMatchIndex}, '${homeScore}', '${awayScore}')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-1 px-3 rounded text-[10px] transition border border-slate-700 shadow-lg">
+                                    <i class="fa-solid fa-pen mr-1"></i> Editar
+                                </button>
+                            </div>
+                        `;
+                    }
+
                     html += `
-                    <div onclick="toggleProbabilidades(this, '${safeHome}', '${safeAway}')" class="flex flex-col bg-slate-950/60 border border-slate-800/60 p-3 rounded-xl hover:border-slate-700 transition ${cardClass} cursor-pointer relative overflow-hidden group">
+                    <div onclick="toggleProbabilidades(this, '${safeHome}', '${safeAway}')" class="flex flex-col bg-slate-950/60 border border-slate-800/60 p-3 rounded-xl hover:border-slate-700 transition ${cardClass} cursor-pointer relative overflow-hidden group match-container">
                         <div class="flex items-center justify-between w-full ${isDone ? '' : 'opacity-80'}">
                             <div class="flex items-center gap-2 w-5/12 justify-end">
                                 <span class="text-xs font-bold text-slate-200 text-right truncate group-hover:text-primary-dyn transition">${homeName}</span>
                             </div>
-                            <div class="flex flex-col items-center gap-1 px-3 shrink-0">
+                            <div class="flex flex-col items-center gap-1 px-3 shrink-0 score-wrapper">
                                 <div class="${scoreClass}">${isLive || isDone ? scoreStr : hora}</div>
                                 ${groupBadge}
                                 ${isLive ? `<span class="live-badge">EN VIVO ${minute}</span>` : ''}
-                                ${isDone ? '<span class="text-[9px] text-slate-500 font-bold uppercase">FIN</span>' : ''}
+                                ${isDone ? '<span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider">FINALIZADO</span>' : ''}
                                 ${!isLive && !isDone ? '<span class="text-[9px] text-slate-600 uppercase tracking-wider">Por Jugar</span>' : ''}
                             </div>
                             <div class="flex items-center gap-2 w-5/12">
                                 <span class="text-xs font-bold text-slate-200 text-left truncate group-hover:text-primary-dyn transition">${awayName}</span>
                             </div>
                         </div>
+                        ${adminControls}
                         <div class="probabilidades-container hidden mt-3 pt-3 border-t border-slate-800 w-full"></div>
                     </div>`;
                 });
@@ -3171,6 +3199,66 @@
             container.innerHTML = html;
         } else {
             container.innerHTML = '<p class="text-slate-500 text-center py-8">No hay partidos disponibles aún.</p>';
+        }
+    }
+
+    function habilitarEdicionEnVivo(btn, gIdx, mIdx, curHome, curAway) {
+        const matchContainer = btn.closest('.match-container');
+        const scoreWrapper = matchContainer.querySelector('.score-wrapper');
+        const defaultH = curHome !== '' ? curHome : '';
+        const defaultA = curAway !== '' ? curAway : '';
+
+        scoreWrapper.innerHTML = `
+            <div class="flex gap-1 items-center mb-1" onclick="event.stopPropagation()">
+                <input type="text" id="live-edit-home-${gIdx}-${mIdx}" value="${defaultH}" class="w-8 h-8 text-center bg-slate-900 border border-primary-dyn rounded text-primary-dyn font-bold focus:outline-none focus:ring-1 focus:ring-primary-dyn">
+                <span class="text-slate-500 font-bold">-</span>
+                <input type="text" id="live-edit-away-${gIdx}-${mIdx}" value="${defaultA}" class="w-8 h-8 text-center bg-slate-900 border border-primary-dyn rounded text-primary-dyn font-bold focus:outline-none focus:ring-1 focus:ring-primary-dyn">
+            </div>
+            <button onclick="guardarEdicionEnVivo(event, ${gIdx}, ${mIdx})" class="bg-primary-dyn text-slate-950 font-black px-3 py-1 rounded text-[10px] mt-1 shadow-lg hover:opacity-90">Guardar</button>
+        `;
+        // Hide edit button
+        btn.parentElement.classList.add('hidden');
+    }
+
+    async function guardarEdicionEnVivo(event, gIdx, mIdx) {
+        event.stopPropagation();
+        const homeVal = document.getElementById(`live-edit-home-${gIdx}-${mIdx}`).value.trim();
+        const awayVal = document.getElementById(`live-edit-away-${gIdx}-${mIdx}`).value.trim();
+        
+        const wc2026 = WORLDCUPS.find(w => w.year === 2026);
+        if (!wc2026) return;
+
+        // Validar formato si están ambos
+        let newScore = 'vs';
+        if (homeVal !== '' && awayVal !== '') {
+            newScore = `${homeVal}-${awayVal}`;
+        }
+        
+        wc2026.groups[gIdx].matches[mIdx].score = newScore;
+        
+        // Asignar los datos globales si adminModal está montado (así recalcularGrupoStats no falla)
+        datosEdicion2026 = wc2026;
+        
+        // Recalcular posiciones del grupo
+        recalcularGrupoStats(gIdx);
+        
+        // Enviar al servidor de fondo
+        const token = sessionStorage.getItem('adminToken');
+        try {
+            await fetch('/api/worldcups/save', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(WORLDCUPS)
+            });
+            // Recargar datos localmente y renderizar
+            liveData = []; // Clear local format cache
+            cargarFixture2026();
+        } catch(err) {
+            console.error('Error guardando en vivo:', err);
+            alert("Hubo un error guardando el marcador.");
         }
     }
 
@@ -3428,11 +3516,9 @@
         const c = document.getElementById('live-countdown');
         if (!c) return;
         
-        // liveData contiene los partidos del Fixture (reales o simulados)
-        if (!liveData || liveData.length === 0) {
-            c.classList.add('hidden');
-            return;
-        }
+        // Ocultar cuenta regresiva a petición del usuario
+        c.classList.add('hidden');
+        return;
 
         const now = new Date();
         const proximos = liveData.filter(m => m.status === 'SCHEDULED' && new Date(m.utcDate) > now);

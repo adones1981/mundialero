@@ -4,8 +4,8 @@
 //             Network First para worldcups.json
 // ============================================
 
-const CACHE_NAME = 'mundial-stats-v1';
-const STATIC_CACHE = 'mundial-static-v1';
+const CACHE_NAME = 'mundial-stats-v2';
+const STATIC_CACHE = 'mundial-static-v2';
 
 // Recursos a cachear inmediatamente al instalar
 const PRECACHE_ASSETS = [

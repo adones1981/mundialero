@@ -10676,11 +10676,11 @@
         "teams": [
           {
             "name": "México",
-            "pts": 0,
-            "w": 0,
+            "pts": 3,
+            "w": 1,
             "d": 0,
             "l": 0,
-            "gf": 0,
+            "gf": 2,
             "ga": 0
           },
           {
@@ -10688,38 +10688,38 @@
             "pts": 0,
             "w": 0,
             "d": 0,
-            "l": 0,
+            "l": 1,
             "gf": 0,
-            "ga": 0
+            "ga": 2
           },
           {
             "name": "Corea del Sur",
-            "pts": 0,
-            "w": 0,
+            "pts": 3,
+            "w": 1,
             "d": 0,
             "l": 0,
-            "gf": 0,
-            "ga": 0
+            "gf": 2,
+            "ga": 1
           },
           {
             "name": "Chequia",
             "pts": 0,
             "w": 0,
             "d": 0,
-            "l": 0,
-            "gf": 0,
-            "ga": 0
+            "l": 1,
+            "gf": 1,
+            "ga": 2
           }
         ],
         "matches": [
           {
             "home": "México",
-            "score": "vs",
+            "score": "2-0",
             "away": "Sudáfrica"
           },
           {
             "home": "Corea del Sur",
-            "score": "vs",
+            "score": "2-1",
             "away": "Chequia"
           },
           {
