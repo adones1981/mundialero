@@ -5570,3 +5570,73 @@ function renderHistorySemifinalFinal(wc) {
   
   container.innerHTML = html;
 }
+
+// ==========================================================================
+// VISITORS COUNTER LOGIC (Resilient & Netlify-compatible)
+// ==========================================================================
+(function() {
+  const visitorCountEl = document.getElementById("visitor-count");
+  if (!visitorCountEl) return;
+
+  const PROJECT_NAME = "mundialero_adones_prod";
+  const API_URL = "https://api.counterapi.dev/v1/projects/" + PROJECT_NAME + "/counters/visits/up";
+  const LOCAL_STORAGE_KEY = "mundialero_official_visits";
+  const SEED_BASE = 0;
+
+  // Format number with dots (Spanish thousand separators)
+  function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  // Fallback to local storage counter
+  function fallbackCounter() {
+    let localCount = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (!localCount) {
+      localCount = SEED_BASE;
+    } else {
+      localCount = parseInt(localCount, 10);
+    }
+    
+    // Increment local counter
+    localCount += 1;
+    localStorage.setItem(LOCAL_STORAGE_KEY, localCount);
+    
+    // Display formatted
+    visitorCountEl.textContent = formatNumber(localCount);
+  }
+
+  // Load visitor counter using Fetch API with a strict Timeout
+  async function loadCounter() {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(function() { controller.abort(); }, 1500); // 1.5s timeout
+
+    try {
+      const response = await fetch(API_URL, {
+        method: "GET",
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data && typeof data.value === "number") {
+          visitorCountEl.textContent = formatNumber(data.value);
+          return;
+        }
+      }
+      // If response is not ok, trigger fallback
+      fallbackCounter();
+    } catch (err) {
+      clearTimeout(timeoutId);
+      // Fallback on connection errors, timeout, or block by adblockers
+      fallbackCounter();
+    }
+  }
+
+  // Run on DOM loaded
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", loadCounter);
+  } else {
+    loadCounter();
+  }
+})();
