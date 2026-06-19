@@ -1,0 +1,56 @@
+{
+  "games": [
+    {
+      "id": "14",
+      "home_team_name_en": "Spain",
+      "away_team_name_en": "Cape Verde",
+      "home_score": "0",
+      "away_score": "0",
+      "home_scorers": "null",
+      "away_scorers": "null",
+      "group": "H",
+      "finished": "TRUE",
+      "time_elapsed": "finished",
+      "type": "group"
+    },
+    {
+      "id": "15",
+      "home_team_name_en": "Belgium",
+      "away_team_name_en": "Egypt",
+      "home_score": "1",
+      "away_score": "1",
+      "home_scorers": "{\"M. Hany (o.g.) 66'\"}",
+      "away_scorers": "{\"E. Ashour 20'\"}",
+      "group": "G",
+      "finished": "TRUE",
+      "time_elapsed": "finished",
+      "type": "group"
+    },
+    {
+      "id": "16",
+      "home_team_name_en": "Saudi Arabia",
+      "away_team_name_en": "Uruguay",
+      "home_score": "1",
+      "away_score": "1",
+      "home_scorers": "{\"A. Al-Amri 41'\"}",
+      "away_scorers": "{\"M. Araújo 80'\"}",
+      "group": "H",
+      "finished": "TRUE",
+      "time_elapsed": "finished",
+      "type": "group"
+    },
+    {
+      "id": "17",
+      "home_team_name_en": "Iran",
+      "away_team_name_en": "New Zealand",
+      "home_score": "2",
+      "away_score": "2",
+      "home_scorers": "{\"R. Rezaeian 32'\", \"M. Mohebbi 64'\"}",
+      "away_scorers": "{\"E. Just 7'\", \"E. Just 54'\"}",
+      "group": "G",
+      "finished": "TRUE",
+      "time_elapsed": "finished",
+      "type": "group"
+    }
+  ]
+}
