@@ -14,9 +14,16 @@ window.onunhandledrejection = function(event) {
 </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mundialmanía - El estadio de la historia</title>
-  
-  <!-- Meta Tags para SEO -->
+  <title>Mundialero - Estadísticas de los Mundiales</title>
+  <script>
+    window.onerror = function(message, source, lineno, colno, error) {
+      document.body.innerHTML += '<div style="color:red;font-size:20px;padding:20px;z-index:9999;position:relative;">Error: ' + message + ' at ' + source + ':' + lineno + ':' + colno + '</div>';
+    };
+    window.addEventListener('unhandledrejection', function(event) {
+      document.body.innerHTML += '<div style="color:red;font-size:20px;padding:20px;z-index:9999;position:relative;">Promise Error: ' + event.reason + '</div>';
+    });
+  </script>
+  <!-- Tailwind CSS para el diseo base -->
   <meta name="description" content="Sigue los resultados en vivo, alineaciones oficiales, estadísticas de tarjetas y tablas de posiciones de los grupos del Mundial FIFA 2026. Basado en datos oficiales de la FIFA.">
   <meta name="keywords" content="Mundial 2026, FIFA 2026, resultados en vivo, alineaciones, posiciones de grupos, estadios del mundial">
   
@@ -59,7 +66,7 @@ window.onunhandledrejection = function(event) {
       </div>
       
       <!-- Panel de Estadísticas del Torneo -->
-      <div class="tournament-stats">
+      <div class="tournament-stats" style="display: none;">
         <div class="stat-pill">
           <span class="pill-label">Goles Totales</span>
           <span class="pill-value" id="total-goals-counter">10</span>
@@ -80,7 +87,7 @@ window.onunhandledrejection = function(event) {
   <div id="page-2026" class="page-content active">
 
   <!-- 2. Tira Deslizable de Partidos (Carrusel) -->
-  <section class="ticker-section">
+  <section class="ticker-section" style="display: none;">
     <div class="ticker-control-left">
       <div class="ticker-select-wrapper">
         <select id="ticker-filter-select" onchange="filterTicker(this.value)">
@@ -113,13 +120,14 @@ window.onunhandledrejection = function(event) {
     </div>
   </section>
 
+
   <!-- Las pestañas de navegación se trasladaron al cuerpo del panel derecho -->
 
   <!-- Cuerpo Principal (Dashboard Layout) -->
   <main class="dashboard-layout">
     
-    <!-- Columna Izquierda: Centro de Partido Interactivo -->
-    <section class="column-left match-center-panel">
+    <!-- Columna Izquierda: Centro de Partido Interactivo (Oculto) -->
+    <section class="column-left match-center-panel" style="display: none;">
       <div class="panel-header">
         <div class="panel-title-group">
           <span class="panel-badge live-badge">DETALLES DEL PARTIDO</span>
@@ -200,6 +208,114 @@ window.onunhandledrejection = function(event) {
             <div class="no-data-msg">Selecciona un partido disputado o en vivo para ver la línea de tiempo.</div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- NUEVA COLUMNA IZQUIERDA: Estadísticas Generales del Mundial -->
+    <section class="column-left tournament-summary-panel">
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <span class="panel-badge live-badge" style="background-color: var(--color-accent); color: black;">RESUMEN OFICIAL</span>
+          <h2>Estadísticas 2026</h2>
+        </div>
+      </div>
+      
+      <div class="match-detail-card" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; overflow-y: auto; max-height: calc(100vh - 200px);">
+        
+        <!-- Podio -->
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.5rem; text-align: center;">
+          <h3 style="color: #FFD700; font-size: 1.2rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px;">El Podio</h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <!-- Campeon -->
+            <div style="display: flex; align-items: center; justify-content: space-between; background: linear-gradient(90deg, rgba(255,215,0,0.2) 0%, transparent 100%); padding: 10px 15px; border-radius: 8px; border-left: 4px solid #FFD700;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.5rem;">🏆</span>
+                <img src="https://flagcdn.com/w40/es.png" style="width: 24px; border-radius: 4px;" alt="España">
+                <span style="font-size: 1.2rem; font-weight: bold; color: white;">España</span>
+              </div>
+              <span style="font-size: 0.8rem; color: #aaa;">Campeón</span>
+            </div>
+            
+            <!-- Subcampeon -->
+            <div style="display: flex; align-items: center; justify-content: space-between; background: linear-gradient(90deg, rgba(192,192,192,0.15) 0%, transparent 100%); padding: 10px 15px; border-radius: 8px; border-left: 4px solid #C0C0C0;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.5rem;">🥈</span>
+                <img src="https://flagcdn.com/w40/ar.png" style="width: 24px; border-radius: 4px;" alt="Argentina">
+                <span style="font-size: 1.1rem; font-weight: bold; color: #ddd;">Argentina</span>
+              </div>
+              <span style="font-size: 0.8rem; color: #aaa;">Subcampeón</span>
+            </div>
+
+            <!-- Tercer Lugar -->
+            <div style="display: flex; align-items: center; justify-content: space-between; background: linear-gradient(90deg, rgba(205,127,50,0.15) 0%, transparent 100%); padding: 10px 15px; border-radius: 8px; border-left: 4px solid #CD7F32;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.5rem;">🥉</span>
+                <img src="https://flagcdn.com/w40/gb-eng.png" style="width: 24px; border-radius: 4px;" alt="Inglaterra">
+                <span style="font-size: 1rem; font-weight: bold; color: #ccc;">Inglaterra</span>
+              </div>
+              <span style="font-size: 0.8rem; color: #aaa;">Tercer Lugar</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estadisticas Globales -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.5rem; text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 5px;">⚽</div>
+            <div style="font-size: 2.2rem; font-weight: 800; color: var(--color-accent);">308</div>
+            <div style="font-size: 0.8rem; color: #aaa; text-transform: uppercase;">Goles Totales</div>
+          </div>
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.5rem; text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 5px;">🏟️</div>
+            <div style="font-size: 2.2rem; font-weight: 800; color: white;">104</div>
+            <div style="font-size: 0.8rem; color: #aaa; text-transform: uppercase;">Partidos Jugados</div>
+          </div>
+        </div>
+
+        <!-- Goleadores Destacados (Oficial) -->
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.5rem;">
+          <h3 style="color: white; font-size: 1.1rem; margin-bottom: 1rem; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">👟 Máximos Goleadores</h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://flagcdn.com/w40/fr.png" style="width: 24px; border-radius: 4px;" alt="Francia">
+                <span style="color: white; font-weight: bold;">Kylian Mbappe</span>
+              </div>
+              <span style="font-weight: bold; color: var(--color-accent);">10 Goles</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://flagcdn.com/w40/ar.png" style="width: 24px; border-radius: 4px;" alt="Argentina">
+                <span style="color: #ddd;">Lionel Messi</span>
+              </div>
+              <span style="font-weight: bold; color: #ccc;">8 Goles</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://flagcdn.com/w40/gb-eng.png" style="width: 24px; border-radius: 4px;" alt="Inglaterra">
+                <span style="color: #ddd;">Jude Bellingham</span>
+              </div>
+              <span style="font-weight: bold; color: #ccc;">7 Goles</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://flagcdn.com/w40/no.png" style="width: 24px; border-radius: 4px;" alt="Noruega">
+                <span style="color: #ddd;">Erling Haaland</span>
+              </div>
+              <span style="font-weight: bold; color: #ccc;">7 Goles</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://flagcdn.com/w40/fr.png" style="width: 24px; border-radius: 4px;" alt="Francia">
+                <span style="color: #ddd;">Ousmane Dembele</span>
+              </div>
+              <span style="font-weight: bold; color: #ccc;">6 Goles</span>
+            </div>
+          </div>
+        </div>
+        
       </div>
     </section>
     
@@ -373,8 +489,8 @@ window.onunhandledrejection = function(event) {
   </footer>
 
   <!-- Script Principal -->
-  <script src="history-data.js"></script>
-  <script src="teams-data.js"></script>
-  <script src="app.js"></script>
+  <script src="history-data.js?v=superfinal9"></script>
+  <script src="teams-data.js?v=superfinal9"></script>
+  <script src="app.js?v=superfinal9"></script>
 </body>
 </html>

@@ -1,69 +1,61 @@
 /* ==========================================================================
    DATO DE INICIALIZACIÓN OFICIAL - FIFA WORLD CUP 2026
    ========================================================================== */
+window.onerror = function(message, source, lineno, colno, error) {
+  document.body.innerHTML += '<div style="color:red;font-size:20px;padding:20px;z-index:9999;position:relative;background:white;">Error: ' + message + ' at ' + source + ':' + lineno + ':' + colno + '</div>';
+};
 
 const FIFA_DATA = {
   // 48 Selecciones Oficiales
   teams: {
-    "México": { flag: "mx", group: "A", colors: ["#006847", "#ffffff"] },
-    "Sudáfrica": { flag: "za", group: "A", colors: ["#007a4d", "#ffd200"] },
-    "República de Corea": { flag: "kr", group: "A", colors: ["#cd1122", "#0047a0"] },
-    "Chequia": { flag: "cz", group: "A", colors: ["#11457e", "#d91e36"] },
-    
-    "Canadá": { flag: "ca", group: "B", colors: ["#ff0000", "#ffffff"] },
-    "Catar": { flag: "qa", group: "B", colors: ["#8a1538", "#ffffff"] },
-    "Suiza": { flag: "ch", group: "B", colors: ["#d52b1e", "#ffffff"] },
-    "Bosnia y Herzegovina": { flag: "ba", group: "B", colors: ["#002395", "#fecb00"] },
-    
-    "Brasil": { flag: "br", group: "C", colors: ["#fecb00", "#009739"] },
-    "Marruecos": { flag: "ma", group: "C", colors: ["#c1272d", "#006233"] },
-    "Haití": { flag: "ht", group: "C", colors: ["#00209f", "#d21034"] },
-    "Escocia": { flag: "gb-sct", group: "C", colors: ["#0065bf", "#ffffff"] },
-    
-    "Estados Unidos": { flag: "us", group: "D", colors: ["#002868", "#bf0a30"] },
-    "Paraguay": { flag: "py", group: "D", colors: ["#d52b1e", "#0038a8"] },
-    "Australia": { flag: "au", group: "D", colors: ["#002b7f", "#fcd116"] },
-    "Turquía": { flag: "tr", group: "D", colors: ["#e30a17", "#ffffff"] },
-    
-    "Alemania": { flag: "de", group: "E", colors: ["#ffffff", "#000000"] },
-    "Curazao": { flag: "cw", group: "E", colors: ["#002b7f", "#f9e814"] },
-    "Costa de Marfil": { flag: "ci", group: "E", colors: ["#f77f00", "#ffffff"] },
-    "Ecuador": { flag: "ec", group: "E", colors: ["#ffdd00", "#001489"] },
-    
-    "Países Bajos": { flag: "nl", group: "F", colors: ["#ff2e00", "#ffffff"] },
-    "Japón": { flag: "jp", group: "F", colors: ["#ffffff", "#003264"] },
-    "Túnez": { flag: "tn", group: "F", colors: ["#e20e17", "#ffffff"] },
-    "Suecia": { flag: "se", group: "F", colors: ["#006aa7", "#fecc00"] },
-    
-    "Bélgica": { flag: "be", group: "G", colors: ["#ff0000", "#ffd700"] },
-    "Egipto": { flag: "eg", group: "G", colors: ["#c00000", "#000000"] },
-    "Irán": { flag: "ir", group: "G", colors: ["#239e46", "#ffffff"] },
-    "Nueva Zelanda": { flag: "nz", group: "G", colors: ["#ffffff", "#00247d"] },
-    
-    "España": { flag: "es", group: "H", colors: ["#c60b1e", "#ffc400"] },
-    "Cabo Verde": { flag: "cv", group: "H", colors: ["#002a8f", "#ffffff"] },
-    "Arabia Saudita": { flag: "sa", group: "H", colors: ["#006c35", "#ffffff"] },
-    "Uruguay": { flag: "uy", group: "H", colors: ["#0081c6", "#ffffff"] },
-    
-    "Francia": { flag: "fr", group: "I", colors: ["#002395", "#ffffff"] },
-    "Senegal": { flag: "sn", group: "I", colors: ["#00853f", "#fdef42"] },
-    "Noruega": { flag: "no", group: "I", colors: ["#ef2b2d", "#00205b"] },
-    "Irak": { flag: "iq", group: "I", colors: ["#007a3d", "#ff0000"] },
-    
-    "Argentina": { flag: "ar", group: "J", colors: ["#75aadb", "#ffffff"] },
-    "Argelia": { flag: "dz", group: "J", colors: ["#006633", "#ffffff"] },
-    "Austria": { flag: "at", group: "J", colors: ["#ed2939", "#ffffff"] },
-    "Jordania": { flag: "jo", group: "J", colors: ["#ff0000", "#000000"] },
-    
-    "Portugal": { flag: "pt", group: "K", colors: ["#ff0000", "#006600"] },
-    "Uzbekistán": { flag: "uz", group: "K", colors: ["#0099b5", "#ffffff"] },
-    "Colombia": { flag: "co", group: "K", colors: ["#fcd116", "#0038a8"] },
-    "República Democrática del Congo": { flag: "cd", group: "K", colors: ["#007FFF", "#FDD017"] },
-    
-    "Inglaterra": { flag: "gb-eng", group: "L", colors: ["#ffffff", "#cf142b"] },
-    "Croacia": { flag: "hr", group: "L", colors: ["#ff0000", "#ffffff"] },
-    "Ghana": { flag: "gh", group: "L", colors: ["#fcd116", "#006b3f"] },
-    "Panamá": { flag: "pa", group: "L", colors: ["#da121a", "#072357"] }
+    "Chequia": { flag: "cz", group: "A", colors: ["#EEEEEE", "#333333"] },
+    "Corea del Sur": { flag: "kr", group: "A", colors: ["#C60C30", "#003478"] },
+    "México": { flag: "mx", group: "A", colors: ["#006847", "#FFFFFF"] },
+    "Sudáfrica": { flag: "za", group: "A", colors: ["#EEEEEE", "#333333"] },
+    "Bosnia y Herzegovina": { flag: "ba", group: "B", colors: ["#EEEEEE", "#333333"] },
+    "Canadá": { flag: "ca", group: "B", colors: ["#EEEEEE", "#333333"] },
+    "Catar": { flag: "un", group: "B", colors: ["#ffffff", "#000000"] },
+    "Suiza": { flag: "ch", group: "B", colors: ["#EEEEEE", "#333333"] },
+    "Brasil": { flag: "br", group: "C", colors: ["#FFDF00", "#009B3A"] },
+    "Escocia": { flag: "gb-sct", group: "C", colors: ["#EEEEEE", "#333333"] },
+    "Haití": { flag: "ht", group: "C", colors: ["#EEEEEE", "#333333"] },
+    "Marruecos": { flag: "ma", group: "C", colors: ["#EEEEEE", "#333333"] },
+    "Australia": { flag: "au", group: "D", colors: ["#EEEEEE", "#333333"] },
+    "Estados Unidos": { flag: "us", group: "D", colors: ["#FFFFFF", "#002868"] },
+    "Paraguay": { flag: "py", group: "D", colors: ["#EEEEEE", "#333333"] },
+    "Turquía": { flag: "tr", group: "D", colors: ["#EEEEEE", "#333333"] },
+    "Alemania": { flag: "de", group: "E", colors: ["#FFFFFF", "#000000"] },
+    "Costa de Marfil": { flag: "ci", group: "E", colors: ["#EEEEEE", "#333333"] },
+    "Curazao": { flag: "cw", group: "E", colors: ["#EEEEEE", "#333333"] },
+    "Ecuador": { flag: "ec", group: "E", colors: ["#EEEEEE", "#333333"] },
+    "Japón": { flag: "jp", group: "F", colors: ["#000555", "#FFFFFF"] },
+    "Países Bajos": { flag: "nl", group: "F", colors: ["#F36C21", "#FFFFFF"] },
+    "Suecia": { flag: "se", group: "F", colors: ["#EEEEEE", "#333333"] },
+    "Túnez": { flag: "tn", group: "F", colors: ["#EEEEEE", "#333333"] },
+    "Bélgica": { flag: "be", group: "G", colors: ["#E30613", "#000000"] },
+    "Egipto": { flag: "eg", group: "G", colors: ["#EEEEEE", "#333333"] },
+    "Irán": { flag: "ir", group: "G", colors: ["#EEEEEE", "#333333"] },
+    "Nueva Zelanda": { flag: "nz", group: "G", colors: ["#EEEEEE", "#333333"] },
+    "Arabia Saudita": { flag: "sa", group: "H", colors: ["#EEEEEE", "#333333"] },
+    "Cabo Verde": { flag: "cv", group: "H", colors: ["#EEEEEE", "#333333"] },
+    "España": { flag: "es", group: "H", colors: ["#C60B1E", "#000033"] },
+    "Uruguay": { flag: "uy", group: "H", colors: ["#0038A8", "#000000"] },
+    "Francia": { flag: "fr", group: "I", colors: ["#002395", "#FFFFFF"] },
+    "Irak": { flag: "iq", group: "I", colors: ["#EEEEEE", "#333333"] },
+    "Noruega": { flag: "no", group: "I", colors: ["#EEEEEE", "#333333"] },
+    "Senegal": { flag: "sn", group: "I", colors: ["#EEEEEE", "#333333"] },
+    "Argelia": { flag: "dz", group: "J", colors: ["#EEEEEE", "#333333"] },
+    "Argentina": { flag: "ar", group: "J", colors: ["#75AADB", "#FFFFFF"] },
+    "Austria": { flag: "at", group: "J", colors: ["#EEEEEE", "#333333"] },
+    "Jordania": { flag: "jo", group: "J", colors: ["#EEEEEE", "#333333"] },
+    "Colombia": { flag: "co", group: "K", colors: ["#FCD116", "#003893"] },
+    "Portugal": { flag: "pt", group: "K", colors: ["#FF0000", "#006600"] },
+    "RD Congo": { flag: "cd", group: "K", colors: ["#EEEEEE", "#333333"] },
+    "Uzbekistán": { flag: "uz", group: "K", colors: ["#EEEEEE", "#333333"] },
+    "Croacia": { flag: "hr", group: "L", colors: ["#FFFFFF", "#FFFFFF"] },
+    "Ghana": { flag: "gh", group: "L", colors: ["#EEEEEE", "#333333"] },
+    "Inglaterra": { flag: "gb-eng", group: "L", colors: ["#FFFFFF", "#000040"] },
+    "Panamá": { flag: "pa", group: "L", colors: ["#EEEEEE", "#333333"] }
   },
 
   // Alineaciones Oficiales de Partidos Importantes
@@ -94,7 +86,7 @@ const FIFA_DATA = {
       { num: 10, name: "Tau", pos: "FWD" },
       { num: 9, name: "Makgopa", pos: "FWD" }
     ],
-    "Canadá": [
+    "Canadáá": [
       { num: 1, name: "Crépeau", pos: "GK" },
       { num: 2, name: "Johnston", pos: "DEF" },
       { num: 15, name: "Bombito", pos: "DEF" },
@@ -600,17 +592,17 @@ const FIFA_DATA = {
   // 12 Grupos Oficiales de 4 Equipos
   groups: {
     "A": ["México", "Sudáfrica", "República de Corea", "Chequia"],
-    "B": ["Canadá", "Catar", "Suiza", "Bosnia y Herzegovina"],
-    "C": ["Brasil", "Marruecos", "Haití", "Escocia"],
+    "B": ["Canadáá", "Catar", "Suiza", "Bosnia y Herzegovina"],
+    "C": ["Brasil", "Marruecos", "Haitíí", "Escocia"],
     "D": ["Estados Unidos", "Paraguay", "Australia", "Turquía"],
     "E": ["Alemania", "Curazao", "Costa de Marfil", "Ecuador"],
     "F": ["Países Bajos", "Japón", "Túnez", "Suecia"],
     "G": ["Bélgica", "Egipto", "Irán", "Nueva Zelanda"],
     "H": ["España", "Cabo Verde", "Arabia Saudita", "Uruguay"],
-    "I": ["Francia", "Senegal", "Noruega", "Irak"],
+    "I": ["Francia", "Senegal", "Noruega", "Curazao"],
     "J": ["Argentina", "Argelia", "Austria", "Jordania"],
     "K": ["Portugal", "Uzbekistán", "Colombia", "República Democrática del Congo"],
-    "L": ["Inglaterra", "Croacia", "Ghana", "Panamá"]
+    "L": ["Inglaterra", "Croacia", "Ghana", "Panamáá"]
   }
 };
 
@@ -626,1173 +618,110 @@ for (const teamName in FIFA_DATA.teams) {
 // CALENDARIO DE PARTIDOS INICIALES Y RESULTADOS OFICIALES (11 - 15 DE JUNIO)
 // ==========================================================================
 let matchesSeed = [
-  // --- 11 DE JUNIO ---,
-  {
-    id: 1,
-    group: "A",
-    home: "México",
-    away: "Sudáfrica",
-    homeScore: 2,
-    awayScore: 0,
-    status: "finished",
-    minute: 90,
-    date: "11 de Junio, 2026",
-    time: "15:00",
-    stadium: "Estadio Azteca",
-    events: [
-      { minute: 23, type: "goal", team: "home", player: "Martín", detail: "Remate de cabeza cruzado tras asistencia de Alexis Vega." },
-      { minute: 41, type: "yellow", team: "home", player: "Álvarez", detail: "Falta táctica en medio campo sobre Zwane." },
-      { minute: 55, type: "yellow", team: "away", player: "Mvala", detail: "Entrada a destiempo sobre Chucky Lozano." },
-      { minute: 67, type: "goal", team: "home", player: "Chávez", detail: "Impresionante cobro de tiro libre directo que entra en el ángulo." }
-    ],
-    stats: { possession: [58, 42], shots: [14, 6], shotsTarget: [6, 1], fouls: [12, 15], corners: [7, 3], passes: [89, 81] }
-  },
-  {
-    id: 2,
-    group: "A",
-    home: "República de Corea",
-    away: "Chequia",
-    homeScore: 2,
-    awayScore: 1,
-    status: "finished",
-    minute: 90,
-    date: "11 de Junio, 2026",
-    time: "22:00",
-    stadium: "SoFi Stadium",
-    events: [
-      { minute: 31, type: "goal", team: "home", player: "Hwang", detail: "Remate colocado desde el borde del área tras jugada colectiva." },
-      { minute: 35, type: "yellow", team: "away", player: "Coufal", detail: "Amonestado por barrida a destiempo sobre Son." },
-      { minute: 49, type: "goal", team: "away", player: "Krejčí", detail: "Cabezazo potente que entra pegado al larguero tras un tiro de esquina." },
-      { minute: 78, type: "goal", team: "home", player: "Oh", detail: "Aprovecha un rebote en el área chica para definir cruzado." }
-    ],
-    stats: { possession: [52, 48], shots: [11, 9], shotsTarget: [5, 3], fouls: [10, 13], corners: [4, 6], passes: [82, 79] }
-  },
-  // --- 12 DE JUNIO ---,
-  {
-    id: 3,
-    group: "B",
-    home: "Canadá",
-    away: "Bosnia y Herzegovina",
-    homeScore: 1,
-    awayScore: 1,
-    status: "finished",
-    minute: 90,
-    date: "12 de Junio, 2026",
-    time: "15:00",
-    stadium: "BC Place",
-    events: [
-      { minute: 33, type: "yellow", team: "home", player: "Eustáquio", detail: "Falta fuerte por detrás sobre Tahirović." },
-      { minute: 45, type: "goal", team: "home", player: "David", detail: "Definición suave ante la salida del arquero luego de un pase de Davies." },
-      { minute: 72, type: "goal", team: "away", player: "Džeko", detail: "Golazo de volea con pierna zurda tras un rechace de esquina." },
-      { minute: 84, type: "yellow", team: "away", player: "Kolašinac", detail: "Barrerse con fuerza desmedida sobre Johnston." }
-    ],
-    stats: { possession: [51, 49], shots: [11, 10], shotsTarget: [4, 4], fouls: [14, 16], corners: [5, 6], passes: [83, 82] }
-  },
-  {
-    id: 4,
-    group: "D",
-    home: "Estados Unidos",
-    away: "Paraguay",
-    homeScore: 4,
-    awayScore: 1,
-    status: "finished",
-    minute: 90,
-    date: "12 de Junio, 2026",
-    time: "21:00",
-    stadium: "MetLife Stadium",
-    events: [
-      { minute: 15, type: "goal", team: "home", player: "Balogun", detail: "Disparo cruzado en el área tras un pase en profundidad." },
-      { minute: 37, type: "goal", team: "home", player: "Reyna", detail: "Tiro colocado al ángulo desde la medialuna." },
-      { minute: 58, type: "goal", team: "away", player: "Maurício", detail: "Descuenta con un tiro rasante tras una desatención defensiva." },
-      { minute: 71, type: "goal", team: "home", player: "Balogun", detail: "Empuja de taco un pase preciso de Pulisic." },
-      { minute: 89, type: "goal", team: "home", player: "Pulisic", detail: "Anota el cuarto gol mediante tiro penal cobrado con clase." }
-    ],
-    stats: { possession: [62, 38], shots: [16, 7], shotsTarget: [8, 2], fouls: [9, 14], corners: [6, 2], passes: [88, 74] }
-  },
-  // --- 13 DE JUNIO ---,
-  {
-    id: 5,
-    group: "B",
-    home: "Catar",
-    away: "Suiza",
-    homeScore: 1,
-    awayScore: 1,
-    status: "finished",
-    minute: 90,
-    date: "13 de Junio, 2026",
-    time: "15:00",
-    stadium: "Levi's Stadium",
-    events: [
-      { minute: 28, type: "goal", team: "away", player: "Embolo", detail: "Anotación desde los once pasos engañando completamente al arquero." },
-      { minute: 54, type: "yellow", team: "home", player: "Hatem", detail: "Falta fuerte deteniendo un ataque suizo." },
-      { minute: 94, type: "goal", team: "home", player: "Khoukhi", detail: "Cabezazo heroico al ángulo en tiempo de descuento tras tiro libre." }
-    ],
-    stats: { possession: [44, 56], shots: [8, 13], shotsTarget: [3, 5], fouls: [15, 11], corners: [2, 7], passes: [74, 85] }
-  },
-  {
-    id: 6,
-    group: "C",
-    home: "Brasil",
-    away: "Marruecos",
-    homeScore: 1,
-    awayScore: 1,
-    status: "finished",
-    minute: 90,
-    date: "13 de Junio, 2026",
-    time: "18:00",
-    stadium: "SoFi Stadium",
-    events: [
-      { minute: 21, type: "goal", team: "away", player: "Saibari", detail: "Aprovecha un error en la salida brasileña para definir raso y cruzado." },
-      { minute: 32, type: "goal", team: "home", player: "Vinícius", detail: "Golazo eludiendo a dos defensores y definiendo a tres dedos." },
-      { minute: 68, type: "yellow", team: "home", player: "Marquinhos", detail: "Amonestado por reclamar airadamente una decisión." }
-    ],
-    stats: { possession: [55, 45], shots: [14, 9], shotsTarget: [5, 4], fouls: [10, 12], corners: [6, 4], passes: [87, 81] }
-  },
-  {
-    id: 7,
-    group: "C",
-    home: "Haití",
-    away: "Escocia",
-    homeScore: 0,
-    awayScore: 1,
-    status: "finished",
-    minute: 90,
-    date: "13 de Junio, 2026",
-    time: "21:00",
-    stadium: "BMO Field",
-    events: [
-      { minute: 14, type: "goal", team: "away", player: "McGinn", detail: "Remate cruzado en el área grande tras un tiro rasante cruzado." }
-    ],
-    stats: { possession: [42, 58], shots: [6, 12], shotsTarget: [1, 5], fouls: [15, 10], corners: [3, 7], passes: [73, 84] }
-  },
-  {
-    id: 8,
-    group: "D",
-    home: "Australia",
-    away: "Turquía",
-    homeScore: 2,
-    awayScore: 0,
-    status: "finished",
-    minute: 90,
-    date: "13 de Junio, 2026",
-    time: "24:00",
-    stadium: "Gillette Stadium",
-    events: [
-      { minute: 40, type: "goal", team: "home", player: "Irankunda", detail: "Gran corrida individual culminada con un zapatazo al ángulo." },
-      { minute: 72, type: "goal", team: "home", player: "Metcalfe", detail: "Define a arco vacío tras un rebote provocado por el arquero turco." }
-    ],
-    stats: { possession: [48, 52], shots: [10, 11], shotsTarget: [4, 3], fouls: [11, 9], corners: [4, 5], passes: [79, 82] }
-  },
-  // --- 14 DE JUNIO ---,
-  {
-    id: 9,
-    group: "E",
-    home: "Alemania",
-    away: "Curazao",
-    homeScore: 7,
-    awayScore: 1,
-    status: "finished",
-    minute: 90,
-    date: "14 de Junio, 2026",
-    time: "13:00",
-    stadium: "Mercedes-Benz Stadium",
-    events: [
-      { minute: 8, type: "goal", team: "home", player: "Havertz", detail: "Empuja el balón solo tras pase de la muerte de Wirtz." },
-      { minute: 15, type: "goal", team: "home", player: "Wirtz", detail: "Remate al primer poste tras una jugada colectiva brillante." },
-      { minute: 28, type: "goal", team: "home", player: "Musiala", detail: "Driblea a dos defensores dentro del área y define sutilmente." },
-      { minute: 34, type: "goal", team: "home", player: "Havertz", detail: "Remate potente de zurda desde la frontal del área." },
-      { minute: 44, type: "yellow", team: "away", player: "Bacuna", detail: "Falta sobre Gündogan por jalar la camiseta." },
-      { minute: 55, type: "goal", team: "home", player: "Wirtz", detail: "Definición cruzada después de una gran habilitación de Kroos." },
-      { minute: 62, type: "goal", team: "away", player: "Margaritha", detail: "Descuento histórico tras remate de media distancia desviado por la defensa." },
-      { minute: 78, type: "goal", team: "home", player: "Havertz", detail: "Anota el triplete cruzando su remate al arquero Room." },
-      { minute: 86, type: "goal", team: "home", player: "Wirtz", detail: "También consigue triplete definiendo a arco vacío tras pase de Havertz." }
-    ],
-    stats: { possession: [73, 27], shots: [24, 4], shotsTarget: [12, 2], fouls: [6, 11], corners: [9, 1], passes: [94, 72] }
-  },
-  {
-    id: 11,
-    group: "F",
-    home: "Países Bajos",
-    away: "Japón",
-    homeScore: 2,
-    awayScore: 2,
-    status: "finished",
-    minute: 90,
-    date: "14 de Junio, 2026",
-    time: "16:00",
-    stadium: "Lincoln Financial Field",
-    events: [
-      { minute: 12, type: "goal", team: "home", player: "Depay", detail: "Remate rasante desde fuera del área esquinado." },
-      { minute: 42, type: "goal", team: "away", player: "Kubo", detail: "Espectacular remate de tiro libre que supera la barrera." },
-      { minute: 60, type: "goal", team: "home", player: "Gakpo", detail: "Cabezazo picado tras centro de Dumfries." },
-      { minute: 81, type: "goal", team: "away", player: "Ueda", detail: "Conecta un balón suelto en el área penal para sentenciar el empate." }
-    ],
-    stats: { possession: [54, 46], shots: [13, 12], shotsTarget: [6, 5], fouls: [10, 8], corners: [5, 4], passes: [85, 80] }
-  },
-  {
-    id: 10,
-    group: "E",
-    home: "Costa de Marfil",
-    away: "Ecuador",
-    homeScore: 1,
-    awayScore: 0,
-    status: "finished",
-    minute: 90,
-    date: "14 de Junio, 2026",
-    time: "19:00",
-    stadium: "NRG Stadium",
-    events: [
-      { minute: 53, type: "goal", team: "home", player: "Haller", detail: "Aprovecha un centro milimétrico de Adingra para definir de cabeza." },
-      { minute: 67, type: "yellow", team: "away", player: "Hincapié", detail: "Entrada brusca cortando avance." }
-    ],
-    stats: { possession: [49, 51], shots: [8, 10], shotsTarget: [3, 2], fouls: [14, 12], corners: [4, 5], passes: [81, 83] }
-  },
-  {
-    id: 12,
-    group: "F",
-    home: "Suecia",
-    away: "Túnez",
-    homeScore: 5,
-    awayScore: 1,
-    status: "finished",
-    minute: 90,
-    date: "14 de Junio, 2026",
-    time: "22:00",
-    stadium: "Lumen Field",
-    events: [
-      { minute: 5, type: "goal", team: "home", player: "Isak", detail: "Definición certera tras gran habilitación de Kulusevski." },
-      { minute: 22, type: "goal", team: "home", player: "Gyökeres", detail: "Remata cruzado con potencia insuperable para el portero." },
-      { minute: 48, type: "goal", team: "home", player: "Isak", detail: "Anota el doblete empujando un pase preciso de Forsberg." },
-      { minute: 60, type: "goal", team: "away", player: "Msakni", detail: "Anota de penal cruzado para descontar por Túnez." },
-      { minute: 76, type: "goal", team: "home", player: "Gyökeres", detail: "Doblete personal tras un cabezazo fulminante en el área chica." },
-      { minute: 88, type: "goal", team: "home", player: "Kulusevski", detail: "Sella la goleada con un remate cruzado y rasante." }
-    ],
-    stats: { possession: [60, 40], shots: [17, 7], shotsTarget: [9, 2], fouls: [8, 12], corners: [8, 2], passes: [88, 76] }
-  },
-  // --- 15 DE JUNIO ---,
-  {
-    id: 13,
-    group: "H",
-    home: "España",
-    away: "Cabo Verde",
-    homeScore: 0,
-    awayScore: 0,
-    status: "finished",
-    minute: 90,
-    date: "15 de Junio, 2026",
-    time: "13:00",
-    stadium: "Hard Rock Stadium",
-    events: [],
-    stats: { possession: [64, 36], shots: [15, 4], shotsTarget: [4, 1], fouls: [8, 13], corners: [7, 1], passes: [89, 72] }
-  },
-  {
-    id: 14,
-    group: "G",
-    home: "Bélgica",
-    away: "Egipto",
-    homeScore: 1,
-    awayScore: 1,
-    status: "finished",
-    minute: 90,
-    date: "15 de Junio, 2026",
-    time: "15:00",
-    stadium: "Lumen Field",
-    events: [
-      { minute: 19, type: "goal", team: "away", player: "Ashour", detail: "Remate cruzado con potencia tras asistencia rasante de Trezeguet desde la banda izquierda." },
-      { minute: 66, type: "goal", team: "home", player: "Hany (Autogol)", detail: "Desafortunado autogol al desviar en propia puerta un centro peligroso enviado por De Bruyne." }
-    ],
-    stats: { possession: [58, 42], shots: [12, 8], shotsTarget: [5, 4], fouls: [9, 11], corners: [5, 3], passes: [88, 76] }
-  },
-  {
-    id: 15,
-    group: "H",
-    home: "Arabia Saudita",
-    away: "Uruguay",
-    homeScore: 1,
-    awayScore: 1,
-    status: "finished",
-    minute: 90,
-    date: "15 de Junio, 2026",
-    time: "18:00",
-    stadium: "AT&T Stadium",
-    events: [
-      { minute: 41, type: "goal", team: "home", player: "Al-Amri", detail: "Cabezazo potente cruzado que supera al guardameta tras un tiro de esquina." },
-      { minute: 80, type: "goal", team: "away", player: "M. Araújo", detail: "Remate colocado de zurda tras una gran asistencia filtrada por Fede Valverde." }
-    ],
-    stats: { possession: [42, 58], shots: [8, 12], shotsTarget: [3, 5], fouls: [13, 9], corners: [3, 6], passes: [76, 84] }
-  },
-  {
-    id: 16,
-    group: "G",
-    home: "Irán",
-    away: "Nueva Zelanda",
-    homeScore: 2,
-    awayScore: 2,
-    status: "finished",
-    minute: 90,
-    date: "15 de Junio, 2026",
-    time: "21:00",
-    stadium: "Levi's Stadium",
-    events: [
-      { minute: 7, type: "goal", team: "away", player: "Just", detail: "Define de pierna izquierda tras aprovechar un error en la salida defensiva de Irán." },
-      { minute: 32, type: "goal", team: "home", player: "Rezaeian", detail: "Excelente cobro de tiro libre que supera la barrera y entra pegado al ángulo." },
-      { minute: 54, type: "goal", team: "away", player: "Just", detail: "Empuja a placer tras una excelente jugada colectiva y pase de la muerte de Wood." },
-      { minute: 64, type: "goal", team: "home", player: "Mohebbi", detail: "Cabezazo imponente cruzado que bate al arquero tras tiro libre indirecto." }
-    ],
-    stats: { possession: [54, 46], shots: [14, 10], shotsTarget: [6, 4], fouls: [10, 14], corners: [6, 4], passes: [82, 74] }
-  },
-  // --- 16 DE JUNIO ---,
-  {
-    id: 17,
-    group: "I",
-    home: "Francia",
-    away: "Senegal",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "16 de Junio, 2026",
-    time: "15:00",
-    stadium: "MetLife Stadium",
-    events: [],
-    stats: { possession: [50, 50], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 18,
-    group: "I",
-    home: "Irak",
-    away: "Noruega",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "16 de Junio, 2026",
-    time: "18:00",
-    stadium: "Gillette Stadium",
-    events: [],
-    stats: { possession: [50, 50], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 19,
-    group: "J",
-    home: "Argentina",
-    away: "Argelia",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "16 de Junio, 2026",
-    time: "21:00",
-    stadium: "NRG Stadium",
-    events: [],
-    stats: { possession: [50, 50], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  // --- 17 DE JUNIO ---,
-  {
-    id: 20,
-    group: "J",
-    home: "Austria",
-    away: "Jordania",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "17 de Junio, 2026",
-    time: "13:00",
-    stadium: "Levi's Stadium",
-    events: [],
-    stats: { possession: [50, 50], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 21,
-    group: "K",
-    home: "Portugal",
-    away: "República Democrática del Congo",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "17 de Junio, 2026",
-    time: "13:00",
-    stadium: "NRG Stadium",
-    events: [],
-    stats: { possession: [50, 50], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 23,
-    group: "L",
-    home: "Inglaterra",
-    away: "Croacia",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "17 de Junio, 2026",
-    time: "16:00",
-    stadium: "AT&T Stadium",
-    events: [],
-    stats: { possession: [50, 50], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 24,
-    group: "L",
-    home: "Ghana",
-    away: "Panamá",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "17 de Junio, 2026",
-    time: "19:00",
-    stadium: "BMO Field",
-    events: [],
-    stats: { possession: [50, 50], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 22,
-    group: "K",
-    home: "Uzbekistán",
-    away: "Colombia",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "17 de Junio, 2026",
-    time: "22:00",
-    stadium: "Estadio Azteca",
-    events: [],
-    stats: { possession: [50, 50], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  // --- 18 DE JUNIO ---,
-  {
-    id: 26,
-    group: "A",
-    home: "Chequia",
-    away: "Sudáfrica",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "18 de Junio, 2026",
-    time: "12:00",
-    stadium: "Estadio Akron",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 28,
-    group: "B",
-    home: "Suiza",
-    away: "Bosnia y Herzegovina",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "18 de Junio, 2026",
-    time: "15:00",
-    stadium: "BC Place",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 27,
-    group: "B",
-    home: "Canadá",
-    away: "Catar",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "18 de Junio, 2026",
-    time: "18:00",
-    stadium: "BMO Field",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 25,
-    group: "A",
-    home: "México",
-    away: "República de Corea",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "18 de Junio, 2026",
-    time: "21:00",
-    stadium: "Estadio Azteca",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  // --- 19 DE JUNIO ---,
-  {
-    id: 31,
-    group: "D",
-    home: "Estados Unidos",
-    away: "Australia",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "19 de Junio, 2026",
-    time: "15:00",
-    stadium: "SoFi Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 30,
-    group: "C",
-    home: "Marruecos",
-    away: "Escocia",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "19 de Junio, 2026",
-    time: "18:00",
-    stadium: "Gillette Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 29,
-    group: "C",
-    home: "Brasil",
-    away: "Haití",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "19 de Junio, 2026",
-    time: "20:30",
-    stadium: "Hard Rock Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 32,
-    group: "D",
-    home: "Paraguay",
-    away: "Turquía",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "19 de Junio, 2026",
-    time: "23:00",
-    stadium: "Levi's Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  // --- 20 DE JUNIO ---,
-  {
-    id: 35,
-    group: "F",
-    home: "Países Bajos",
-    away: "Suecia",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "20 de Junio, 2026",
-    time: "13:00",
-    stadium: "Lumen Field",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 33,
-    group: "E",
-    home: "Alemania",
-    away: "Costa de Marfil",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "20 de Junio, 2026",
-    time: "16:00",
-    stadium: "Mercedes-Benz Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 34,
-    group: "E",
-    home: "Curazao",
-    away: "Ecuador",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "20 de Junio, 2026",
-    time: "20:00",
-    stadium: "NRG Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 36,
-    group: "F",
-    home: "Japón",
-    away: "Túnez",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "20 de Junio, 2026",
-    time: "24:00",
-    stadium: "Arrowhead Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  // --- 21 DE JUNIO ---,
-  {
-    id: 39,
-    group: "H",
-    home: "España",
-    away: "Arabia Saudita",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "21 de Junio, 2026",
-    time: "12:00",
-    stadium: "AT&T Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 37,
-    group: "G",
-    home: "Bélgica",
-    away: "Irán",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "21 de Junio, 2026",
-    time: "15:00",
-    stadium: "MetLife Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 40,
-    group: "H",
-    home: "Cabo Verde",
-    away: "Uruguay",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "21 de Junio, 2026",
-    time: "18:00",
-    stadium: "NRG Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 38,
-    group: "G",
-    home: "Egipto",
-    away: "Nueva Zelanda",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "21 de Junio, 2026",
-    time: "21:00",
-    stadium: "Gillette Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  // --- 22 DE JUNIO ---,
-  {
-    id: 43,
-    group: "J",
-    home: "Argentina",
-    away: "Austria",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "22 de Junio, 2026",
-    time: "13:00",
-    stadium: "Arrowhead Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 41,
-    group: "I",
-    home: "Francia",
-    away: "Noruega",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "22 de Junio, 2026",
-    time: "17:00",
-    stadium: "SoFi Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 42,
-    group: "I",
-    home: "Senegal",
-    away: "Irak",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "22 de Junio, 2026",
-    time: "20:00",
-    stadium: "Lumen Field",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 44,
-    group: "J",
-    home: "Argelia",
-    away: "Jordania",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "22 de Junio, 2026",
-    time: "23:00",
-    stadium: "Hard Rock Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  // --- 23 DE JUNIO ---,
-  {
-    id: 45,
-    group: "K",
-    home: "Portugal",
-    away: "Colombia",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "23 de Junio, 2026",
-    time: "13:00",
-    stadium: "MetLife Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 47,
-    group: "L",
-    home: "Inglaterra",
-    away: "Ghana",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "23 de Junio, 2026",
-    time: "16:00",
-    stadium: "AT&T Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 48,
-    group: "L",
-    home: "Croacia",
-    away: "Panamá",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "23 de Junio, 2026",
-    time: "19:00",
-    stadium: "Mercedes-Benz Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 46,
-    group: "K",
-    home: "Uzbekistán",
-    away: "República Democrática del Congo",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "23 de Junio, 2026",
-    time: "22:00",
-    stadium: "Lincoln Financial Field",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  // --- 24 DE JUNIO ---,
-  {
-    id: 51,
-    group: "B",
-    home: "Suiza",
-    away: "Canadá",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "24 de Junio, 2026",
-    time: "15:00",
-    stadium: "BMO Field",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 52,
-    group: "B",
-    home: "Bosnia y Herzegovina",
-    away: "Catar",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "24 de Junio, 2026",
-    time: "15:00",
-    stadium: "BC Place",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 53,
-    group: "C",
-    home: "Escocia",
-    away: "Brasil",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "24 de Junio, 2026",
-    time: "18:00",
-    stadium: "Hard Rock Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 54,
-    group: "C",
-    home: "Marruecos",
-    away: "Haití",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "24 de Junio, 2026",
-    time: "18:00",
-    stadium: "Gillette Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 49,
-    group: "A",
-    home: "México",
-    away: "Chequia",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "24 de Junio, 2026",
-    time: "21:00",
-    stadium: "Estadio Azteca",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 50,
-    group: "A",
-    home: "Sudáfrica",
-    away: "República de Corea",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "24 de Junio, 2026",
-    time: "21:00",
-    stadium: "Estadio BBVA",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  // --- 25 DE JUNIO ---,
-  {
-    id: 57,
-    group: "E",
-    home: "Ecuador",
-    away: "Alemania",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "25 de Junio, 2026",
-    time: "16:00",
-    stadium: "Mercedes-Benz Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 58,
-    group: "E",
-    home: "Curazao",
-    away: "Costa de Marfil",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "25 de Junio, 2026",
-    time: "16:00",
-    stadium: "NRG Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 59,
-    group: "F",
-    home: "Túnez",
-    away: "Países Bajos",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "25 de Junio, 2026",
-    time: "19:00",
-    stadium: "Lumen Field",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 60,
-    group: "F",
-    home: "Japón",
-    away: "Suecia",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "25 de Junio, 2026",
-    time: "19:00",
-    stadium: "Arrowhead Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 55,
-    group: "D",
-    home: "Turquía",
-    away: "Estados Unidos",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "25 de Junio, 2026",
-    time: "22:00",
-    stadium: "SoFi Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 56,
-    group: "D",
-    home: "Paraguay",
-    away: "Australia",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "25 de Junio, 2026",
-    time: "22:00",
-    stadium: "Levi's Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  // --- 26 DE JUNIO ---,
-  {
-    id: 65,
-    group: "I",
-    home: "Francia",
-    away: "Irak",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "26 de Junio, 2026",
-    time: "15:00",
-    stadium: "SoFi Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 66,
-    group: "I",
-    home: "Senegal",
-    away: "Noruega",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "26 de Junio, 2026",
-    time: "15:00",
-    stadium: "Lumen Field",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 63,
-    group: "H",
-    home: "España",
-    away: "Uruguay",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "26 de Junio, 2026",
-    time: "20:00",
-    stadium: "AT&T Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 64,
-    group: "H",
-    home: "Cabo Verde",
-    away: "Arabia Saudita",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "26 de Junio, 2026",
-    time: "20:00",
-    stadium: "NRG Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 61,
-    group: "G",
-    home: "Bélgica",
-    away: "Nueva Zelanda",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "26 de Junio, 2026",
-    time: "23:00",
-    stadium: "MetLife Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 62,
-    group: "G",
-    home: "Egipto",
-    away: "Irán",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "26 de Junio, 2026",
-    time: "23:00",
-    stadium: "Gillette Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  // --- 27 DE JUNIO ---,
-  {
-    id: 71,
-    group: "L",
-    home: "Inglaterra",
-    away: "Panamá",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "27 de Junio, 2026",
-    time: "17:00",
-    stadium: "AT&T Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 72,
-    group: "L",
-    home: "Croacia",
-    away: "Ghana",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "27 de Junio, 2026",
-    time: "17:00",
-    stadium: "Mercedes-Benz Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 69,
-    group: "K",
-    home: "Portugal",
-    away: "Uzbekistán",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "27 de Junio, 2026",
-    time: "19:30",
-    stadium: "MetLife Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 70,
-    group: "K",
-    home: "Colombia",
-    away: "República Democrática del Congo",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "27 de Junio, 2026",
-    time: "19:30",
-    stadium: "Lincoln Financial Field",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 67,
-    group: "J",
-    home: "Argentina",
-    away: "Jordania",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "27 de Junio, 2026",
-    time: "22:00",
-    stadium: "Arrowhead Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  },
-  {
-    id: 68,
-    group: "J",
-    home: "Argelia",
-    away: "Austria",
-    homeScore: 0,
-    awayScore: 0,
-    status: "scheduled",
-    minute: 0,
-    date: "27 de Junio, 2026",
-    time: "22:00",
-    stadium: "Hard Rock Stadium",
-    events: [],
-    stats: { possession: [0, 0], shots: [0, 0], shotsTarget: [0, 0], fouls: [0, 0], corners: [0, 0], passes: [0, 0] }
-  }
+  { id: 1, type: "group", group: "A", home: "México", away: "Sudáfrica", homeScore: 2, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "11 Jun", time: "12:00", stadium: "TBD" },
+  { id: 2, type: "group", group: "A", home: "Corea del Sur", away: "Chequia", homeScore: 2, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "11 Jun", time: "12:00", stadium: "TBD" },
+  { id: 3, type: "group", group: "B", home: "Canadá", away: "Bosnia y Herzegovina", homeScore: 1, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "12 Jun", time: "12:00", stadium: "TBD" },
+  { id: 4, type: "group", group: "D", home: "Estados Unidos", away: "Paraguay", homeScore: 4, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "12 Jun", time: "12:00", stadium: "TBD" },
+  { id: 5, type: "group", group: "B", home: "Catar", away: "Suiza", homeScore: 1, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "13 Jun", time: "12:00", stadium: "TBD" },
+  { id: 6, type: "group", group: "C", home: "Brasil", away: "Marruecos", homeScore: 1, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "13 Jun", time: "12:00", stadium: "TBD" },
+  { id: 7, type: "group", group: "C", home: "Haití", away: "Escocia", homeScore: 0, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "13 Jun", time: "12:00", stadium: "TBD" },
+  { id: 8, type: "group", group: "D", home: "Australia", away: "Turquía", homeScore: 2, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "14 Jun", time: "12:00", stadium: "TBD" },
+  { id: 9, type: "group", group: "E", home: "Alemania", away: "Curazao", homeScore: 7, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "14 Jun", time: "12:00", stadium: "TBD" },
+  { id: 10, type: "group", group: "F", home: "Países Bajos", away: "Japón", homeScore: 2, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "14 Jun", time: "12:00", stadium: "TBD" },
+  { id: 11, type: "group", group: "E", home: "Costa de Marfil", away: "Ecuador", homeScore: 1, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "14 Jun", time: "12:00", stadium: "TBD" },
+  { id: 12, type: "group", group: "F", home: "Suecia", away: "Túnez", homeScore: 5, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "14 Jun", time: "12:00", stadium: "TBD" },
+  { id: 13, type: "group", group: "H", home: "España", away: "Cabo Verde", homeScore: 0, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "15 Jun", time: "12:00", stadium: "TBD" },
+  { id: 14, type: "group", group: "G", home: "Bélgica", away: "Egipto", homeScore: 1, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "15 Jun", time: "12:00", stadium: "TBD" },
+  { id: 15, type: "group", group: "H", home: "Arabia Saudita", away: "Uruguay", homeScore: 1, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "15 Jun", time: "12:00", stadium: "TBD" },
+  { id: 16, type: "group", group: "G", home: "Irán", away: "Nueva Zelanda", homeScore: 2, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "15 Jun", time: "12:00", stadium: "TBD" },
+  { id: 17, type: "group", group: "I", home: "Francia", away: "Senegal", homeScore: 3, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "16 Jun", time: "12:00", stadium: "TBD" },
+  { id: 18, type: "group", group: "I", home: "Irak", away: "Noruega", homeScore: 1, awayScore: 4, homeScorers: [], awayScorers: [], status: "finished", date: "16 Jun", time: "12:00", stadium: "TBD" },
+  { id: 19, type: "group", group: "J", home: "Argentina", away: "Argelia", homeScore: 3, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "16 Jun", time: "12:00", stadium: "TBD" },
+  { id: 20, type: "group", group: "J", home: "Austria", away: "Jordania", homeScore: 3, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "17 Jun", time: "12:00", stadium: "TBD" },
+  { id: 21, type: "group", group: "K", home: "Portugal", away: "RD Congo", homeScore: 1, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "17 Jun", time: "12:00", stadium: "TBD" },
+  { id: 22, type: "group", group: "L", home: "Inglaterra", away: "Croacia", homeScore: 4, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "17 Jun", time: "12:00", stadium: "TBD" },
+  { id: 23, type: "group", group: "L", home: "Ghana", away: "Panamá", homeScore: 1, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "17 Jun", time: "12:00", stadium: "TBD" },
+  { id: 24, type: "group", group: "K", home: "Uzbekistán", away: "Colombia", homeScore: 1, awayScore: 3, homeScorers: [], awayScorers: [], status: "finished", date: "17 Jun", time: "12:00", stadium: "TBD" },
+  { id: 25, type: "group", group: "A", home: "Chequia", away: "Sudáfrica", homeScore: 1, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "18 Jun", time: "12:00", stadium: "TBD" },
+  { id: 26, type: "group", group: "B", home: "Suiza", away: "Bosnia y Herzegovina", homeScore: 4, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "18 Jun", time: "12:00", stadium: "TBD" },
+  { id: 27, type: "group", group: "B", home: "Canadá", away: "Catar", homeScore: 6, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "18 Jun", time: "12:00", stadium: "TBD" },
+  { id: 28, type: "group", group: "A", home: "México", away: "Corea del Sur", homeScore: 1, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "18 Jun", time: "12:00", stadium: "TBD" },
+  { id: 29, type: "group", group: "D", home: "Estados Unidos", away: "Australia", homeScore: 2, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "19 Jun", time: "12:00", stadium: "TBD" },
+  { id: 30, type: "group", group: "C", home: "Escocia", away: "Marruecos", homeScore: 0, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "19 Jun", time: "12:00", stadium: "TBD" },
+  { id: 31, type: "group", group: "C", home: "Brasil", away: "Haití", homeScore: 3, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "19 Jun", time: "12:00", stadium: "TBD" },
+  { id: 32, type: "group", group: "D", home: "Turquía", away: "Paraguay", homeScore: 0, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "19 Jun", time: "12:00", stadium: "TBD" },
+  { id: 33, type: "group", group: "F", home: "Países Bajos", away: "Suecia", homeScore: 5, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "20 Jun", time: "12:00", stadium: "TBD" },
+  { id: 34, type: "group", group: "E", home: "Alemania", away: "Costa de Marfil", homeScore: 2, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "20 Jun", time: "12:00", stadium: "TBD" },
+  { id: 35, type: "group", group: "E", home: "Ecuador", away: "Curazao", homeScore: 0, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "20 Jun", time: "12:00", stadium: "TBD" },
+  { id: 36, type: "group", group: "F", home: "Túnez", away: "Japón", homeScore: 0, awayScore: 4, homeScorers: [], awayScorers: [], status: "finished", date: "21 Jun", time: "12:00", stadium: "TBD" },
+  { id: 37, type: "group", group: "H", home: "España", away: "Arabia Saudita", homeScore: 4, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "21 Jun", time: "12:00", stadium: "TBD" },
+  { id: 38, type: "group", group: "G", home: "Bélgica", away: "Irán", homeScore: 0, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "21 Jun", time: "12:00", stadium: "TBD" },
+  { id: 39, type: "group", group: "H", home: "Uruguay", away: "Cabo Verde", homeScore: 2, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "21 Jun", time: "12:00", stadium: "TBD" },
+  { id: 40, type: "group", group: "G", home: "Nueva Zelanda", away: "Egipto", homeScore: 1, awayScore: 3, homeScorers: [], awayScorers: [], status: "finished", date: "21 Jun", time: "12:00", stadium: "TBD" },
+  { id: 41, type: "group", group: "J", home: "Argentina", away: "Austria", homeScore: 2, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "22 Jun", time: "12:00", stadium: "TBD" },
+  { id: 42, type: "group", group: "I", home: "Francia", away: "Irak", homeScore: 3, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "22 Jun", time: "12:00", stadium: "TBD" },
+  { id: 43, type: "group", group: "I", home: "Noruega", away: "Senegal", homeScore: 3, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "22 Jun", time: "12:00", stadium: "TBD" },
+  { id: 44, type: "group", group: "J", home: "Jordania", away: "Argelia", homeScore: 1, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "22 Jun", time: "12:00", stadium: "TBD" },
+  { id: 45, type: "group", group: "K", home: "Portugal", away: "Uzbekistán", homeScore: 5, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "23 Jun", time: "12:00", stadium: "TBD" },
+  { id: 46, type: "group", group: "L", home: "Inglaterra", away: "Ghana", homeScore: 0, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "23 Jun", time: "12:00", stadium: "TBD" },
+  { id: 47, type: "group", group: "L", home: "Panamá", away: "Croacia", homeScore: 0, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "23 Jun", time: "12:00", stadium: "TBD" },
+  { id: 48, type: "group", group: "K", home: "Colombia", away: "RD Congo", homeScore: 1, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "23 Jun", time: "12:00", stadium: "TBD" },
+  { id: 49, type: "group", group: "B", home: "Suiza", away: "Canadá", homeScore: 2, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "24 Jun", time: "12:00", stadium: "TBD" },
+  { id: 50, type: "group", group: "B", home: "Bosnia y Herzegovina", away: "Catar", homeScore: 3, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "24 Jun", time: "12:00", stadium: "TBD" },
+  { id: 51, type: "group", group: "C", home: "Escocia", away: "Brasil", homeScore: 0, awayScore: 3, homeScorers: [], awayScorers: [], status: "finished", date: "24 Jun", time: "12:00", stadium: "TBD" },
+  { id: 52, type: "group", group: "C", home: "Marruecos", away: "Haití", homeScore: 4, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "24 Jun", time: "12:00", stadium: "TBD" },
+  { id: 53, type: "group", group: "A", home: "Chequia", away: "México", homeScore: 0, awayScore: 3, homeScorers: [], awayScorers: [], status: "finished", date: "24 Jun", time: "12:00", stadium: "TBD" },
+  { id: 54, type: "group", group: "A", home: "Sudáfrica", away: "Corea del Sur", homeScore: 1, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "24 Jun", time: "12:00", stadium: "TBD" },
+  { id: 55, type: "group", group: "E", home: "Curazao", away: "Costa de Marfil", homeScore: 0, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "25 Jun", time: "12:00", stadium: "TBD" },
+  { id: 56, type: "group", group: "E", home: "Ecuador", away: "Alemania", homeScore: 2, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "25 Jun", time: "12:00", stadium: "TBD" },
+  { id: 57, type: "group", group: "F", home: "Japón", away: "Suecia", homeScore: 1, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "25 Jun", time: "12:00", stadium: "TBD" },
+  { id: 58, type: "group", group: "F", home: "Túnez", away: "Países Bajos", homeScore: 1, awayScore: 3, homeScorers: [], awayScorers: [], status: "finished", date: "25 Jun", time: "12:00", stadium: "TBD" },
+  { id: 59, type: "group", group: "D", home: "Turquía", away: "Estados Unidos", homeScore: 3, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "25 Jun", time: "12:00", stadium: "TBD" },
+  { id: 60, type: "group", group: "D", home: "Paraguay", away: "Australia", homeScore: 0, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "25 Jun", time: "12:00", stadium: "TBD" },
+  { id: 61, type: "group", group: "I", home: "Noruega", away: "Francia", homeScore: 1, awayScore: 4, homeScorers: [], awayScorers: [], status: "finished", date: "26 Jun", time: "12:00", stadium: "TBD" },
+  { id: 62, type: "group", group: "I", home: "Senegal", away: "Irak", homeScore: 5, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "26 Jun", time: "12:00", stadium: "TBD" },
+  { id: 63, type: "group", group: "H", home: "Cabo Verde", away: "Arabia Saudita", homeScore: 0, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "26 Jun", time: "12:00", stadium: "TBD" },
+  { id: 64, type: "group", group: "H", home: "Uruguay", away: "España", homeScore: 0, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "26 Jun", time: "12:00", stadium: "TBD" },
+  { id: 65, type: "group", group: "G", home: "Egipto", away: "Irán", homeScore: 1, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "26 Jun", time: "12:00", stadium: "TBD" },
+  { id: 66, type: "group", group: "G", home: "Nueva Zelanda", away: "Bélgica", homeScore: 1, awayScore: 5, homeScorers: [], awayScorers: [], status: "finished", date: "26 Jun", time: "12:00", stadium: "TBD" },
+  { id: 67, type: "group", group: "L", home: "Panamá", away: "Inglaterra", homeScore: 0, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "27 Jun", time: "12:00", stadium: "TBD" },
+  { id: 68, type: "group", group: "L", home: "Croacia", away: "Ghana", homeScore: 2, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "27 Jun", time: "12:00", stadium: "TBD" },
+  { id: 69, type: "group", group: "K", home: "Colombia", away: "Portugal", homeScore: 0, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "27 Jun", time: "12:00", stadium: "TBD" },
+  { id: 70, type: "group", group: "K", home: "RD Congo", away: "Uzbekistán", homeScore: 3, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "27 Jun", time: "12:00", stadium: "TBD" },
+  { id: 71, type: "group", group: "J", home: "Argelia", away: "Austria", homeScore: 3, awayScore: 3, homeScorers: [], awayScorers: [], status: "finished", date: "27 Jun", time: "12:00", stadium: "TBD" },
+  { id: 72, type: "group", group: "J", home: "Jordania", away: "Argentina", homeScore: 1, awayScore: 3, homeScorers: [], awayScorers: [], status: "finished", date: "27 Jun", time: "12:00", stadium: "TBD" },
+  { id: 73, type: "knockout", group: "Dieciseisavos de final", home: "Sudáfrica", away: "Canadá", homeScore: 0, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "28 Jun", time: "12:00", stadium: "TBD" },
+  { id: 74, type: "knockout", group: "Dieciseisavos de final", home: "Brasil", away: "Japón", homeScore: 2, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "29 Jun", time: "12:00", stadium: "TBD" },
+  { id: 75, type: "knockout", group: "Dieciseisavos de final", home: "Alemania", away: "Paraguay", homeScore: 1, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "29 Jun", time: "12:00", stadium: "TBD" },
+  { id: 76, type: "knockout", group: "Dieciseisavos de final", home: "Países Bajos", away: "Marruecos", homeScore: 1, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "29 Jun", time: "12:00", stadium: "TBD" },
+  { id: 77, type: "knockout", group: "Dieciseisavos de final", home: "Costa de Marfil", away: "Noruega", homeScore: 1, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "30 Jun", time: "12:00", stadium: "TBD" },
+  { id: 78, type: "knockout", group: "Dieciseisavos de final", home: "Francia", away: "Suecia", homeScore: 3, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "30 Jun", time: "12:00", stadium: "TBD" },
+  { id: 79, type: "knockout", group: "Dieciseisavos de final", home: "México", away: "Ecuador", homeScore: 2, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "30 Jun", time: "12:00", stadium: "TBD" },
+  { id: 80, type: "knockout", group: "Dieciseisavos de final", home: "Inglaterra", away: "RD Congo", homeScore: 2, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "01 Jul", time: "12:00", stadium: "TBD" },
+  { id: 81, type: "knockout", group: "Dieciseisavos de final", home: "Bélgica", away: "Senegal", homeScore: 3, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "01 Jul", time: "12:00", stadium: "TBD" },
+  { id: 82, type: "knockout", group: "Dieciseisavos de final", home: "Estados Unidos", away: "Bosnia y Herzegovina", homeScore: 2, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "01 Jul", time: "12:00", stadium: "TBD" },
+  { id: 83, type: "knockout", group: "Dieciseisavos de final", home: "España", away: "Austria", homeScore: 3, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "02 Jul", time: "12:00", stadium: "TBD" },
+  { id: 84, type: "knockout", group: "Dieciseisavos de final", home: "Portugal", away: "Croacia", homeScore: 2, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "02 Jul", time: "12:00", stadium: "TBD" },
+  { id: 85, type: "knockout", group: "Dieciseisavos de final", home: "Suiza", away: "Argelia", homeScore: 2, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "02 Jul", time: "12:00", stadium: "TBD" },
+  { id: 86, type: "knockout", group: "Dieciseisavos de final", home: "Australia", away: "Egipto", homeScore: 1, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "03 Jul", time: "12:00", stadium: "TBD" },
+  { id: 87, type: "knockout", group: "Dieciseisavos de final", home: "Argentina", away: "Cabo Verde", homeScore: 3, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "03 Jul", time: "12:00", stadium: "TBD" },
+  { id: 88, type: "knockout", group: "Dieciseisavos de final", home: "Colombia", away: "Ghana", homeScore: 1, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "03 Jul", time: "12:00", stadium: "TBD" },
+  { id: 89, type: "knockout", group: "Octavos de final", home: "Canadá", away: "Marruecos", homeScore: 0, awayScore: 3, homeScorers: [], awayScorers: [], status: "finished", date: "04 Jul", time: "12:00", stadium: "TBD" },
+  { id: 90, type: "knockout", group: "Octavos de final", home: "Paraguay", away: "Francia", homeScore: 0, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "04 Jul", time: "12:00", stadium: "TBD" },
+  { id: 91, type: "knockout", group: "Octavos de final", home: "Brasil", away: "Noruega", homeScore: 1, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "05 Jul", time: "12:00", stadium: "TBD" },
+  { id: 92, type: "knockout", group: "Octavos de final", home: "México", away: "Inglaterra", homeScore: 2, awayScore: 3, homeScorers: [], awayScorers: [], status: "finished", date: "05 Jul", time: "12:00", stadium: "TBD" },
+  { id: 93, type: "knockout", group: "Octavos de final", home: "Portugal", away: "España", homeScore: 0, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "06 Jul", time: "12:00", stadium: "TBD" },
+  { id: 94, type: "knockout", group: "Octavos de final", home: "Estados Unidos", away: "Bélgica", homeScore: 1, awayScore: 4, homeScorers: [], awayScorers: [], status: "finished", date: "06 Jul", time: "12:00", stadium: "TBD" },
+  { id: 95, type: "knockout", group: "Octavos de final", home: "Argentina", away: "Egipto", homeScore: 3, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "07 Jul", time: "12:00", stadium: "TBD" },
+  { id: 96, type: "knockout", group: "Octavos de final", home: "Suiza", away: "Colombia", homeScore: 0, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "07 Jul", time: "12:00", stadium: "TBD" },
+  { id: 97, type: "knockout", group: "Cuartos de final", home: "Francia", away: "Marruecos", homeScore: 2, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "09 Jul", time: "12:00", stadium: "TBD" },
+  { id: 98, type: "knockout", group: "Cuartos de final", home: "España", away: "Bélgica", homeScore: 2, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "10 Jul", time: "12:00", stadium: "TBD" },
+  { id: 99, type: "knockout", group: "Cuartos de final", home: "Noruega", away: "Inglaterra", homeScore: 1, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "11 Jul", time: "12:00", stadium: "TBD" },
+  { id: 100, type: "knockout", group: "Cuartos de final", home: "Argentina", away: "Suiza", homeScore: 3, awayScore: 1, homeScorers: [], awayScorers: [], status: "finished", date: "11 Jul", time: "12:00", stadium: "TBD" },
+  { id: 101, type: "knockout", group: "Semifinal", home: "Francia", away: "España", homeScore: 0, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "14 Jul", time: "12:00", stadium: "TBD" },
+  { id: 102, type: "knockout", group: "Semifinal", home: "Inglaterra", away: "Argentina", homeScore: 1, awayScore: 2, homeScorers: [], awayScorers: [], status: "finished", date: "15 Jul", time: "12:00", stadium: "TBD" },
+  { id: 103, type: "knockout", group: "Tercer lugar", home: "Francia", away: "Inglaterra", homeScore: 4, awayScore: 6, homeScorers: [], awayScorers: [], status: "finished", date: "18 Jul", time: "12:00", stadium: "TBD" },
+  { id: 104, type: "knockout", group: "Final", home: "España", away: "Argentina", homeScore: 1, awayScore: 0, homeScorers: [], awayScorers: [], status: "finished", date: "19 Jul", time: "12:00", stadium: "TBD" },
 ];
 
 // ==========================================================================
@@ -1813,13 +742,13 @@ const teamFormations = {
   "Sudáfrica": "4-4-2",
   "República de Corea": "4-3-3",
   "Chequia": "5-3-2",
-  "Canadá": "4-2-3-1",
+  "Canadáá": "4-2-3-1",
   "Catar": "3-5-2",
   "Suiza": "3-5-2",
   "Bosnia y Herzegovina": "4-4-2",
   "Brasil": "4-3-3",
   "Marruecos": "4-2-3-1",
-  "Haití": "5-3-2",
+  "Haitíí": "5-3-2",
   "Escocia": "4-4-2",
   "Estados Unidos": "4-3-3",
   "Paraguay": "4-4-2",
@@ -1844,7 +773,7 @@ const teamFormations = {
   "Francia": "4-2-3-1",
   "Senegal": "4-3-3",
   "Noruega": "4-3-3",
-  "Irak": "5-3-2",
+  "Curazao": "5-3-2",
   "Argentina": "4-3-3",
   "Argelia": "4-4-2",
   "Austria": "4-2-3-1",
@@ -1856,7 +785,7 @@ const teamFormations = {
   "Inglaterra": "4-2-3-1",
   "Croacia": "4-3-3",
   "Ghana": "4-2-3-1",
-  "Panamá": "5-3-2"
+  "Panamáá": "5-3-2"
 };
 
 // Historial de enfrentamientos directos (H2H) en mundiales
@@ -2164,7 +1093,7 @@ function calculateStandings() {
   }
   
   AppState.matches.forEach(match => {
-    if (match.status === "finished" || match.status === "live") {
+    if (match.type === "group" && (match.status === "finished" || match.status === "live")) {
       const group = match.group;
       const homeTeam = standings[group].find(t => t.name === match.home);
       const awayTeam = standings[group].find(t => t.name === match.away);
@@ -2220,13 +1149,13 @@ const TEAM_ABBREVIATIONS = {
   "Sudáfrica": "RSA",
   "República de Corea": "KOR",
   "Chequia": "CZE",
-  "Canadá": "CAN",
+  "Canadáá": "CAN",
   "Catar": "QAT",
   "Suiza": "SUI",
   "Bosnia y Herzegovina": "BIH",
   "Brasil": "BRA",
   "Marruecos": "MAR",
-  "Haití": "HAI",
+  "Haitíí": "HAI",
   "Escocia": "SCO",
   "Estados Unidos": "USA",
   "Paraguay": "PAR",
@@ -2251,7 +1180,7 @@ const TEAM_ABBREVIATIONS = {
   "Francia": "FRA",
   "Senegal": "SEN",
   "Noruega": "NOR",
-  "Irak": "IRQ",
+  "Curazao": "IRQ",
   "Argentina": "ARG",
   "Argelia": "ALG",
   "Austria": "AUT",
@@ -2263,7 +1192,7 @@ const TEAM_ABBREVIATIONS = {
   "Inglaterra": "ENG",
   "Croacia": "CRO",
   "Ghana": "GHA",
-  "Panamá": "PAN"
+  "Panamáá": "PAN"
 };
 
 function getTeamAbbr(name) {
@@ -2625,7 +1554,13 @@ function renderStatsTab(match) {
   }
   
   const matchStats = {
-    ...match.stats,
+    possession: [50, 50],
+    shots: [5, 5],
+    shotsTarget: [2, 2],
+    fouls: [10, 10],
+    corners: [4, 4],
+    passes: [85, 85],
+    ...(match.stats || {}),
     yellowCards: [yellowHome, yellowAway],
     redCards: [redHome, redAway],
     subs: [subHome, subAway]
@@ -2859,9 +1794,13 @@ function renderStandings() {
             </div>
           </td>
           <td style="text-align: center;">${team.pj}</td>
-          <td style="text-align: center; font-weight: 600;">${team.pts}</td>
+          <td style="text-align: center;">${team.pg}</td>
+          <td style="text-align: center;">${team.pe}</td>
+          <td style="text-align: center;">${team.pp}</td>
+          <td style="text-align: center;">${team.gf}</td>
+          <td style="text-align: center;">${team.gc}</td>
           <td style="text-align: center;">${team.dg >= 0 ? "+" + team.dg : team.dg}</td>
-          <td style="text-align: center; color: var(--text-muted);">${team.gf}:${team.gc}</td>
+          <td style="text-align: center; font-weight: 600; color: var(--primary-light);">${team.pts}</td>
         </tr>
       `;
     });
@@ -2873,10 +1812,14 @@ function renderStandings() {
           <tr>
             <th style="width: 25px; text-align: center;">#</th>
             <th>Selección</th>
-            <th style="width: 30px; text-align: center;">PJ</th>
-            <th style="width: 30px; text-align: center;">PTS</th>
-            <th style="width: 30px; text-align: center;">DG</th>
-            <th style="width: 45px; text-align: center;">Goles</th>
+            <th style="width: 25px; text-align: center;" title="Partidos Jugados">PJ</th>
+            <th style="width: 25px; text-align: center;" title="Partidos Ganados">PG</th>
+            <th style="width: 25px; text-align: center;" title="Partidos Empatados">PE</th>
+            <th style="width: 25px; text-align: center;" title="Partidos Perdidos">PP</th>
+            <th style="width: 25px; text-align: center;" title="Goles a Favor">GF</th>
+            <th style="width: 25px; text-align: center;" title="Goles en Contra">GC</th>
+            <th style="width: 30px; text-align: center;" title="Diferencia de Goles">DIF</th>
+            <th style="width: 30px; text-align: center;" title="Puntos">PTS</th>
           </tr>
         </thead>
         <tbody>
@@ -2978,115 +1921,11 @@ function renderGroupMatches() {
 function renderBracket() {
   const container = document.getElementById("bracket-container");
   container.innerHTML = "";
-  
-  const rounds = [
-    {
-      name: "Dieciseisavos de Final (32)",
-      matches: [
-        { h: "México", hs: "-", a: "Ecuador", as: "-", w: null },
-        { h: "Canadá", hs: "-", a: "Marruecos", as: "-", w: null },
-        { h: "Brasil", hs: "-", a: "Turquía", as: "-", w: null },
-        { h: "Estados Unidos", hs: "-", a: "Catar", as: "-", w: null },
-        { h: "Alemania", hs: "-", a: "Japón", as: "-", w: null },
-        { h: "Países Bajos", hs: "-", a: "Egipto", as: "-", w: null },
-        { h: "Bélgica", hs: "-", a: "Uruguay", as: "-", w: null },
-        { h: "España", hs: "-", a: "Cabo Verde", as: "-", w: null },
-        { h: "Portugal", hs: "-", a: "Uzbekistán", as: "-", w: null },
-        { h: "Colombia", hs: "-", a: "Suecia", as: "-", w: null },
-        { h: "Inglaterra", hs: "-", a: "Croacia", as: "-", w: null },
-        { h: "Argentina", hs: "-", a: "Argelia", as: "-", w: null },
-        { h: "Francia", hs: "-", a: "Senegal", as: "-", w: null },
-        { h: "Noruega", hs: "-", a: "Túnez", as: "-", w: null },
-        { h: "Suiza", hs: "-", a: "Australia", as: "-", w: null },
-        { h: "Ghana", hs: "-", a: "Panamá", as: "-", w: null }
-      ]
-    },
-    {
-      name: "Octavos de Final (16)",
-      matches: [
-        { h: "Por Confirmar", hs: "-", a: "Por Confirmar", as: "-", w: null },
-        { h: "Por Confirmar", hs: "-", a: "Por Confirmar", as: "-", w: null },
-        { h: "Por Confirmar", hs: "-", a: "Por Confirmar", as: "-", w: null },
-        { h: "Por Confirmar", hs: "-", a: "Por Confirmar", as: "-", w: null },
-        { h: "Por Confirmar", hs: "-", a: "Por Confirmar", as: "-", w: null },
-        { h: "Por Confirmar", hs: "-", a: "Por Confirmar", as: "-", w: null },
-        { h: "Por Confirmar", hs: "-", a: "Por Confirmar", as: "-", w: null },
-        { h: "Por Confirmar", hs: "-", a: "Por Confirmar", as: "-", w: null }
-      ]
-    },
-    {
-      name: "Cuartos de Final",
-      matches: [
-        { h: "Por Confirmar", hs: "-", a: "Por Confirmar", as: "-", w: null },
-        { h: "Por Confirmar", hs: "-", a: "Por Confirmar", as: "-", w: null },
-        { h: "Por Confirmar", hs: "-", a: "Por Confirmar", as: "-", w: null },
-        { h: "Por Confirmar", hs: "-", a: "Por Confirmar", as: "-", w: null }
-      ]
-    },
-    {
-      name: "Semifinales",
-      matches: [
-        { h: "Por Confirmar", hs: "-", a: "Por Confirmar", as: "-", w: null },
-        { h: "Por Confirmar", hs: "-", a: "Por Confirmar", as: "-", w: null }
-      ]
-    },
-    {
-      name: "Final",
-      matches: [
-        { h: "Por Confirmar", hs: "-", a: "Por Confirmar", as: "-", w: null }
-      ]
-    }
-  ];
-  
-  rounds.forEach((round, rIdx) => {
-    const col = document.createElement("div");
-    col.className = "bracket-round";
-    col.innerHTML = `<div class="bracket-round-header">${round.name}</div>`;
-    
-    round.matches.forEach(m => {
-      const matchNode = document.createElement("div");
-      matchNode.className = "bracket-match";
-      
-      const homeInfo = FIFA_DATA.teams[m.h] || { flag: "🌐" };
-      const awayInfo = FIFA_DATA.teams[m.a] || { flag: "🌐" };
-      const homeWinner = m.w === m.h && m.w !== null;
-      const awayWinner = m.w === m.a && m.w !== null;
-      
-      matchNode.innerHTML = `
-        <div class="bracket-team ${homeWinner ? "winner" : ""}">
-          <div class="bracket-team-name">
-            <span>${homeInfo.flag}</span>
-            <span>${m.h}</span>
-          </div>
-          <span class="bracket-team-score">${m.hs}</span>
-        </div>
-        <div class="bracket-team ${awayWinner ? "winner" : ""}">
-          <div class="bracket-team-name">
-            <span>${awayInfo.flag}</span>
-            <span>${m.a}</span>
-          </div>
-          <span class="bracket-team-score">${m.as}</span>
-        </div>
-      `;
-      col.appendChild(matchNode);
-    });
-    
-    container.appendChild(col);
-  });
-  
-  const champCol = document.createElement("div");
-  champCol.className = "bracket-round champion-round";
-  champCol.innerHTML = `
-    <div class="champion-display">
-      <span class="trophy-icon">🏆</span>
-      <span class="champion-title">Campeón 2026</span>
-      <span class="champion-name">POR DETERMINAR</span>
-    </div>
-  `;
-  container.appendChild(champCol);
+  const wc = window.WORLDCUPS_DATA ? window.WORLDCUPS_DATA.find(w => w.year === 2026) : null;
+  if (wc) {
+    renderHistoryKnockout(wc, "bracket-container");
+  }
 }
-
-// La sección de estadios/sedes ha sido removida por solicitud del usuario
 
 // 7. Goles Totales del Torneo
 function updateTournamentStats() {
@@ -3097,7 +1936,8 @@ function updateTournamentStats() {
     }
   });
   goals += 42; // goles acumulados simulados de playoffs
-  document.getElementById("total-goals-counter").textContent = goals;
+  const goalsEl = document.getElementById("summary-total-goals");
+  if (goalsEl) goalsEl.textContent = goals;
 }
 
 // ==========================================================================
@@ -3109,13 +1949,13 @@ const TEAM_TRANSLATIONS = {
   "South Africa": "Sudáfrica",
   "South Korea": "República de Corea",
   "Czech Republic": "Chequia",
-  "Canada": "Canadá",
+  "Canadáa": "Canadáá",
   "Qatar": "Catar",
   "Switzerland": "Suiza",
   "Bosnia and Herzegovina": "Bosnia y Herzegovina",
   "Brazil": "Brasil",
   "Morocco": "Marruecos",
-  "Haiti": "Haití",
+  "Haitíi": "Haitíí",
   "Scotland": "Escocia",
   "United States": "Estados Unidos",
   "Paraguay": "Paraguay",
@@ -3141,7 +1981,7 @@ const TEAM_TRANSLATIONS = {
   "France": "Francia",
   "Senegal": "Senegal",
   "Norway": "Noruega",
-  "Iraq": "Irak",
+  "Iraq": "Curazao",
   "Argentina": "Argentina",
   "Algeria": "Argelia",
   "Austria": "Austria",
@@ -3153,7 +1993,7 @@ const TEAM_TRANSLATIONS = {
   "England": "Inglaterra",
   "Croatia": "Croacia",
   "Ghana": "Ghana",
-  "Panama": "Panamá"
+  "Panamáa": "Panamáá"
 };
 
 function cleanPlayerName(name) {
@@ -3456,8 +2296,8 @@ document.addEventListener("DOMContentLoaded", () => {
   unifyGermanyData();
 
   // Sincronizar resultados reales inmediatamente y cada 30 segundos
-  syncLiveResults();
-  setInterval(syncLiveResults, 30000);
+  // syncLiveResults();
+  // setInterval(syncLiveResults, 30000);
 
   renderMatchTicker();
   renderMatchCenter();
@@ -3787,7 +2627,7 @@ function renderHistoryGroups(wc) {
     html += '<div class="group-card">';
     html += '<h3>' + g.name + ' <span>Mundial ' + wc.year + '</span></h3>';
     html += '<table class="group-table">';
-    html += '<thead><tr><th style="width: 25px; text-align: center;">#</th><th>Seleccion</th><th style="width: 30px; text-align: center;">PJ</th><th style="width: 30px; text-align: center;">PTS</th><th style="width: 30px; text-align: center;">DG</th><th style="width: 45px; text-align: center;">Goles</th></tr></thead><tbody>';
+    html += '<thead><tr><th style="width: 25px; text-align: center;">#</th><th>Seleccion</th><th style="width: 25px; text-align: center;">PJ</th><th style="width: 25px; text-align: center;">PG</th><th style="width: 25px; text-align: center;">PE</th><th style="width: 25px; text-align: center;">PP</th><th style="width: 25px; text-align: center;">GF</th><th style="width: 25px; text-align: center;">GC</th><th style="width: 30px; text-align: center;">DIF</th><th style="width: 30px; text-align: center;">PTS</th></tr></thead><tbody>';
     
     sorted.forEach(function(t, i) {
       let rowClass = "";
@@ -3823,7 +2663,7 @@ function renderHistoryGroups(wc) {
       html += '<div class="group-card">';
       html += '<h3>' + gName.replace("Segunda Fase - ", "") + ' <span>Mundial ' + wc.year + '</span></h3>';
       html += '<table class="group-table">';
-      html += '<thead><tr><th style="width: 25px; text-align: center;">#</th><th>Seleccion</th><th style="width: 30px; text-align: center;">PJ</th><th style="width: 30px; text-align: center;">PTS</th><th style="width: 30px; text-align: center;">DG</th><th style="width: 45px; text-align: center;">Goles</th></tr></thead><tbody>';
+      html += '<thead><tr><th style="width: 25px; text-align: center;">#</th><th>Seleccion</th><th style="width: 25px; text-align: center;">PJ</th><th style="width: 25px; text-align: center;">PG</th><th style="width: 25px; text-align: center;">PE</th><th style="width: 25px; text-align: center;">PP</th><th style="width: 25px; text-align: center;">GF</th><th style="width: 25px; text-align: center;">GC</th><th style="width: 30px; text-align: center;">DIF</th><th style="width: 30px; text-align: center;">PTS</th></tr></thead><tbody>';
       
       teams.forEach(function(t, i) {
         // El ganador del grupo de la segunda etapa clasifica a semifinales (fila verde)
@@ -3885,8 +2725,8 @@ function renderHistoryPartidosGrupo(wc) {
   container.innerHTML = html;
 }
 
-function renderHistoryKnockout(wc) {
-  const container = document.getElementById('history-knockout');
+function renderHistoryKnockout(wc, containerId = 'history-knockout') {
+  const container = document.getElementById(containerId);
   if (!container) return;
   
   if (!wc.knockout || wc.knockout.length === 0) { 
@@ -4302,7 +3142,7 @@ const WORLD_CUP_HOSTS = {
   "Sudáfrica": [2010],
   "Rusia": [2018],
   "Catar": [2022],
-  "Canadá": [2026]
+  "Canadáá": [2026]
 };
 
 const CHAMPIONS_LINEUPS = {
